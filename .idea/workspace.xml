@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="AutomaticModuleUnloader">
+    <loaded-modules>
+      <module name="OrderService" />
+      <module name="GoodsService" />
+      <module name="UserService" />
+      <module name="microservice_212106233" />
+    </loaded-modules>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Tag Library Descriptor" />
+        <option value="spring-beans.schema" />
+        <option value="Yml File.xml" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2hmgn72yian1VtKFBYbyzu7B1tE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/docker-compose.yml" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="工件" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.31724137" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\liuxiyu\IdeaProjects\microservice_212106233\mysql-init" />
+      <recent name="C:\Users\liuxiyu\IdeaProjects\microservice_212106233" />
+      <recent name="C:\Users\liuxiyu\IdeaProjects\microservice_212106233\OrderService\target" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\liuxiyu\IdeaProjects\microservice_212106233\OrderService\src\main\resources\mapper" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.GoodsServiceApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GoodsServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="GoodsService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.goodsservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.goodsservice.GoodsServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="OrderService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.orderservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.orderservice.OrderServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="UserService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.userservice.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.OrderServiceApplication" />
+      <item itemvalue="Spring Boot.UserServiceApplication" />
+      <item itemvalue="Spring Boot.GoodsServiceApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.GoodsServiceApplication" />
+        <item itemvalue="Spring Boot.UserServiceApplication" />
+        <item itemvalue="Spring Boot.OrderServiceApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="" />
+      <created>1718204833609</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718204833609</updated>
+      <workItem from="1718204834999" duration="161000" />
+      <workItem from="1718205370961" duration="194000" />
+      <workItem from="1718205590631" duration="484000" />
+      <workItem from="1718259064924" duration="1930000" />
+      <workItem from="1718261036344" duration="2787000" />
+      <workItem from="1718263917693" duration="69000" />
+      <workItem from="1718283129803" duration="1275000" />
+      <workItem from="1718284666274" duration="6913000" />
+      <workItem from="1718323507754" duration="4953000" />
+      <workItem from="1718331961251" duration="1104000" />
+      <workItem from="1718347765797" duration="476000" />
+      <workItem from="1718348296361" duration="3240000" />
+      <workItem from="1718356022089" duration="1829000" />
+      <workItem from="1718357875897" duration="4396000" />
+      <workItem from="1718366393035" duration="3006000" />
+      <workItem from="1718370394474" duration="257000" />
+      <workItem from="1718370662717" duration="186000" />
+      <workItem from="1718370857683" duration="217000" />
+      <workItem from="1718371084209" duration="655000" />
+      <workItem from="1718371757249" duration="146000" />
+      <workItem from="1718371914444" duration="267000" />
+      <workItem from="1718372195340" duration="1065000" />
+      <workItem from="1718373277193" duration="188000" />
+      <workItem from="1718373476706" duration="284000" />
+      <workItem from="1718373772270" duration="599000" />
+      <workItem from="1718374770405" duration="9000" />
+      <workItem from="1718374787917" duration="1000" />
+      <workItem from="1718374860309" duration="104000" />
+      <workItem from="1718374973829" duration="191000" />
+      <workItem from="1718375496783" duration="45000" />
+      <workItem from="1718376501240" duration="8000" />
+      <workItem from="1718376525002" duration="3280000" />
+      <workItem from="1718379840175" duration="397000" />
+      <workItem from="1718417041749" duration="1815000" />
+      <workItem from="1718418886422" duration="631000" />
+      <workItem from="1718419533630" duration="315000" />
+      <workItem from="1718419860288" duration="634000" />
+      <workItem from="1718420512410" duration="185000" />
+      <workItem from="1718420708975" duration="717000" />
+      <workItem from="1718421448226" duration="948000" />
+      <workItem from="1718422422377" duration="1602000" />
+      <workItem from="1718424450715" duration="506000" />
+      <workItem from="1718424981502" duration="444000" />
+      <workItem from="1718453623064" duration="6506000" />
+      <workItem from="1718461128766" duration="2332000" />
+      <workItem from="1718464083488" duration="530000" />
+      <workItem from="1718507600751" duration="4231000" />
+      <workItem from="1718526095568" duration="611000" />
+      <workItem from="1718531806478" duration="1111000" />
+      <workItem from="1718544087042" duration="1428000" />
+      <workItem from="1718546210879" duration="5111000" />
+      <workItem from="1718583872997" duration="1554000" />
+      <workItem from="1718606328255" duration="3957000" />
+      <workItem from="1718631446847" duration="4005000" />
+      <workItem from="1718679613309" duration="2028000" />
+      <workItem from="1718690456238" duration="298000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnloadedModulesList">
+    <module name="EurekaServer" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

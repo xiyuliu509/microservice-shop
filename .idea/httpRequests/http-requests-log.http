@@ -1,0 +1,10 @@
+POST http://localhost:8082/users/register
+
+<> 2024-06-13T231100.400.json
+
+###
+
+GET http://users
+
+###
+

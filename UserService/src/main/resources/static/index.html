@@ -1,0 +1,130 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>User Service</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Helvetica Neue', Arial, sans-serif;-->
+<!--            background-color: #141414;-->
+<!--            color: #fff;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--        .container {-->
+<!--            padding: 20px;-->
+<!--        }-->
+<!--        h1 {-->
+<!--            color: #e50914;-->
+<!--        }-->
+<!--        input, button {-->
+<!--            margin: 10px 0;-->
+<!--            padding: 10px;-->
+<!--            width: 100%;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!--        input {-->
+<!--            background-color: #333;-->
+<!--            color: #fff;-->
+<!--        }-->
+<!--        button {-->
+<!--            background-color: #e50914;-->
+<!--            color: #fff;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        button:hover {-->
+<!--            background-color: #b00610;-->
+<!--        }-->
+<!--        table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--        th, td {-->
+<!--            padding: 10px;-->
+<!--            text-align: left;-->
+<!--        }-->
+<!--        th {-->
+<!--            background-color: #e50914;-->
+<!--        }-->
+<!--        tr:nth-child(even) {-->
+<!--            background-color: #333;-->
+<!--        }-->
+<!--        tr:nth-child(odd) {-->
+<!--            background-color: #222;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>User Service</h1>-->
+<!--    <form id="userForm">-->
+<!--        <input type="text" id="userName" placeholder="User Name" required />-->
+<!--        <input type="text" id="userPhone" placeholder="User Phone" required />-->
+<!--        <input type="password" id="userPassword" placeholder="User Password" required />-->
+<!--        <input type="number" id="userWallet" placeholder="User Wallet" required />-->
+<!--        <button type="submit">Create User</button>-->
+<!--    </form>-->
+<!--    <h2>Users</h2>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>User ID</th>-->
+<!--            <th>User Name</th>-->
+<!--            <th>User Phone</th>-->
+<!--            <th>User Password</th>-->
+<!--            <th>User Wallet</th>-->
+<!--            <th>Login Time</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody id="userList"></tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+<!--<script>-->
+<!--    document.getElementById('userForm').addEventListener('submit', function(e) {-->
+<!--        e.preventDefault();-->
+<!--        const userName = document.getElementById('userName').value;-->
+<!--        const userPhone = document.getElementById('userPhone').value;-->
+<!--        const userPassword = document.getElementById('userPassword').value;-->
+<!--        const userWallet = document.getElementById('userWallet').value;-->
+<!--        axios.post('/user/create', { userName, userPhone, userPassword, userWallet })-->
+<!--            .then(response => {-->
+<!--                alert(response.data);-->
+<!--                fetchUsers();-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error(error);-->
+<!--            });-->
+<!--    });-->
+
+<!--    function fetchUsers() {-->
+<!--        axios.get('/user/list')-->
+<!--            .then(response => {-->
+<!--                const userList = response.data;-->
+<!--                const userTbody = document.getElementById('userList');-->
+<!--                userTbody.innerHTML = '';-->
+<!--                userList.forEach(user => {-->
+<!--                    const row = document.createElement('tr');-->
+<!--                    row.innerHTML = `-->
+<!--                            <td>${user.userId}</td>-->
+<!--                            <td>${user.userName}</td>-->
+<!--                            <td>${user.userPhone}</td>-->
+<!--                            <td>${user.userPassword}</td>-->
+<!--                            <td>${user.userWallet}</td>-->
+<!--                            <td>${user.loginTime}</td>-->
+<!--                        `;-->
+<!--                    userTbody.appendChild(row);-->
+<!--                });-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error(error);-->
+<!--            });-->
+<!--    }-->
+
+<!--    fetchUsers();-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,0 +1,77 @@
+version: '3.8'
+
+networks:
+  shop-network:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: shop-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 176304
+      MYSQL_DATABASE: shop
+    ports:
+      - "3307:3306"  # 修改这里的端口
+    networks:
+      - shop-network
+
+  nacos:
+    image: nacos/nacos-server:1.4.2
+    container_name: nacos
+    environment:
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_DB_NAME: nacos_devtest
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: 176304
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_HOST: mysql
+    ports:
+      - "8848:8848"
+    networks:
+      - shop-network
+    depends_on:
+      - mysql
+
+  userservice:
+    image: userservice:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/shop?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=176304
+    ports:
+      - "8082:8082"
+    networks:
+      - shop-network
+    depends_on:
+      - mysql
+      - nacos
+
+  orderservice:
+    image: orderservice:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/shop?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=176304
+    ports:
+      - "8083:8083"
+    networks:
+      - shop-network
+    depends_on:
+      - mysql
+      - nacos
+
+  goodsservice:
+    image: goodsservice:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/shop?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=176304
+    ports:
+      - "8084:8084"
+    networks:
+      - shop-network
+    depends_on:
+      - mysql
+      - nacos

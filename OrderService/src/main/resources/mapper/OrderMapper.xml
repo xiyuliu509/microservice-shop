@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.orderservice.mapper.OrderMapper">
+    <insert id="createOrder" parameterType="com.example.orderservice.entity.Order">
+        INSERT INTO shoporder (userId, goodsId, orderPrice, orderState, createStamp)
+        VALUES (#{userId}, #{goodsId}, #{orderPrice}, #{orderState}, #{createStamp})
+    </insert>
+
+    <select id="findOrderByOrderId" parameterType="Integer" resultType="com.example.orderservice.entity.Order">
+        SELECT * FROM shoporder WHERE orderId = #{orderId}
+    </select>
+
+    <select id="findAllOrders" resultType="com.example.orderservice.entity.Order">
+        SELECT * FROM shoporder
+    </select>
+</mapper>

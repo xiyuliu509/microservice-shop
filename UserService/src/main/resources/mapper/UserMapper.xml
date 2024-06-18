@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.userservice.mapper.UserMapper">
+    <insert id="createUser">
+        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, loginTime)
+        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{loginTime})
+    </insert>
+
+    <select id="findByUserName" parameterType="String" resultType="com.example.userservice.entity.User">
+        SELECT * FROM shopuser WHERE userName = #{userName}
+    </select>
+
+    <select id="findByUserNameAndPassword" parameterType="map" resultType="com.example.userservice.entity.User">
+        SELECT * FROM shopuser WHERE userName = #{userName} AND userPassword = #{userPassword}
+    </select>
+
+    <update id="updateLoginTime" parameterType="map">
+        UPDATE shopuser SET loginTime = #{loginTime} WHERE userName = #{userName}
+    </update>
+
+    <select id="findAllUsers" resultType="com.example.userservice.entity.User">
+        SELECT * FROM shopuser
+    </select>
+</mapper>

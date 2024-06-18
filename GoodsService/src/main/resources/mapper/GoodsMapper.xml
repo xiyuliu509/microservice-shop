@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.goodsservice.mapper.GoodsMapper">
+    <!-- 这里是SQL映射 -->
+
+    <insert id="createGoods">
+        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp)
+        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp})
+    </insert>
+
+    <select id="findGoodsByGoodsName" parameterType="String" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods WHERE goodsName = #{goodsName}
+    </select>
+
+    <select id="findAllGoods" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods
+    </select>
+</mapper>
