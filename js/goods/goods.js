@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const item = document.createElement('div');
                     item.className = 'goods-item';
                     item.innerHTML = `
-                        <img src="//images/3.jpg" alt="${goods.goodsName}">
+                        <img src="/images/3.jpg" alt="${goods.goodsName}">
                         <h2>${goods.goodsName}</h2>
                         <p>价格: $${goods.goodsPrice}</p>
                         <p>上架日期: ${goods.timeStamp}</p>
