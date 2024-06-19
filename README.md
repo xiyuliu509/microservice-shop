@@ -52,7 +52,8 @@ microservice_212106233
 
 1. 克隆项目代码：
     ```sh
-    git clone https://github.com/yourusername/microservice_212106233.git
+    [git clone https://github.com/yourusername/microservice_212106233.git]
+    (https://github.com/xiyuliu509/microservice-shop.git)
     ```
 2. 进入项目目录：
     ```sh
