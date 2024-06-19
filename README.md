@@ -4,6 +4,7 @@
 microservice_212106233 前端部分是一个基于 HTML、CSS 和 JavaScript 的 Web 应用，提供用户注册、登录、商品浏览和订单管理等功能。
 
 ## 目录结构
+![前端](https://github.com/xiyuliu509/microservice-shop/assets/118703788/f0dc67b0-6508-494a-a410-0ad94b247762)
 
 microservice_212106233
 │
