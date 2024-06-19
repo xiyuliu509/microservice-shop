@@ -4,8 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.goodsservice.mapper.GoodsMapper">
-    <!-- 这里是SQL映射 -->
-
     <insert id="createGoods">
         INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp)
         VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp})
