@@ -8,7 +8,7 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
         .then(response => {
             // 处理注册成功的逻辑
             alert('注册成功！');
-            window.location.href = '/microservice_212106233/html/user/login.html'; // 注册成功后跳转到登录页面
+            window.location.href = '/html/user/login.html'; // 注册成功后跳转到登录页面
         })
         .catch(error => {
             console.error(error);
@@ -17,5 +17,5 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
 });
 
 document.getElementById('loginButton').addEventListener('click', function () {
-    window.location.href = '/microservice_212106233/html/user/login.html'; // 跳转到登录页面
+    window.location.href = '/html/user/login.html'; // 跳转到登录页面
 });

@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('userWallet').textContent = user.userWallet;
     } else {
         alert('No user information found. Please login first.');
-        window.location.href = '/microservice_212106233/html/user/login.html';
+        window.location.href = '/html/user/login.html';
     }
 
     document.getElementById('logout').addEventListener('click', function (e) {
         e.preventDefault();
         localStorage.removeItem('user');
-        window.location.href = '/microservice_212106233/html/user/login.html';
+        window.location.href = '/html/user/login.html';
     });
 });

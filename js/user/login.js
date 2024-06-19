@@ -8,7 +8,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
                 alert('登录成功, ' + response.data.userName);
                 alert('Login time: ' + response.data.loginTime); // 在登录成功的弹窗中显示登录时间
                 localStorage.setItem('user', JSON.stringify(response.data));
-                window.location.href = '/microservice_212106233/html/user/user.html';
+                window.location.href = '/html/user/user.html';
             } else {
                 alert('凭据无效，请重试.');
             }
@@ -19,5 +19,5 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 });
 
 document.getElementById('registerButton').addEventListener('click', function () {
-    window.location.href = '/microservice_212106233/html/user/register.html'; // 修改为注册页面的路径
+    window.location.href = '/html/user/register.html'; // 修改为注册页面的路径
 });
