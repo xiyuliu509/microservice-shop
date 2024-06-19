@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/microservice_212106233/css/user/register.css">
+</head>
+
+<body>
+    <div class="container no-select">
+        <div class="image-container no-select">
+            <img src="/microservice_212106233/images/User.png" alt="Register">
+        </div>
+
+        <form id="registerForm">
+            <input type="text" id="userName" placeholder="用户名" required />
+            <input type="password" id="userPassword" placeholder="密码" required />
+            <input type="text" id="userPhone" placeholder="联系方式" required />
+            <input type="number" id="userWallet" placeholder="保证金" required />
+            <div class="button-container">
+                <button type="submit">注册</button>
+                <button type="button" id="loginButton">登录</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/microservice_212106233/js/fashion.js"></script>
+    <script src="/microservice_212106233/js/user/register.js"></script>
+</body>
+
+</html>

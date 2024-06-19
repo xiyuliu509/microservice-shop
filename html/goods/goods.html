@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goods</title>
+    <link rel="stylesheet" href="/microservice_212106233/css/goods/goods.css">
+</head>
+
+<body>
+    <div class="header no-select">
+        <h1>Goods</h1>
+        <div class="search-container no-select">
+            <input type="text" id="searchInput" placeholder="Search by name">
+            <button type="button" id="searchButton">搜索</button>
+        </div>
+    </div>
+    <div class="create-container no-select">
+        <button type="button" id="createButton">上架商品</button>
+    </div>
+    <div class="container no-select">
+        <!-- 商品信息会动态加载 -->
+    </div>
+    <div id="myModal" class="modal no-select">
+        <div class="modal-content">
+            <h2>上架商品</h2>
+            <input type="text" id="goodsName" placeholder="商品名称">
+            <input type="number" id="goodsPrice" placeholder="商品价格">
+            <div class="error" id="modalError" style="color: red;"></div>
+            <button type="button" id="confirmButton">确定</button>
+            <button type="button" id="cancelButton">取消</button>
+        </div>
+    </div>
+    <div class="sidebar" id="sidebar no-select">
+        <div class="drag-handle" id="dragHandle"></div>
+        <div class="sidebar-content">
+            <a href="/microservice_212106233/html/user/login.html">退出</a>
+            <a href="/microservice_212106233/html/user/user.html">主页</a>
+            <a href="#top" id="toTopButton">回到顶部</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="/microservice_212106233/js/fashion.js"></script>
+    <script src="/microservice_212106233/js/goods/goods.js"></script>
+</body>
+
+</html>
