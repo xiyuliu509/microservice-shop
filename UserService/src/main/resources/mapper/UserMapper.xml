@@ -5,9 +5,13 @@
 
 <mapper namespace="com.example.userservice.mapper.UserMapper">
     <insert id="createUser">
-        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, loginTime)
-        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{loginTime})
+        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, isAdmin, loginTime)
+        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{isAdmin}, #{loginTime})
     </insert>
+
+    <select id="findByUserPhone" parameterType="String" resultType="com.example.userservice.entity.User">
+        SELECT * FROM shopuser WHERE userPhone = #{userPhone}
+    </select>
 
     <select id="findByUserName" parameterType="String" resultType="com.example.userservice.entity.User">
         SELECT * FROM shopuser WHERE userName = #{userName}

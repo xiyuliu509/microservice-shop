@@ -1,14 +1,25 @@
 package com.example.userservice.entity;
 
+import java.math.BigDecimal;
+
 public class User {
     private Integer userId;
     private String userName;
     private String userPhone;
     private String userPassword;
-    private Double userWallet;
+    private BigDecimal userWallet;
     private String loginTime;
+    private Boolean isAdmin;
 
     // getters and setters
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -42,11 +53,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public Double getUserWallet() {
+    public BigDecimal getUserWallet() {
         return userWallet;
     }
 
-    public void setUserWallet(Double userWallet) {
+    public void setUserWallet(BigDecimal userWallet) {
         this.userWallet = userWallet;
     }
 

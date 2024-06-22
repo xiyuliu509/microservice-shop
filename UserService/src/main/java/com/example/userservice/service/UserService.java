@@ -16,7 +16,12 @@ public class UserService {
 
     public void createUser(User user) {
         user.setLoginTime(GetTime.NowTime());
+        user.setIsAdmin(false);
         userMapper.createUser(user);
+    }
+
+    public User findByUserPhone(String userPhone) {
+        return userMapper.findByUserPhone(userPhone);
     }
 
     public User findByUserName(String userName) {

@@ -3,6 +3,7 @@ package com.example.userservice.controller;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,30 +13,53 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-//  创建用户
+
+    // Create user
     @PostMapping("/create")
-    public String createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        if (userService.findByUserName(user.getUserName()) != null) {
+            return ResponseEntity.badRequest().body("用户已存在");
+        }
+        if (userService.findByUserPhone(user.getUserPhone()) != null) {
+            return ResponseEntity.badRequest().body("联系方式已被注册");
+        }
         userService.createUser(user);
-        return "创建用户成功";
+        return ResponseEntity.ok("创建用户成功");
     }
-//  查询用户
+
+    // Query user by username
     @PostMapping("/query")
-    public User queryUser(@RequestBody User user) {
-        return userService.findByUserName(user.getUserName());
+    public ResponseEntity<User> queryUser(@RequestBody User user) {
+        User foundUser = userService.findByUserName(user.getUserName());
+        if (foundUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(foundUser);
     }
-//  用户登录
+
+    // User login
     @PostMapping("/login")
-    public User loginUser(@RequestBody User user) {
-        return userService.loginUser(user.getUserName(), user.getUserPassword());
+    public ResponseEntity<User> loginUser(@RequestBody User user) {
+        User loggedInUser = userService.loginUser(user.getUserName(), user.getUserPassword());
+        if (loggedInUser == null) {
+            return ResponseEntity.status(401).body(null); // Unauthorized
+        }
+        return ResponseEntity.ok(loggedInUser);
     }
-//  用户列表
+
+    // List all users
     @GetMapping("/list")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
     }
-//  返回特定用户登录信息
+
+    // Return specific user's login information
     @GetMapping("/info/{userName}")
-    public User getUserInfo(@PathVariable String userName) {
-        return userService.findByUserName(userName);
+    public ResponseEntity<User> getUserInfo(@PathVariable String userName) {
+        User user = userService.findByUserName(userName);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
 }
