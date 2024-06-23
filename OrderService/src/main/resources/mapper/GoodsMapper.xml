@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.orderservice.mapper.GoodsMapper">
+    <select id="findGoodsById" parameterType="Integer" resultType="com.example.orderservice.entity.Goods">
+        SELECT * FROM shopgoods WHERE goodsId = #{goodsId}
+    </select>
+
+    <update id="decreaseGoodsStock" parameterType="map">
+        UPDATE shopgoods SET stock = stock - #{quantity} WHERE goodsId = #{goodsId} AND stock >= #{quantity}
+    </update>
+
+    <update id="increaseGoodsStock" parameterType="map">
+        UPDATE shopgoods SET stock = stock + #{quantity} WHERE goodsId = #{goodsId}
+    </update>
+</mapper>

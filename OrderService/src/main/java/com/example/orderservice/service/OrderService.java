@@ -8,6 +8,7 @@ import com.example.orderservice.mapper.GoodsMapper;
 import com.example.orderservice.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class OrderService {
     @Autowired
     private GoodsMapper goodsMapper;
 
+    @Transactional
     public void createOrder(Order order) {
         order.setCreateStamp(GetTime.NowTime());
         double totalPrice = 0;
@@ -32,8 +34,16 @@ public class OrderService {
         }
         order.setOrderPrice(totalPrice);
         orderMapper.createOrder(order);
+
+        // 获取生成的订单ID
+        Integer orderId = order.getOrderId();
+        if (orderId == null) {
+            throw new RuntimeException("订单创建失败，未生成订单ID");
+        }
+
         for (OrderGoods orderGoods : order.getOrderGoodsList()) {
-            orderMapper.addGoodsToOrder(order.getOrderId(), orderGoods.getGoodsId(), orderGoods.getQuantity());
+            orderGoods.setOrderId(orderId);
+            orderMapper.addGoodsToOrder(orderGoods.getOrderId(), orderGoods.getGoodsId(), orderGoods.getQuantity());
         }
     }
 
