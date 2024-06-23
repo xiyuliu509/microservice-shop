@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Service
 public class OrderService {
     @Autowired
@@ -20,7 +19,6 @@ public class OrderService {
     @Autowired
     private GoodsMapper goodsMapper;
 
-    @Transactional
     public void createOrder(Order order) {
         order.setCreateStamp(GetTime.NowTime());
         double totalPrice = 0;
@@ -34,16 +32,8 @@ public class OrderService {
         }
         order.setOrderPrice(totalPrice);
         orderMapper.createOrder(order);
-
-        // 获取生成的订单ID
-        Integer orderId = order.getOrderId();
-        if (orderId == null) {
-            throw new RuntimeException("订单创建失败，未生成订单ID");
-        }
-
         for (OrderGoods orderGoods : order.getOrderGoodsList()) {
-            orderGoods.setOrderId(orderId);
-            orderMapper.addGoodsToOrder(orderGoods.getOrderId(), orderGoods.getGoodsId(), orderGoods.getQuantity());
+            orderMapper.addGoodsToOrder(order.getOrderId(), orderGoods.getGoodsId(), orderGoods.getQuantity());
         }
     }
 
@@ -61,7 +51,12 @@ public class OrderService {
     public Order findOrderByOrderId(Integer orderId) {
         Order order = orderMapper.findOrderByOrderId(orderId);
         if (order != null) {
-            order.setOrderGoodsList(orderMapper.findOrderGoodsByOrderId(orderId));
+            List<OrderGoods> orderGoodsList = orderMapper.findOrderGoodsByOrderId(orderId);
+            for (OrderGoods orderGoods : orderGoodsList) {
+                Goods goods = goodsMapper.findGoodsById(orderGoods.getGoodsId());
+                orderGoods.setGoods(goods);  // Ensure this line exists
+            }
+            order.setOrderGoodsList(orderGoodsList);
         }
         return order;
     }
@@ -69,12 +64,22 @@ public class OrderService {
     public List<Order> findAllOrders() {
         List<Order> orders = orderMapper.findAllOrders();
         for (Order order : orders) {
-            order.setOrderGoodsList(orderMapper.findOrderGoodsByOrderId(order.getOrderId()));
+            List<OrderGoods> orderGoodsList = orderMapper.findOrderGoodsByOrderId(order.getOrderId());
+            for (OrderGoods orderGoods : orderGoodsList) {
+                Goods goods = goodsMapper.findGoodsById(orderGoods.getGoodsId());
+                orderGoods.setGoods(goods);  // Ensure this line exists
+            }
+            order.setOrderGoodsList(orderGoodsList);
         }
         return orders;
     }
 
     public List<OrderGoods> findGoodsByOrderId(Integer orderId) {
-        return orderMapper.findOrderGoodsByOrderId(orderId);
+        List<OrderGoods> orderGoodsList = orderMapper.findOrderGoodsByOrderId(orderId);
+        for (OrderGoods orderGoods : orderGoodsList) {
+            Goods goods = goodsMapper.findGoodsById(orderGoods.getGoodsId());
+            orderGoods.setGoods(goods);  // Ensure this line exists
+        }
+        return orderGoodsList;
     }
 }
