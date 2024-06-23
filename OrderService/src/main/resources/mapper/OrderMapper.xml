@@ -5,8 +5,13 @@
 
 <mapper namespace="com.example.orderservice.mapper.OrderMapper">
     <insert id="createOrder" parameterType="com.example.orderservice.entity.Order">
-        INSERT INTO shoporder (userId, goodsId, orderPrice, orderState, createStamp)
-        VALUES (#{userId}, #{goodsId}, #{orderPrice}, #{orderState}, #{createStamp})
+        INSERT INTO shoporder (userId, orderState, createStamp, orderPrice)
+        VALUES (#{userId}, #{orderState}, #{createStamp}, #{orderPrice})
+    </insert>
+
+    <insert id="addGoodsToOrder" parameterType="map">
+        INSERT INTO order_goods (orderId, goodsId, quantity)
+        VALUES (#{orderId}, #{goodsId}, #{quantity})
     </insert>
 
     <select id="findOrderByOrderId" parameterType="Integer" resultType="com.example.orderservice.entity.Order">
@@ -15,5 +20,15 @@
 
     <select id="findAllOrders" resultType="com.example.orderservice.entity.Order">
         SELECT * FROM shoporder
+    </select>
+
+    <update id="updateOrderState" parameterType="map">
+        UPDATE shoporder SET orderState = #{orderState}, createStamp = #{createStamp} WHERE orderId = #{orderId}
+    </update>
+
+    <select id="findOrderGoodsByOrderId" parameterType="Integer" resultType="com.example.orderservice.entity.OrderGoods">
+        SELECT og.orderId, og.goodsId, og.quantity
+        FROM order_goods og
+        WHERE og.orderId = #{orderId}
     </select>
 </mapper>

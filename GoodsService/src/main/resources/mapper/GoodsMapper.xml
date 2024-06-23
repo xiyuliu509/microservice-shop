@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.goodsservice.mapper.GoodsMapper">
     <insert id="createGoods">
-        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp)
-        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp})
+        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp, stock)
+        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp}, #{stock})
     </insert>
 
     <select id="findGoodsByGoodsName" parameterType="String" resultType="com.example.goodsservice.entity.Goods">
@@ -16,4 +16,17 @@
     <select id="findAllGoods" resultType="com.example.goodsservice.entity.Goods">
         SELECT * FROM shopgoods
     </select>
+
+    <select id="findGoodsById" parameterType="Integer" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods WHERE goodsId = #{goodsId}
+    </select>
+
+    <update id="updateGoodsStock" parameterType="map">
+        UPDATE shopgoods SET stock = stock + #{quantity} WHERE goodsId = #{goodsId}
+    </update>
+
+    <update id="decreaseGoodsStock" parameterType="map">
+        UPDATE shopgoods SET stock = stock - #{quantity} WHERE goodsId = #{goodsId}
+    </update>
 </mapper>
+

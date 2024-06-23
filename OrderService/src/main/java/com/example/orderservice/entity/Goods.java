@@ -5,9 +5,9 @@ public class Goods {
     private String goodsName;
     private Double goodsPrice;
     private String timeStamp;
+    private Integer stock;
 
-    // getters and setters
-
+    // Getters and setters
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -38,5 +38,13 @@ public class Goods {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

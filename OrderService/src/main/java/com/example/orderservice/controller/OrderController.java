@@ -1,7 +1,7 @@
 package com.example.orderservice.controller;
 
-import com.example.orderservice.entity.Goods;
 import com.example.orderservice.entity.Order;
+import com.example.orderservice.entity.OrderGoods;
 import com.example.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,13 @@ public class OrderController {
 
     @PostMapping("/create")
     public String createOrder(@RequestBody Order order) {
-        orderService.createOrder(order);
-        return "创建订单成功";
+        try {
+            orderService.createOrder(order);
+            return "创建订单成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "创建订单失败";
+        }
     }
 
     @PostMapping("/query")
@@ -37,7 +42,7 @@ public class OrderController {
     }
 
     @GetMapping("/findgoods/{orderId}")
-    public Goods findGoods(@PathVariable Integer orderId) {
+    public List<OrderGoods> findGoods(@PathVariable Integer orderId) {
         return orderService.findGoodsByOrderId(orderId);
     }
 }

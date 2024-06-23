@@ -4,6 +4,7 @@ import com.example.userservice.config.GetTime;
 import com.example.userservice.entity.User;
 import com.example.userservice.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +39,9 @@ public class UserService {
             String currentTime = GetTime.NowTime();
             user.setLoginTime(currentTime);
             userMapper.updateLoginTime(userName, currentTime);
+            return user;  // User object includes isAdmin flag
         }
-        return user;
+        throw new UsernameNotFoundException("User not found with username: " + userName);
     }
+
 }

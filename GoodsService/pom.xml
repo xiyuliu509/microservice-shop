@@ -30,7 +30,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- 这里填写 GoodsService 模块的依赖 -->
         <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

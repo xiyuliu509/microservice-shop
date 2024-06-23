@@ -3,16 +3,35 @@ package com.example.userservice.controller;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @GetMapping("/info/role")
+    public ResponseEntity<Map<String, Boolean>> getUserRole(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User user = userService.findByUserName(principal.getName());
+        if (user != null) {
+            Map<String, Boolean> roleMap = new HashMap<String, Boolean>();
+            roleMap.put("isMerchant", user.getIsAdmin());
+            return ResponseEntity.ok(roleMap);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 
     // Create user
     @PostMapping("/create")

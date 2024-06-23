@@ -981,147 +981,153 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <user id="286" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="287" parent="8" name="shopgoods"/>
-    <table id="288" parent="8" name="shoporder"/>
-    <table id="289" parent="8" name="shopuser"/>
-    <column id="290" parent="287" name="goodsId">
+    <table id="287" parent="8" name="order_goods"/>
+    <table id="288" parent="8" name="shopgoods"/>
+    <table id="289" parent="8" name="shoporder"/>
+    <table id="290" parent="8" name="shopuser"/>
+    <column id="291" parent="287" name="orderId">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="292" parent="287" name="goodsId">
+      <Position>2</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="293" parent="287" name="quantity">
+      <Position>3</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="294" parent="287" name="goodsId">
+      <ColNames>goodsId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="295" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>orderId
+goodsId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="296" parent="287" name="order_goods_ibfk_1">
+      <ColNames>orderId</ColNames>
+      <RefTableName>shoporder</RefTableName>
+      <RefColNames>orderId</RefColNames>
+    </foreign-key>
+    <foreign-key id="297" parent="287" name="order_goods_ibfk_2">
+      <ColNames>goodsId</ColNames>
+      <RefTableName>shopgoods</RefTableName>
+      <RefColNames>goodsId</RefColNames>
+    </foreign-key>
+    <column id="298" parent="288" name="goodsId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="291" parent="287" name="goodsName">
+    <column id="299" parent="288" name="goodsName">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="292" parent="287" name="goodsPrice">
+    <column id="300" parent="288" name="goodsPrice">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="287" name="timeStamp">
+    <column id="301" parent="288" name="timeStamp">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="294" parent="287" name="goodsnu">
+    <column id="302" parent="288" name="stock">
       <Position>5</Position>
       <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="295" parent="287" name="stock">
-      <Position>6</Position>
-      <DataType>int|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-    </column>
-    <key id="296" parent="287" name="PRIMARY">
+    <key id="303" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>goodsId</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="297" parent="288" name="orderId">
+    <column id="304" parent="289" name="orderId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="298" parent="288" name="userId">
+    <column id="305" parent="289" name="userId">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="299" parent="288" name="goodsId">
+    <column id="306" parent="289" name="orderState">
       <Position>3</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="300" parent="288" name="orderPrice">
-      <Position>4</Position>
-      <DataType>double|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="301" parent="288" name="orderState">
-      <Position>5</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="302" parent="288" name="createStamp">
-      <Position>6</Position>
-      <DataType>datetime|0s</DataType>
+    <column id="307" parent="289" name="createStamp">
+      <Position>4</Position>
+      <DataType>timestamp|0s</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="303" parent="288" name="orderforgoods">
-      <Position>7</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
+    <column id="308" parent="289" name="orderPrice">
+      <Position>5</Position>
+      <DataType>decimal(10,2 digit)|0s</DataType>
+      <DefaultExpression>0.00</DefaultExpression>
     </column>
-    <index id="304" parent="288" name="userId">
+    <index id="309" parent="289" name="userId">
       <ColNames>userId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="305" parent="288" name="fk_goods">
-      <ColNames>goodsId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="306" parent="288" name="PRIMARY">
+    <key id="310" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>orderId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="307" parent="288" name="shoporder_ibfk_1">
+    <foreign-key id="311" parent="289" name="shoporder_ibfk_1">
       <ColNames>userId</ColNames>
       <RefTableName>shopuser</RefTableName>
       <RefColNames>userId</RefColNames>
     </foreign-key>
-    <foreign-key id="308" parent="288" name="fk_goods">
-      <ColNames>goodsId</ColNames>
-      <RefTableName>shopgoods</RefTableName>
-      <RefColNames>goodsId</RefColNames>
-    </foreign-key>
-    <foreign-key id="309" parent="288" name="shoporder_ibfk_2">
-      <ColNames>goodsId</ColNames>
-      <RefTableName>shopgoods</RefTableName>
-      <RefColNames>goodsId</RefColNames>
-    </foreign-key>
-    <column id="310" parent="289" name="userId">
+    <column id="312" parent="290" name="userId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="311" parent="289" name="userName">
+    <column id="313" parent="290" name="userName">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="312" parent="289" name="userPhone">
+    <column id="314" parent="290" name="userPhone">
       <Position>3</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="313" parent="289" name="userPassword">
+    <column id="315" parent="290" name="userPassword">
       <Position>4</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="314" parent="289" name="userWallet">
+    <column id="316" parent="290" name="userWallet">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="315" parent="289" name="loginTime">
+    <column id="317" parent="290" name="loginTime">
       <Position>6</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="316" parent="289" name="isAdmin">
+    <column id="318" parent="290" name="isAdmin">
       <Position>7</Position>
       <DataType>tinyint(1)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="317" parent="289" name="PRIMARY">
+    <key id="319" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userId</ColNames>
       <Primary>1</Primary>

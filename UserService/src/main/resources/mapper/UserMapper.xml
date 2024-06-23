@@ -18,7 +18,8 @@
     </select>
 
     <select id="findByUserNameAndPassword" parameterType="map" resultType="com.example.userservice.entity.User">
-        SELECT * FROM shopuser WHERE userName = #{userName} AND userPassword = #{userPassword}
+        SELECT userId, userName, userPhone, userPassword, userWallet, loginTime, isAdmin
+        FROM shopuser WHERE userName = #{userName} AND userPassword = #{userPassword}
     </select>
 
     <update id="updateLoginTime" parameterType="map">

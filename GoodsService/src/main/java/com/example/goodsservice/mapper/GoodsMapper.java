@@ -13,4 +13,10 @@ public interface GoodsMapper {
     Goods findGoodsByGoodsName(@Param("goodsName") String goodsName);
 
     List<Goods> findAllGoods();
+
+    Goods findGoodsById(@Param("goodsId") Integer goodsId);
+
+    void updateGoodsStock(@Param("goodsId") Integer goodsId, @Param("quantity") Integer quantity);
+
+    void decreaseGoodsStock(@Param("goodsId") Integer goodsId, @Param("quantity") Integer quantity);
 }

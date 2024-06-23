@@ -10,12 +10,12 @@ import java.util.List;
 
 @Service
 public class GoodsService {
-
     @Autowired
     private GoodsMapper goodsMapper;
 
     public void createGoods(Goods goods) {
         goods.setTimeStamp(GetTime.NowTime());
+        goods.setStock(goods.getStock() == null ? 0 : goods.getStock());
         goodsMapper.createGoods(goods);
     }
 
@@ -25,5 +25,17 @@ public class GoodsService {
 
     public List<Goods> findAllGoods() {
         return goodsMapper.findAllGoods();
+    }
+
+    public Goods findGoodsById(Integer goodsId) {
+        return goodsMapper.findGoodsById(goodsId);
+    }
+
+    public void updateGoodsStock(Integer goodsId, Integer quantity) {
+        goodsMapper.updateGoodsStock(goodsId, quantity);
+    }
+
+    public void decreaseGoodsStock(Integer goodsId, Integer quantity) {
+        goodsMapper.decreaseGoodsStock(goodsId, quantity);
     }
 }

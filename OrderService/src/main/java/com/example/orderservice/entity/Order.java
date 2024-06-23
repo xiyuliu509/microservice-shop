@@ -1,15 +1,16 @@
 package com.example.orderservice.entity;
 
+import java.util.List;
+
 public class Order {
     private Integer orderId;
     private Integer userId;
-    private Integer goodsId;
     private Double orderPrice;
     private String orderState;
     private String createStamp;
+    private List<OrderGoods> orderGoodsList;
 
-    // getters and setters
-
+    // Getters and setters
 
     public Integer getOrderId() {
         return orderId;
@@ -25,14 +26,6 @@ public class Order {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
     }
 
     public Double getOrderPrice() {
@@ -57,5 +50,13 @@ public class Order {
 
     public void setCreateStamp(String createStamp) {
         this.createStamp = createStamp;
+    }
+
+    public List<OrderGoods> getOrderGoodsList() {
+        return orderGoodsList;
+    }
+
+    public void setOrderGoodsList(List<OrderGoods> orderGoodsList) {
+        this.orderGoodsList = orderGoodsList;
     }
 }
