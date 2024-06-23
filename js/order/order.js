@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>$${order.orderPrice}</td>
                         <td>${formatDate(order.createStamp)}</td>
                         <td>
-                            <button onclick="viewGoods(${order.orderId})">查看商品</button>
+                            <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
                             ${!user.isAdmin && order.orderState === '待付款' ? `
                                 <button onclick="updateOrderState(${order.orderId}, '已取消')">取消订单</button>
                             ` : ''}
@@ -44,6 +44,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         </td>
                     `;
                     orderTableBody.appendChild(row);
+                });
+
+                // 添加事件监听器用于查看商品
+                document.querySelectorAll('.view-goods-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const orderId = this.getAttribute('data-order-id');
+                        viewGoods(orderId);
+                    });
                 });
 
                 // 添加事件监听器用于更新订单状态
@@ -73,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const goodsList = response.data;
                 if (goodsList && goodsList.length > 0) {
                     let goodsInfo = '订单商品信息:\n';
-                    goodsList.forEach(goods => {
-                        `商品名称: ${goods.goodsName}\n价格: $${goods.goodsPrice}\n数量: ${goods.quantity}\n\n`;
+                    goodsList.forEach(orderGoods => {
+                        goodsInfo += `商品名称: ${orderGoods.goods.goodsName}\n价格: $${orderGoods.goods.goodsPrice}\n数量: ${orderGoods.quantity}\n\n`;
                     });
                     alert(goodsInfo);
                 } else {
@@ -101,41 +109,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 加载订单列表
     loadOrders();
-
-    const sidebar = document.getElementById('sidebar');
-    const dragHandle = document.getElementById('dragHandle');
-
-    let isDragging = false;
-    let initialX, initialY;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    dragHandle.addEventListener('mousedown', function (e) {
-        isDragging = true;
-        initialX = e.clientX - offsetX;
-        initialY = e.clientY - offsetY;
-        document.addEventListener('mousemove', moveSidebar);
-        document.addEventListener('mouseup', stopDragging);
-    });
-
-    function moveSidebar(e) {
-        if (isDragging) {
-            e.preventDefault();
-            offsetX = e.clientX - initialX;
-            offsetY = e.clientY - initialY;
-            sidebar.style.right = `${-offsetX}px`;
-            sidebar.style.bottom = `${-offsetY}px`;
-        }
-    }
-
-    function stopDragging() {
-        isDragging = false;
-        document.removeEventListener('mousemove', moveSidebar);
-        document.removeEventListener('mouseup', stopDragging);
-    }
-
-    const toTopButton = document.getElementById('toTopButton');
-    toTopButton.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
 });
