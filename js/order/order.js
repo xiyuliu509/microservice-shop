@@ -6,12 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    function formatDate(dateString) {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        const date = new Date(dateString);
-        return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString(undefined, options);
-    }
-
     function loadOrders() {
         axios.get('http://localhost:8083/order/list')
             .then(response => {
@@ -32,11 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             </select>
                         </td>
                         <td>$${order.orderPrice}</td>
-                        <td>${formatDate(order.createStamp)}</td>
+                        <td>${order.createStamp}</td>
                         <td>
                             <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
                             ${!user.isAdmin && order.orderState === '待付款' ? `
-                                <button onclick="updateOrderState(${order.orderId}, '已取消')">取消订单</button>
+                                <button class="cancel-order-button" data-order-id="${order.orderId}">取消订单</button>
                             ` : ''}
                             ${!user.isAdmin && order.orderState === '待收货' ? `
                                 <button onclick="updateOrderState(${order.orderId}, '订单完成')">确认收货</button>
@@ -49,17 +43,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 添加事件监听器用于查看商品
                 document.querySelectorAll('.view-goods-button').forEach(button => {
                     button.addEventListener('click', function () {
-                        const orderId = this.getAttribute('data-order-id');
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
                         viewGoods(orderId);
+                    });
+                });
+
+                // 添加事件监听器用于取消订单
+                document.querySelectorAll('.cancel-order-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
+                        const confirmation = prompt('请输入 "delete" 确认取消订单：');
+                        if (confirmation === 'delete') {
+                            cancelOrder(orderId);
+                        } else {
+                            alert('取消订单失败：输入不正确');
+                        }
                     });
                 });
 
                 // 添加事件监听器用于更新订单状态
                 document.querySelectorAll('select[data-order-id]').forEach(select => {
                     select.addEventListener('change', function () {
-                        const orderId = this.getAttribute('data-order-id');
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
                         const newState = this.value;
-                        axios.post('http://localhost:8083/order/update', { orderId: parseInt(orderId), orderState: newState })
+                        axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
                             .then(response => {
                                 alert('订单状态更新成功！');
                             })
@@ -96,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateOrderState(orderId, newState) {
-        axios.post('http://localhost:8083/order/update', { orderId, orderState: newState })
+        axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
             .then(response => {
                 alert('订单状态更新成功！');
                 loadOrders(); // 重新加载订单列表
@@ -104,6 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error('订单状态更新失败:', error);
                 alert('订单状态更新失败.');
+            });
+    }
+
+    function cancelOrder(orderId) {
+        axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
+            .then(response => {
+                alert(response.data);
+                loadOrders(); // 重新加载订单列表
+            })
+            .catch(error => {
+                console.error('取消订单失败:', error);
+                alert('取消订单失败.');
             });
     }
 
