@@ -61,9 +61,10 @@ body {
 }
 
 .create-container button {
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
+    margin-top: -10px;
     background-color: #e50914;
     color: #fff;
     cursor: pointer;
@@ -84,6 +85,7 @@ body {
 .goods-item {
     background: #1c1c1c;
     border-radius: 8px;
+    margin-top: 10px;
     padding: 20px;
     text-align: center;
 }
@@ -100,6 +102,25 @@ body {
 
 .goods-item p {
     margin: 10px 0;
+}
+
+.stock-button, .add-button {
+    cursor: pointer;
+    background-color: #f16f6f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+}
+
+.stock-button:hover, .add-button:hover {
+    background-color: #e50914;
 }
 
 .highlight {

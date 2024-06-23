@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goods</title>
     <link rel="stylesheet" href="/css/goods/goods.css">
 </head>
-
 <body>
     <div class="header no-select">
         <h1>Goods</h1>
@@ -16,8 +14,11 @@
             <button type="button" id="searchButton">搜索</button>
         </div>
     </div>
-    <div class="create-container no-select">
+    <div id="adminContainer" class="create-container no-select admin-only">
         <button type="button" id="createButton">上架商品</button>
+    </div>
+    <div id="userContainer" class="create-container no-select user-only">
+        <button type="button" id="orderButton">创建订单</button>
     </div>
     <div class="container no-select">
         <!-- 商品信息会动态加载 -->
@@ -27,12 +28,13 @@
             <h2>上架商品</h2>
             <input type="text" id="goodsName" placeholder="商品名称">
             <input type="number" id="goodsPrice" placeholder="商品价格">
+            <input type="number" id="goodsStock" placeholder="商品库存">
             <div class="error" id="modalError" style="color: red;"></div>
             <button type="button" id="confirmButton">确定</button>
             <button type="button" id="cancelButton">取消</button>
         </div>
     </div>
-    <div class="sidebar" id="sidebar no-select">
+    <div class="sidebar" id="sidebar">
         <div class="drag-handle" id="dragHandle"></div>
         <div class="sidebar-content">
             <a href="/html/user/login.html">退出</a>
@@ -40,10 +42,9 @@
             <a href="#top" id="toTopButton">回到顶部</a>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
-    <script src="/js/fashion.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/goods/goods.js"></script>
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/fashion.js"></script>
 </body>
-
 </html>
