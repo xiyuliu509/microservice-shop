@@ -20,4 +20,6 @@ public interface OrderMapper {
     void updateOrderState(@Param("orderId") Integer orderId, @Param("orderState") String orderState, @Param("createStamp") String createStamp);
 
     List<OrderGoods> findOrderGoodsByOrderId(@Param("orderId") Integer orderId);
+
+    void deleteOrder(@Param("orderId") Integer orderId);
 }

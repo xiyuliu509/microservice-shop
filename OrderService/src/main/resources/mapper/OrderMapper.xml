@@ -31,4 +31,9 @@
         FROM order_goods og
         WHERE og.orderId = #{orderId}
     </select>
+
+    <delete id="deleteOrder" parameterType="Integer">
+        DELETE FROM shoporder WHERE orderId = #{orderId};
+        DELETE FROM order_goods WHERE orderId = #{orderId};
+    </delete>
 </mapper>

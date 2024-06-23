@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -32,8 +33,13 @@ public class OrderController {
 
     @PostMapping("/update")
     public String updateOrderState(@RequestBody Order order) {
-        orderService.updateOrderState(order);
-        return "订单状态更新成功";
+        try {
+            orderService.updateOrderState(order);
+            return "订单状态更新成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "订单状态更新失败";
+        }
     }
 
     @GetMapping("/list")
@@ -45,4 +51,17 @@ public class OrderController {
     public List<OrderGoods> findGoods(@PathVariable Integer orderId) {
         return orderService.findGoodsByOrderId(orderId);
     }
+
+    @PostMapping("/cancel")
+    public String cancelOrder(@RequestBody Map<String, Object> request) {
+        try {
+            Integer orderId = Integer.parseInt(request.get("orderId").toString());
+            orderService.cancelOrder(orderId);
+            return "取消订单成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "取消订单失败";
+        }
+    }
+
 }

@@ -82,4 +82,18 @@ public class OrderService {
         }
         return orderGoodsList;
     }
+
+    public void cancelOrder(Integer orderId) {
+        Order order = orderMapper.findOrderByOrderId(orderId);
+        if (order != null) {
+            List<OrderGoods> orderGoodsList = orderMapper.findOrderGoodsByOrderId(orderId);
+            for (OrderGoods orderGoods : orderGoodsList) {
+                goodsMapper.increaseGoodsStock(orderGoods.getGoodsId(), orderGoods.getQuantity());
+            }
+            order.setOrderState("已取消");
+            orderMapper.updateOrderState(order.getOrderId(), order.getOrderState(), GetTime.NowTime());
+        } else {
+            throw new RuntimeException("订单不存在");
+        }
+    }
 }

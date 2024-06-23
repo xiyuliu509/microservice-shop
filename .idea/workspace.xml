@@ -12,10 +12,12 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="6.23：16">
+    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="6.23：17">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/entity/OrderGoods.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/entity/OrderGoods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +254,7 @@
       <workItem from="1719057943218" duration="12244000" />
       <workItem from="1719107259445" duration="7080000" />
       <workItem from="1719126574329" duration="1152000" />
-      <workItem from="1719129126721" duration="4093000" />
+      <workItem from="1719129126721" duration="5208000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目完成">
       <created>1718690850107</created>
@@ -324,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1719131234056</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="6.23：17">
+      <created>1719134104856</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719134104856</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,7 +379,8 @@
     <MESSAGE value="6.22:12" />
     <MESSAGE value="6.23：15" />
     <MESSAGE value="6.23：16" />
-    <option name="LAST_COMMIT_MESSAGE" value="6.23：16" />
+    <MESSAGE value="6.23：17" />
+    <option name="LAST_COMMIT_MESSAGE" value="6.23：17" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
