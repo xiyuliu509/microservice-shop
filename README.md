@@ -2,9 +2,21 @@
 
 microservice_212106233 是一个基于 Spring Boot 和 Spring Cloud 构建的微服务项目，包含三个主要模块：UserService、OrderService 和 GoodsService。该项目旨在实现用户管理、订单管理和商品管理功能。
 
-## 目录结构
-![后端](https://github.com/xiyuliu509/microservice-shop/assets/118703788/17744868-066b-4ff9-8338-3e2c22fef791)
+## 主要功能
 
+- **用户模块**：
+    - 注册页面：用户可以创建一个新账户。
+    - 登录页面：用户输入用户名和密码进行登录,并区分消费者和管理员
+    - 主页：显示用户信息和商铺信息的轮播图，提供商品和订单页面的链接。
+
+- **商品模块**：
+    - 商品列表页面：显示所有商品信息，提供查看商品详情的功能。管理员可以上架新商品、更新库存。用户可以搜索商品、添加商品到订单。
+
+- **订单模块**：
+    - 订单管理页面：显示所有订单信息，管理员可以更新订单状态，用户可以查看订单中的商品，申请取消订单或确认收货。
+
+
+## 目录结构
 microservice_212106233
 │
 ├── UserService
@@ -27,12 +39,6 @@ microservice_212106233
 
 markdown
 复制代码
-
-## 主要功能
-
-- **UserService**：用户管理，包含用户注册、登录、信息查询等功能。
-- **OrderService**：订单管理，包含订单创建、查询、状态更新等功能。
-- **GoodsService**：商品管理，包含商品信息展示、查询等功能。
 
 ## 开发环境
 
@@ -90,18 +96,24 @@ markdown
 ## 接口文档
 
 - 用户接口
-  - 注册用户：`POST /user/register`
+  - 创建用户：`POST /user/create`
+  - 查询用户：`POST user/query`
   - 登录用户：`POST /user/login`
-  - 获取用户信息：`GET /user/{id}`
+  - 获取用户信息：`GET /user/list`
 
 - 订单接口
   - 创建订单：`POST /order/create`
   - 查询订单：`GET /order/{id}`
   - 更新订单状态：`POST /order/update`
+  - 查看订单对应商品：`GET /order/findgoods/{id}`
+  - 获取订单列表: `GET /order/list`
 
 - 商品接口
   - 获取商品列表：`GET /goods/list`
-  - 获取商品详情：`GET /goods/{id}`
+  - 获取商品库存：`GET /oods/findById?goodsId={id}`
+  - 创建商品：`POST /goods/create`
+  - 查询商品：`POST /goods/query`
+  - 修改商品库存: `POST /goods/updateStock`
 
 ## 配置文件
 
