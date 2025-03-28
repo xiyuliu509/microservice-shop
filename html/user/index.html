@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陶瓷瓷砖供应 - 首页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            color: #333;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            max-width: 2500px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        nav ul li a:hover {
+            color: #0066cc;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            padding: 10px 0;
+            border-radius: 5px;
+            left: 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 8px 25px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: #8cc63f;
+        }
+        
+        .search-icon, .menu-icon {
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+        
+        .banner {
+            background-image: url('/picture/1.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 50px;
+            position: relative;
+        }
+        
+        .banner-content {
+            max-width: 800px;
+            color: #fff;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        .banner-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+        
+        .welcome-intro {
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .welcome-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+        
+        .welcome-title {
+            flex: 0 0 40%;
+        }
+        
+        .welcome-title h2 {
+            font-size: 36px;
+            color: #8cc63f;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        
+        .welcome-text {
+            flex: 0 0 55%;
+        }
+        
+        .welcome-text p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: #8cc63f;
+            font-weight: 500;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .welcome-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .welcome-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .product-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 80px 50px;
+        }
+        
+        .category {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 250px;
+            transition: transform 0.3s ease;
+        }
+        
+        .category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            height: 100%;
+        }
+        
+        .category-image {
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .category-image::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        .category h3 {
+            font-size: 24px;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+        
+        .cta-section {
+            height: 100vh;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cta-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        .cta-text {
+            flex: 0 0 50%;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        
+        .cta-image {
+            flex: 0 0 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .cta-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cta-text h2 {
+            font-size: 36px;
+            color: #8cc63f;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .cta-text p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .text-link {
+            color: #8cc63f;
+            text-decoration: none;
+        }
+        
+        .text-link:hover {
+            text-decoration: underline;
+        }
+        
+        .browse-button {
+            display: inline-block;
+            background-color: #8cc63f;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            width: 220px;
+            text-align: center;
+        }
+        
+        .browse-button:hover {
+            background-color: #7ab32f;
+        }
+        
+        .expertise-section {
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .expertise-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .expertise-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .quality-section {
+            background-color: #f9f9f9;
+            padding: 80px 50px;
+        }
+        
+        .quality-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .quality-content h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .quality-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .showroom-section {
+            padding: 80px 50px;
+            text-align: center;
+        }
+        
+        .showroom-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .showroom-content h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .contact-button {
+            display: inline-block;
+            background-color: #0066cc;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .contact-button:hover {
+            background-color: #004d99;
+        }
+        
+        .brands-section {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            /* gap: 180px; */
+
+            background-color: #f5f5f5;
+        }
+        
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .brand img {
+            /* max-height: 50px;
+            width: auto; */
+            width: 190px;
+            height: 190px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 80px 50px 30px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+        
+        .footer-column p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column strong {
+            color: #fff;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .footer-social .social-icon {
+            color: #999;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-social .social-icon:hover {
+            color: #fff;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .header-container {
+                padding: 150px 20px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .banner {
+                height: 400px;
+                padding: 0 20px;
+            }
+            
+            .banner-content h1 {
+                font-size: 50px;
+            }
+            
+            .welcome-container {
+                flex-direction: column;
+            }
+            
+            .welcome-title, .welcome-text {
+                flex: 0 0 100%;
+            }
+            
+            .welcome-title {
+                margin-bottom: 30px;
+            }
+            
+            .welcome-intro {
+                padding: 60px 20px;
+            }
+            
+            .welcome-section, .expertise-section, .quality-section, .showroom-section {
+                padding: 60px 20px;
+            }
+            
+            .product-categories {
+                padding: 0 20px 60px 20px;
+            }
+            
+            .brands-section {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .copyright {
+                order: 2;
+            }
+            
+            .footer-social {
+                order: 1;
+                justify-content: center;
+            }
+        }
+        
+        @media screen and (max-width: 992px) {
+            .product-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cta-section {
+                height: auto;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .cta-text, .cta-image {
+                flex: 0 0 100%;
+                width: 100%;
+            }
+            
+            .cta-text {
+                padding: 40px 30px;
+            }
+            
+            .cta-image {
+                height: 50vh;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .product-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-item {
+                height: 250px;
+            }
+        }
+        
+        .main-nav {
+            display: flex;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            padding: 10px 0;
+            transition: color 0.3s;
+        }
+        
+        .nav-item a:hover {
+            color: #8cc63f;
+        }
+        
+        .nav-item.active a {
+            color: #8cc63f;
+            font-weight: bold;
+        }
+        
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icon {
+            margin-left: 15px;
+            color: #666;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .header-icon:hover {
+            color: #8cc63f;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            height: 33vh;
+            min-height: 250px;
+        }
+        
+        .grid-item a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            height: 100%;
+        }
+        
+        .grid-image {
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        .grid-item:hover .grid-image {
+            transform: scale(1.05);
+        }
+        
+        .grid-image::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        .grid-item h3 {
+            font-size: 28px;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+            font-weight: 400;
+        }
+        
+        @media screen and (max-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-item {
+                height: 250px;
+            }
+        }
+
+        .no-style {
+            text-decoration: none; 
+            color: inherit; 
+            font-family: inherit; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="/picture/0.png" alt="Ceramic Tile Supplies">
+            </a>
+            <nav>
+                <ul class="main-nav">
+                    <li class="nav-item active"><a href="#">欢迎光临!</a></li>
+                    <li class="nav-item"><a href="#">主页</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#">产品类型</a>
+                        <div class="dropdown-content" style="padding-left: 20px;">
+                            <a href="#">石材砖</a>
+                            <a href="#">仿木砖</a>
+                            <a href="#">泳池砖</a>
+                            <a href="#">马赛克砖</a>
+                            <a href="#">底漆</a>
+                            <a href="#">防水涂料</a>
+                            <a href="#">内墙乳胶漆</a>
+                            <a href="#">木漆及金属漆</a>
+                            <a href="#">腻子</a>
+                            <a href="#">美缝</a>
+                            <a href="#">密封抗裂胶</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#">页面跳转</a>
+                        <div class="dropdown-content" style="padding-left: 20px;">
+                            <a href="/html/user/login.html">登录</a>
+                            <a href="/html/user/register.html">注册</a>
+                            <a href="/html/goods/goods.html">商城</a>
+                            <a href="/html/order/order.html">订单</a>
+                            <a href="/html/user/user.html">个人</a>
+                            <a href="#">退出</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="https://www.kujiale.com/huxing/search">查户型</a></li>
+                    <li class="nav-item"><a href="#">找风格</a></li> 
+                    <li class="nav-item"><a href="https://www.jcpp.com/">看品牌</a></li> 
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="#" class="header-icon"><i class="fas fa-phone"></i></a>
+                <a href="#" class="header-icon"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="header-icon"><i class="fas fa-search"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="banner">
+        <div class="banner-content">
+            <h1>基于Spring Boot的</h1>
+            <h1>家装仓储管理系统</h1>
+        </div>
+    </section>
+
+    <section class="welcome-intro">
+        <div class="welcome-container">
+            <div class="welcome-title">
+                <h2>目标不变<br>只为创造梦想家</h2>
+            </div>
+            <div class="welcome-text">
+                <p>我们的家装产品供销管理系统, 一直致力于提供<span class="highlight">最高品质</span>的家装产品，我们提供种类繁多的瓷砖、墙砖和地砖以及各种配套配件。</p>
+                <p>我们知道每个家庭都有自己的  <span class="highlight">拥有自己独特的魅力</span> 这是您选择家居装饰产品的理想场所 <span class="highlight"> 补充 </span>并为您的空间增添价值。我们期待每一次与您见面。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-grid">
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/timber-look-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/2.png');">
+                    <h3>石材砖</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/stone-look-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/3.png');">
+                    <h3>木纹砖</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/concrete-look-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/4.png');">
+                    <h3>泳池砖</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/subway-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/5.png');">
+                    <h3>马赛克砖</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/mosaic-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/6.png');">
+                    <h3>加入我们</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/pool-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/7.png');">
+                    <h3>水漆涂料</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/builders-range/">
+                <div class="grid-image" style="background-image: url('/picture/8.png');">
+                    <h3>密封胶</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/decorative-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/9.png');">
+                    <h3>腻子</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/slip-resistant-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/10.png');">
+                    <h3>美缝剂</h3>
+                </div>
+            </a>
+        </div>
+
+        <div class="grid-item">
+            <a href="https://www.kujiale.com/huxing/search">
+                <div class="grid-image" style="background-image: url('/picture/11.png');">
+                    <h3>户型大全</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://ctsupplies.com.au/decorative-tiles/">
+                <div class="grid-image" style="background-image: url('/picture/12.png');">
+                    <h3>风格资源共享平台</h3>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item">
+            <a href="https://www.jcpp.com/">
+                <div class="grid-image" style="background-image: url('/picture/13.png');">
+                    <h3>品牌中心</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-text">
+                <h2>我们瓷砖产品的特色</h2>
+                <p>如果您正在考虑装修或翻新项目，我们的专业团队将帮助您实现理想的设计。我们提供一系列高质量的瓷砖产品，满足您不同的需求。我们的系列包括石材砖、木纹砖、泳池砖和马赛克砖，适用于各种室内外空间，让您的空间焕发新生。</p>
+                
+                <p>无论您追求自然石材的奢华感，还是木纹砖的温馨质感，亦或是泳池砖的防滑功能，我们都能提供完美的选择。我们的产品线包括现代与经典款式，能够为您的家居、商业空间、户外区域提供最佳的设计方案。此外，我们的马赛克砖可用于墙面装饰、创意设计和浴室空间，提升整体美观度。</p>
+                
+                <p>我们紧跟最新的市场趋势，与多个知名国际品牌合作，确保为客户提供全球优质瓷砖。通过与全球顶级制造商建立长期合作关系，我们为您带来高品质的石材砖、木纹砖、泳池砖和马赛克砖，帮助您以最具竞争力的价格打造梦想空间。</p>
+                
+                <a href="#" class="browse-button">再回顶部看看吧</a>
+            </div>
+            <div class="cta-image">
+                <img src="/picture/14.png" alt="Modern Living Room Tile Design">
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-image">
+                <img src="/picture/15.png" alt="Modern Living Room Tile Design">
+            </div>
+            <div class="cta-text">
+                <h2>我们水漆涂料产品的特色</h2>
+                <p>如果您正在寻找高质量的水漆涂料来满足各种装修需求，我们的产品将为您提供理想的解决方案。从底漆到防水涂料，从内墙乳胶漆到木漆和金属漆，我们的水漆涂料系列全面覆盖了家居和商业空间的各类应用，确保您每个细节都能得到完美呈现。</p>
+                
+                <p>我们提供的底漆为涂装系统的基础，能够有效增加后续涂层的附着力和持久性，防止涂层起皮脱落。特别适用于需要额外加固的表面，确保涂料能够均匀覆盖，提升整体效果。我们的防水涂料具有优异的防水性能，特别适合潮湿环境，如浴室、厨房及外墙等区域，可以有效防止水分渗透，保护墙面和地面不受潮湿损害。内墙乳胶漆则因其出色的遮盖力和耐污性，成为家庭和办公室空间的理想选择，能够为您的室内空间带来明亮而清新的效果。与此同时，我们的木漆和金属漆专门为木质和金属表面设计，能够有效保护材料，防止其因风化或氧化而失去原有光泽，同时展现出天然的纹理和色彩，增添独特的美感。</p>
+                
+                <p>我们与全球领先的涂料品牌合作，精心挑选高品质原料，确保每一款水漆涂料都符合环保和高效能标准。无论您是进行家居装修，还是商业空间改造，我们都能提供具有竞争力的价格和专业的涂料解决方案。</p>
+                
+                <a href="#" class="browse-button">再回顶部看看吧</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-text">
+                <h2>我们粉剂胶体产品的特色</h2>
+                <p>如果您正在寻找优质的粉剂胶体产品来提升装修效果，我们的系列产品将为您提供理想的选择。我们提供的腻子、美缝剂和密封胶，均采用高品质原料，能够满足不同装修和施工需求。</p>
+
+                <p>我们的腻子产品具有出色的填充性和修补性能，适用于墙面和天花板的修补、平整和修饰。无论是新装修还是翻新，腻子能够有效填补表面裂缝和不平整，确保墙面光滑平整，为后续涂装打下坚实基础。美缝剂则专为瓷砖、石材等表面设计，能够有效填补缝隙，防止污渍渗透，同时增强美观，提升整体装饰效果。我们的美缝剂色彩丰富，具有优异的耐用性和抗污性，确保长期使用后仍能保持光洁如新。密封胶作为防水防潮的关键产品，广泛应用于浴室、厨房及窗框等易受潮湿影响的区域，能够有效阻止水分和气体的渗透，保障装修质量与使用安全。</p>
+                
+                <p>我们不断关注行业需求和技术创新，确保每一款产品都具备极高的品质和使用性能。无论是进行家装、商业空间改造，还是建筑施工，我们的粉剂胶体系列产品都能为您提供最专业的解决方案，助力打造完美的装修效果。</p>
+                
+                <a href="#" class="browse-button">再回顶部看看吧</a>
+            </div>
+            <div class="cta-image">
+                <img src="/picture/16.png" alt="Modern Living Room Tile Design">
+            </div>
+        </div>
+    </section>
+
+    <section class="brands-section">
+        <a href="https://www.marcopolo.com.cn/">
+            <div class="brand">
+                <img src="/picture/p1.png" alt="马可波罗陶瓷">
+            </div>
+        </a>
+        <a href="https://www.gptopstone.cn/">
+            <div class="brand">
+                <img src="/picture/p2.png" alt="雪狼陶瓷">
+            </div>
+        </a>        
+        <a href="https://www.dulux.com.cn/zh">
+            <div class="brand">
+                <img src="/picture/p3.png" alt="多乐士">
+            </div>
+        </a>
+        <a href="https://www.nipponpaint.com.cn/">
+            <div class="brand">
+                <img src="/picture/p4.png" alt="立邦">
+            </div>
+        </a>
+        <a href="http://www.sdsgmf.com/index.php/about/1">
+            <div class="brand">
+                <img src="/picture/p5.png" alt="奥斯曼-美缝">
+            </div>
+        </a>
+        <a href="https://www.sika.cn/">
+            <div class="brand">
+                <img src="/picture/p6.png" alt="西卡-美缝">
+            </div>
+        </a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>我们的产品</h4>
+                <ul>
+                    <li><a href="#">石材砖</a></li>
+                    <li><a href="#">仿木砖</a></li>
+                    <li><a href="#">泳池砖</a></li>
+                    <li><a href="#">马赛克砖</a></li>
+                    <li><a href="#">底漆</a></li>
+                    <li><a href="#">防水涂料</a></li>
+                    <li><a href="#">内墙乳胶漆</a></li>
+                    <li><a href="#">木漆及金属漆</a></li>
+                    <li><a href="#">腻子</a></li>
+                    <li><a href="#">美缝</a></li>
+                    <li><a href="#">密封抗裂胶</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>合作品牌</h4>
+                <ul>
+                    <li><a href="https://www.marcopolo.com.cn/" class="no-style">马可波罗陶瓷</a></li>
+                    <li><a href="https://www.gptopstone.cn/" class="no-style">雪狼陶瓷</a></li>
+                    <li><a href="https://www.dulux.com.cn/zh" class="no-style">多乐士</a></li>
+                    <li><a href="https://www.nipponpaint.com.cn/" class="no-style">立邦</a></li>
+                    <li><a href="http://www.sdsgmf.com/index.php/about/1" class="no-style">奥斯曼-美缝</a></li>
+                    <li><a href="https://www.sika.cn/" class="no-style">西卡-美缝</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>功能列表</h4>
+                <ul>
+                    <li><a href="/html/user/login.html">登录</a></li>
+                    <li><a href="/html/user/register.html">注册</a></li>
+                    <li><a href="/html/goods/goods.html">商城</a></li>
+                    <li><a href="/html/order/order.html">订单</a></li>
+                    <li><a href="/html/user/user.html">个人</a></li>
+                    <li><a href="#">退出登录</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>欢迎合作</h4>
+                <p>
+                    <strong>地址</strong><br>
+                    福州大学至诚学院<br>
+                    <strong>邮箱:</strong> 1926776304@qq.com
+                </p>
+                <p>
+                    <strong>开发人员</strong><br>
+                    LU ShiYu <br>
+                    <strong>联系方式:</strong> (+86) 13055740819
+                </p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-houzz"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2025 家装产品供应，保留所有权利，网站设计由 卢诗宇 提供。
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-houzz"></i></a>
+            </div>
+        </div>
+        <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.5/libs/oversea/index.js"></script>
+        <script>
+        new CozeWebSDK.WebChatClient({
+            config: {
+            bot_id: '7482967741205790728',
+            },
+            componentProps: {
+            title: '家装仓储管理系统智能客服',
+            },
+            auth: {
+            type: 'token',
+            token: 'pat_v1MNV7QwH16RrKYxkd6Y7x2DC4KwSlWjuwXILJ2tvxGXTMYtSU43zsx3yxUaqxZt',
+            onRefreshToken: function () {
+                return 'pat_v1MNV7QwH16RrKYxkd6Y7x2DC4KwSlWjuwXILJ2tvxGXTMYtSU43zsx3yxUaqxZt'
+            }
+            }
+        });
+        </script>
+    </footer>
+</body>
+</html> 

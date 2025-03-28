@@ -8,6 +8,7 @@
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: url('/picture/1.png') no-repeat center center fixed; /* 背景图片 */
     background-color: #141414;
     color: #fff;
     margin: 0;
@@ -15,10 +16,14 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 800px;
+    height: 700px;
     margin: 0 auto;
     padding: 20px;
-    background: #1c1c1c;
+    background: #696969;
+    backdrop-filter: blur(5px); /* 毛玻璃效果 */
+    background-color:transparent;
+    opacity:0.9;
     border-radius: 8px;
     text-align: center;
 }
@@ -49,19 +54,23 @@ h1 {
     border: 3px solid #e50914;
 }
 
+/* 轮播图的容器 */
 .carousel-container {
-    width: 100%;
+    width: 80%;  /* 设置宽度为父容器的80%，可以根据需要调整 */
+    max-width: 800px;  /* 设置最大宽度为800px，避免过大 */
     display: flex;
-    justify-content: center;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;  /* 垂直居中 */
+    margin: 0 auto;  /* 使容器水平居中 */
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .carousel {
-    width: 80%;
-    max-width: 800px;
+    width: 100%;
     height: 300px;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
 }
 
 .carousel-track {
@@ -79,16 +88,81 @@ h1 {
 }
 
 .carousel img {
-    width: 100%;
-    max-width: 800px;
+    width: 100%;  /* 使图片宽度适应容器 */
     height: 300px;
-    object-fit: cover;
+    object-fit: cover;  /* 保持图片比例，防止拉伸 */
 }
 
+
+
+/* 角色查找部分 */
+.user-search-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.search-wrapper {
+    display: flex;  /* 使用 flexbox 使输入框和按钮在同一行 */
+    justify-content: center;
+    align-items: center;  /* 确保按钮和输入框垂直居中 */
+    margin-top: 10px;
+}
+
+.input-box {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #e50914;
+    background-color: #2c2c2c;
+    color: #fff;
+    border-radius: 5px;
+    width: 160px;  /* 设置较小的宽度 */
+    margin-right: 10px;  /* 输入框和按钮之间的间距 */
+    margin-bottom: 0; /* 去除下边距 */
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #b00610;
+}
+
+.delete-btn {
+    background-color: #e50914;
+}
+
+.delete-btn:hover {
+    background-color: #b00610;
+}
+
+
+/* 删除按钮样式 */
+.delete-btn {
+    background-color: #e50914;
+}
+
+.delete-btn:hover {
+    background-color: #b00610;
+}
+
+/* 搜索结果部分 */
+.search-result {
+    margin-top: 20px;
+}
+
+/* 导航链接 */
 .nav-links {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 .nav-links a {

@@ -10,35 +10,66 @@
 
 <body>
     <div class="container no-select">
-        <h1>User Home</h1>
+        <h1 id="pageTitle">User Home</h1>
         <div class="image-container">
-            <img src="/images/User.png" alt="User">
+            <img src="/images/User.png" alt="User" id="userImage">
         </div>
         <div class="profile-info">
-            <p><strong>Username:</strong> <span id="userName"></span></p>
-            <p><strong>Phone:</strong> <span id="userPhone"></span></p>
-            <p><strong>Wallet:</strong> <span id="userWallet"></span></p>
-        </div>
-        <div class="carousel-container">
+            <p><strong>用户名:</strong> <span id="userName"></span></p>
+            <p><strong>联系方式:</strong> <span id="userPhone"></span></p>        </div>
+    
+        <!-- Carousel for Merchants -->
+        <div id="carouselContainer" class="carousel-container" style="display:none;">
             <div class="carousel">
                 <div class="carousel-track">
-                    <img src="/images/1.jpg" alt="photo 1">
-                    <img src="/images/2.jpg" alt="photo 2">
-                    <img src="/images/3.jpg" alt="photo 3">
-                    <img src="/images/1.jpg" alt="photo 1">
-                    <img src="/images/2.jpg" alt="photo 2">
-                    <img src="/images/3.jpg" alt="photo 3">
+                    <img src="/images/1.png" alt="photo 1">
+                    <img src="/images/2.png" alt="photo 2">
+                    <img src="/images/3.png" alt="photo 3">
                 </div>
             </div>
         </div>
+
+    
+        <div id="userSearchContainer" class="user-search-container">
+            <div class="search-wrapper">
+                <input type="text" id="searchUser" placeholder="请输入需要查找的用户名" class="input-box">
+                <button id="searchButton" class="btn">查找</button>
+            </div>
+            <div id="searchResult" class="search-result" style="display:none;">
+                <p><strong>用户名:</strong> <span id="searchedUserName"></span></p>
+                <p><strong>联系方式:</strong> <span id="searchedUserPhone"></span></p>
+                <button id="updateRoleButton" class="btn">更新权限</button>
+                <button id="deleteUserButton" class="btn delete-btn">删除用户</button>
+            </div>
+        </div>
+        
+    
         <div class="nav-links">
-            <a href="/html/goods/goods.html">View Goods</a>
-            <a href="/html/order/order.html">View Orders</a>
+            <a href="/html/goods/goods.html">阅览商品</a>
+            <a href="/html/order/order.html">查看订单</a>
         </div>
         <div class="logout-link">
-            <a href="#" id="logout">Logout</a>
+            <a href="#" id="logout">退出登录</a>
         </div>
     </div>
+    <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.5/libs/oversea/index.js"></script>
+    <script>
+    new CozeWebSDK.WebChatClient({
+        config: {
+        bot_id: '7482967741205790728',
+        },
+        componentProps: {
+        title: '家装仓储管理系统智能客服',
+        },
+        auth: {
+        type: 'token',
+        token: 'pat_v1MNV7QwH16RrKYxkd6Y7x2DC4KwSlWjuwXILJ2tvxGXTMYtSU43zsx3yxUaqxZt',
+        onRefreshToken: function () {
+            return 'pat_v1MNV7QwH16RrKYxkd6Y7x2DC4KwSlWjuwXILJ2tvxGXTMYtSU43zsx3yxUaqxZt'
+        }
+        }
+    });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/user/user.js"></script>
 </body>

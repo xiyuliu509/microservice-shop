@@ -1,15 +1,16 @@
 .no-select {
     user-select: none;
-    -webkit-user-select: none; /* Safari 和 Chrome */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    -o-user-select: none; /* Opera */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
 }
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #141414;
-    color: #fff;
+    background: url('/picture/1.png') no-repeat center center fixed; /* 背景图片 */
+    backdrop-filter: blur(5px); /* 毛玻璃效果 */
+    color: #333; /* 深灰色文字，保证可读性 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,26 +20,28 @@ body {
 
 .container {
     text-align: center;
-    max-width: 400px;
-    width: 100%;
-    padding: 30px;
-    background: #1c1c1c;
+    max-width: 500px;
+    width: 120%;
+    height: 600px;
+    padding: 40px;
+    background: rgba(28, 28, 28, 0.7); /* 半透明背景色 */
     border-radius: 8px;
     box-sizing: border-box;
+    backdrop-filter: blur(6px); /* 毛玻璃效果 */
 }
 
 h1 {
-    color: #e50914;
+    color: #D2D5B8; /* 图片中绿色文字，突出显示 */
     margin-bottom: 20px;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 15px;
+    margin: 20px 0;
     border: none;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #d9d7d8;
     color: #fff;
     box-sizing: border-box;
 }
@@ -63,15 +66,17 @@ input {
 
 .button-container button {
     width: 48%;
-    background-color: #e50914;
+    background-color: #D2D5B8; /* 绿色按钮 */
     color: #fff;
     cursor: pointer;
-    padding: 10px;
+    padding: 20px;
     border: none;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
 button:hover {
-    background-color: #b00610;
+    background-color: #E8E7D2; /* 按钮悬停效果，稍微深一些的绿色 */
 }
+
+

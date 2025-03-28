@@ -1,50 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goods</title>
     <link rel="stylesheet" href="/css/goods/goods.css">
+    <link rel="icon" href="data:,">
+
 </head>
+
 <body>
     <div class="header no-select">
         <h1>Goods</h1>
-        <div class="search-container no-select">
-            <input type="text" id="searchInput" placeholder="Search by name">
-            <button type="button" id="searchButton">搜索</button>
+        
+        <!-- 搜索栏和筛选区域的容器 -->
+        <div class="filter-section">
+            <!-- 空白占位 -->
+            <div class="spacer"></div>
+            
+            <!-- 搜索栏移至中间 -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by name">
+                <button type="button" id="searchButton">搜索</button>
+            </div>
+            
+            <!-- 分类选择区域移至最右侧 -->
+            <div class="filter-container">
+                <select id="categorySelect">
+                    <option value="">选择商品分类</option>
+                    <option value="1">石材砖</option>
+                    <option value="2">仿木砖</option>
+                    <option value="3">泳池砖</option>
+                    <option value="4">马赛克砖</option>
+                    <option value="5">底漆</option>
+                    <option value="6">防水涂料</option>
+                    <option value="7">内墙乳胶漆</option>
+                    <option value="8">木漆及金属漆</option>
+                    <option value="9">腻子</option>
+                    <option value="10">美缝</option>
+                    <option value="11">密封抗裂胶</option>
+                </select>
+                
+                <select id="brandSelect">
+                    <option value="">选择商品品牌</option>
+                    <option value="a">马可波罗瓷砖</option>
+                    <option value="b">雪狼陶瓷</option>
+                    <option value="c">多乐士</option>
+                    <option value="d">立邦</option>
+                    <option value="e">奥斯曼</option>
+                    <option value="f">西卡</option>
+                </select>
+            </div>
         </div>
     </div>
-    <div id="adminContainer" class="create-container no-select admin-only">
-        <button type="button" id="createButton">上架商品</button>
+
+    <!-- 功能按钮和价格筛选区域 -->
+    <div class="function-section no-select">
+        <div class="left-buttons">
+            <div id="adminContainer" class="create-container admin-only">
+                <button type="button" id="createButton">上架商品</button>
+                <button type="button" id="deleteButton">下架商品</button> 
+            </div>
+            <div id="userContainer" class="create-container user-only">
+                <button type="button" id="orderButton">创建订单</button>
+            </div>
+        </div>
+        
+        <!-- 价格筛选移至此处 -->
+        <div class="price-filter-container">
+            <input type="number" id="minPrice" placeholder="最低价格" step="0.01">
+            <input type="number" id="maxPrice" placeholder="最高价格" step="0.01">
+            <button type="button" id="priceFilterButton">价格筛选</button>
+        </div>
     </div>
-    <div id="userContainer" class="create-container no-select user-only">
-        <button type="button" id="orderButton">创建订单</button>
-    </div>
+
     <div class="container no-select">
         <!-- 商品信息会动态加载 -->
     </div>
+
+
     <div id="myModal" class="modal no-select">
         <div class="modal-content">
             <h2>上架商品</h2>
             <input type="text" id="goodsName" placeholder="商品名称">
             <input type="number" id="goodsPrice" placeholder="商品价格">
             <input type="number" id="goodsStock" placeholder="商品库存">
+            <input type="number" id="goodsType" placeholder="商品类型">  <!-- 修改为手动输入 -->
+            <input type="text" id="goodsBrand" placeholder="商品品牌(a-f)">  <!-- 新增品牌输入 -->
+            <div class="brand-hint">
+                <p>品牌对应: a-马可波罗瓷砖, b-雪狼陶瓷, c-多乐士, d-立邦, e-奥斯曼, f-西卡</p>
+            </div>
+            <input type="file" id="goodsImage" accept="image/*">
             <div class="error" id="modalError" style="color: red;"></div>
             <button type="button" id="confirmButton">确定</button>
             <button type="button" id="cancelButton">取消</button>
         </div>
     </div>
+    
+
     <div class="sidebar" id="sidebar">
         <div class="drag-handle" id="dragHandle"></div>
         <div class="sidebar-content">
-            <a href="/html/user/login.html">退出</a>
+            <a href="/html/user/index.html">退出</a>
             <a href="/html/user/user.html">主页</a>
             <a href="#top" id="toTopButton">回到顶部</a>
         </div>
     </div>
+
+    <!-- 分页按钮容器 -->
+    <div id="paginationContainer" class="pagination-container">
+        <!-- 分页按钮会在这里生成 -->
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/goods/goods.js"></script>
     <script src="/js/sidebar.js"></script>
-    <script src="/js/fashion.js"></script>
 </body>
+
 </html>

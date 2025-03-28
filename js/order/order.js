@@ -7,17 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadOrders() {
+        const isAdminOrSeller = user.userType ===1 || user.userType === 2; // 判断是否为管理员或商家
         axios.get('http://localhost:8083/order/list')
             .then(response => {
                 const orders = response.data;
                 const orderTableBody = document.getElementById('orderTableBody');
                 orderTableBody.innerHTML = '';
                 orders.forEach(order => {
+                    // 只显示用户自己订单或者管理员/商家所有订单
+                    if (user.userId !== order.userId && !isAdminOrSeller) {
+                        return; // 普通用户只能看到自己的订单，管理员商家可以看到所有订单
+                    }
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${order.orderId}</td>
                         <td>
-                            <select data-order-id="${order.orderId}" ${user.isAdmin ? '' : 'disabled'}>
+                            <select data-order-id="${order.orderId}" ${isAdminOrSeller ? '' : 'disabled'}>
                                 <option value="待付款" ${order.orderState === '待付款' ? 'selected' : ''}>待付款</option>
                                 <option value="已取消" ${order.orderState === '已取消' ? 'selected' : ''}>已取消</option>
                                 <option value="待发货" ${order.orderState === '待发货' ? 'selected' : ''}>待发货</option>
@@ -29,10 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>${order.createStamp}</td>
                         <td>
                             <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
-                            ${!user.isAdmin && order.orderState === '待付款' ? `
+                            ${(!isAdminOrSeller && order.orderState === '待付款') ? `
                                 <button class="cancel-order-button" data-order-id="${order.orderId}">取消订单</button>
                             ` : ''}
-                            ${!user.isAdmin && order.orderState === '待收货' ? `
+                            ${(!isAdminOrSeller && order.orderState === '待收货') ? `
                                 <button onclick="updateOrderState(${order.orderId}, '订单完成')">确认收货</button>
                             ` : ''}
                         </td>
