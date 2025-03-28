@@ -1,4 +1,5 @@
 ## 项目简介
+![microservice-shop](https://github.com/xiyuliu509/microservice-shop/assets/118703788/2966006b-5efb-4401-a866-6c90f7e0a822)
 
 microservice_212106233 是一个基于 Spring Boot 和 Spring Cloud 构建的微服务项目，包含三个主要模块：UserService、OrderService 和 GoodsService。该项目旨在实现用户管理、订单管理和商品管理功能。
 
