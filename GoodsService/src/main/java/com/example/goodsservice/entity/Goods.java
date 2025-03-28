@@ -6,6 +6,9 @@ public class Goods {
     private Double goodsPrice;
     private String timeStamp;
     private Integer stock;
+    private Integer goodsType;  // 新增字段，用于存储商品类别
+    private String goodsImage;
+    private String goodsBrand;
 
     // Getters and setters
 
@@ -47,5 +50,29 @@ public class Goods {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public String getGoodsImage() {
+        return goodsImage;
+    }
+
+    public void setGoodsImage(String goodsImage) {
+        this.goodsImage = goodsImage;
+    }
+
+    public Integer getGoodsType() {
+        return goodsType;
+    }
+
+    public void setGoodsType(Integer goodsType) {
+        this.goodsType = goodsType;
+    }
+
+    public String getGoodsBrand() {
+        return goodsBrand;
+    }
+
+    public void setGoodsBrand(String goodsBrand) {
+        this.goodsBrand = goodsBrand;
     }
 }

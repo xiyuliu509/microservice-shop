@@ -36,4 +36,5 @@
         DELETE FROM shoporder WHERE orderId = #{orderId};
         DELETE FROM order_goods WHERE orderId = #{orderId};
     </delete>
+
 </mapper>

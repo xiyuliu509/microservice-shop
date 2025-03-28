@@ -5,9 +5,24 @@
 
 <mapper namespace="com.example.goodsservice.mapper.GoodsMapper">
     <insert id="createGoods">
-        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp, stock)
-        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp}, #{stock})
+        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp, stock, goodsType, goodsImage)
+        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp}, #{stock}, #{goodsType}, #{goodsImage})
     </insert>
+
+    <!--分页-->
+    <select id="findGoodsWithPagination" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="countGoods" resultType="int">
+        SELECT COUNT(*) FROM shopgoods;
+    </select>
+
+    <!-- 删除商品 -->
+    <delete id="deleteGoods" parameterType="String">
+        DELETE FROM shopgoods WHERE goodsName = #{goodsName}
+    </delete>
 
     <select id="findGoodsByGoodsName" parameterType="String" resultType="com.example.goodsservice.entity.Goods">
         SELECT * FROM shopgoods WHERE goodsName = #{goodsName}
@@ -19,6 +34,29 @@
 
     <select id="findGoodsById" parameterType="Integer" resultType="com.example.goodsservice.entity.Goods">
         SELECT * FROM shopgoods WHERE goodsId = #{goodsId}
+    </select>
+
+    <select id="findGoodsByType" parameterType="String" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods WHERE goodsType = #{goodsType}
+    </select>
+
+    <!-- 根据商品品牌查找商品 -->
+    <select id="findGoodsByBrand" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods WHERE goodsBrand = #{goodsBrand}
+    </select>
+
+    <!-- 修改价格筛选的SQL -->
+    <select id="findGoodsByPrice" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods
+        WHERE goodsPrice BETWEEN #{minPrice} AND #{maxPrice}
+    </select>
+
+    <!-- 修改组合筛选的SQL -->
+    <select id="findGoodsByTypeBrandPrice" resultType="com.example.goodsservice.entity.Goods">
+        SELECT * FROM shopgoods
+        WHERE goodsType = #{goodsType}
+          AND goodsBrand = #{goodsBrand}
+          AND goodsPrice BETWEEN #{minPrice} AND #{maxPrice}
     </select>
 
     <update id="updateGoodsStock" parameterType="map">

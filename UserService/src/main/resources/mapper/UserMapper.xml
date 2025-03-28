@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.userservice.mapper.UserMapper">
     <insert id="createUser">
-        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, isAdmin, loginTime)
-        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{isAdmin}, #{loginTime})
+        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, userType, loginTime)
+        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{userType}, #{loginTime})
     </insert>
 
     <select id="findByUserPhone" parameterType="String" resultType="com.example.userservice.entity.User">
@@ -18,7 +18,7 @@
     </select>
 
     <select id="findByUserNameAndPassword" parameterType="map" resultType="com.example.userservice.entity.User">
-        SELECT userId, userName, userPhone, userPassword, userWallet, loginTime, isAdmin
+        SELECT userId, userName, userPhone, userPassword, userWallet, loginTime, userType
         FROM shopuser WHERE userName = #{userName} AND userPassword = #{userPassword}
     </select>
 
@@ -29,4 +29,15 @@
     <select id="findAllUsers" resultType="com.example.userservice.entity.User">
         SELECT * FROM shopuser
     </select>
+
+    <update id="updateUserRole">
+        UPDATE shopuser
+        SET userType = #{userType}
+        WHERE userName = #{userName}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM shopuser WHERE userName = #{userName}
+    </delete>
+
 </mapper>

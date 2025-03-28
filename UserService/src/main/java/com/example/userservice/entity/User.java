@@ -9,17 +9,20 @@ public class User {
     private String userPassword;
     private BigDecimal userWallet;
     private String loginTime;
-    private Boolean isAdmin;
+//2.23修改用户身份判断    private Boolean isAdmin;
+    private Integer userType;
 
+    public static final int CUSTOMER = 0;
+    public static final int ADMIN = 1;
+    public static final int MERCHANT = 2;
     // getters and setters
 
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
+//2.23修改用户身份判断    public Boolean getIsAdmin() {
+//        return isAdmin;
+//    }
+//    public void setIsAdmin(Boolean admin) {
+//        isAdmin = admin;
+//    }
 
     public Integer getUserId() {
         return userId;
@@ -67,5 +70,13 @@ public class User {
 
     public void setLoginTime(String loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 }
