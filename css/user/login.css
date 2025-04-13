@@ -1,82 +1,183 @@
-.no-select {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
+html,
+body {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  margin: auto;
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: url('/picture/1.png') no-repeat center center fixed; /* 背景图片 */
-    backdrop-filter: blur(5px); /* 毛玻璃效果 */
-    color: #333; /* 深灰色文字，保证可读性 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  position: absolute;
+  background: white;
+  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, rgb(81, 233, 165) 100%);
+  z-index: -10;
+  font-family: "Work Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-    text-align: center;
-    max-width: 500px;
-    width: 120%;
-    height: 500px;
-    padding: 40px;
-    background: rgba(28, 28, 28, 0.7); /* 半透明背景色 */
-    border-radius: 8px;
-    box-sizing: border-box;
-    backdrop-filter: blur(6px); /* 毛玻璃效果 */
+.box {
+  background: #fff;
+  border-radius: 0.8125rem;
+  box-shadow: 0 0 52px 0 rgba(124, 248, 151, 0.528);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  padding: 2.6rem 2.6rem;
+  position: relative;
+  width: 520px;  /* 固定宽度，更符合图片中的尺寸 */
+  min-width: 450px;
 }
 
-h1 {
-    color: #D2D5B8; /* 图片中绿色文字，突出显示 */
-    margin-bottom: 20px;
+.logo,
+.signin,
+input,
+button,
+.foot-txt,
+.signin-row {
+  margin: 0 auto;
+  position: relative;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  height: 7rem;
+  margin-top: 1.0rem;
+  width: 7rem;
+}
+
+p {
+  color: #444;
+}
+
+.signin {
+  font: 800 3.0rem "Work Sans", sans-serif;
+  padding: 0.5em;
+  margin-bottom: 1.0rem;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+.ic1:hover {
+  color: #1da1f2;
+}
+
+.ic2:hover {
+  color: #3b5998;
+}
+
+.ic3:hover {
+  color: #4285f4;
 }
 
 input {
-    width: 100%;
-    padding: 15px;
-    margin: 20px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: #d9d7d8;
-    color: #fff;
-    box-sizing: border-box;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid #9da3a5;
+  font: 500 1.6rem "Work Sans", sans-serif, sans-serif;
+  height: 1.5em;
+  margin-top: 0.5em;
+  transition: all 0.15s ease-out;
+  -webkit-transition: all 0.15s ease-out;
+  width: 100%;
 }
 
-.image-container {
-    display: block;
-    margin-bottom: 20px;
+input:focus {
+  border-bottom: 2.5px solid #66e6b3;
+  outline: none;
 }
 
-.image-container img {
-    max-width: 100%;
-    height: auto;
+::-webkit-input-placeholder {
+  color: #9da3a5;
 }
 
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 0;
-    width: 100%;
+::-moz-placeholder {
+  color: #9da3a5;
 }
 
-.button-container button {
-    width: 48%;
-    background-color: #D2D5B8; /* 绿色按钮 */
-    color: #fff;
-    cursor: pointer;
-    padding: 20px;
-    border: none;
-    border-radius: 5px;
-    box-sizing: border-box;
+:-ms-input-placeholder {
+  color: #9da3a5;
+}
+
+:-moz-placeholder {
+  color: #9da3a5;
+}
+
+/* 添加密码显示/隐藏相关样式 */
+.password-container {
+  position: relative;
+  width: 100%;  /* 与用户名输入框保持一致 */
+  margin: 0 auto;
+}
+
+.password-container input {
+  width: 100%;
+  margin-top: 2.0em;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 6.5px;
+  bottom: 6.5px;
+  cursor: pointer;
+  color: #9da3a5;
+  font-size: 1.2rem;
+}
+
+/* 确保按钮宽度与输入框一致 */
+button {
+  width: 100%;
+}
+
+button {
+  background: #202d29;
+  border: 0;
+  border-radius: 1.8em;
+  color: #fff;
+  font: 1.5rem "Work Sans", sans-serif;
+  margin: 3.0em auto 2.0em;
+  outline: none;
+  padding: 0.8em;
+  transition: all 0.15s ease-out;
+  -webkit-transition: all 0.15s ease-out;
+  width: 100%;
 }
 
 button:hover {
-    background-color: #E8E7D2; /* 按钮悬停效果，稍微深一些的绿色 */
+  background: #444;
+  cursor: pointer;
 }
 
+button:focus {
+  outline: none;
+}
 
+.foot-txt {
+  color: #9da3a5;
+  font: 600 1.0rem "Work Sans", sans-serif;
+  padding: 0.4em;
+}
+
+.foot-txt:hover {
+  cursor: pointer;
+}
+
+#registerButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+/* 验证码相关样式已移除 */

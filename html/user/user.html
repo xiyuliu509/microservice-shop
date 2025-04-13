@@ -1,57 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Home</title>
+    <title>个人中心</title>
     <link rel="stylesheet" href="/css/user/user.css">
 </head>
-
 <body>
-    <div class="container no-select">
-        <h1 id="pageTitle">User Home</h1>
-        <div class="image-container">
-            <img src="/images/User.png" alt="User" id="userImage">
-        </div>
-        <div class="profile-info">
-            <p><strong>用户名:</strong> <span id="userName"></span></p>
-            <p><strong>联系方式:</strong> <span id="userPhone"></span></p>        </div>
-    
-        <!-- Carousel for Merchants -->
-        <div id="carouselContainer" class="carousel-container" style="display:none;">
-            <div class="carousel">
-                <div class="carousel-track">
-                    <img src="/images/1.png" alt="photo 1">
-                    <img src="/images/2.png" alt="photo 2">
-                    <img src="/images/3.png" alt="photo 3">
-                </div>
-            </div>
-        </div>
-
-    
-        <div id="userSearchContainer" class="user-search-container">
-            <div class="search-wrapper">
-                <input type="text" id="searchUser" placeholder="请输入需要查找的用户名" class="input-box">
-                <button id="searchButton" class="btn">查找</button>
-            </div>
-            <div id="searchResult" class="search-result" style="display:none;">
-                <p><strong>用户名:</strong> <span id="searchedUserName"></span></p>
-                <p><strong>联系方式:</strong> <span id="searchedUserPhone"></span></p>
-                <button id="updateRoleButton" class="btn">更新权限</button>
-                <button id="deleteUserButton" class="btn delete-btn">删除用户</button>
+    <div class="container">
+        <!-- 第一分区：个人主页和头像 -->
+        <div class="header">
+            <a href="#" class="home-link">用户个人中心</a>
+            <div class="avatar">
+                <img src="/images/User.png" alt="用户头像">
             </div>
         </div>
         
-    
-        <div class="nav-links">
-            <a href="/html/goods/goods.html">阅览商品</a>
-            <a href="/html/order/order.html">查看订单</a>
+        <!-- 第二分区：个人基本信息 -->
+        <div class="user-info">
+            <div class="info-title">基本信息</div>
+            <div class="info-content-container">
+                <div class="info-item" id="username">用户名：加载中...</div>
+                <div class="info-item" id="contact">联系方式：加载中...</div>
+                <div class="info-item" id="last-login">最近登录时间：加载中...</div>
+            </div>
         </div>
-        <div class="logout-link">
-            <a href="#" id="logout">退出登录</a>
+        
+        <!-- 商家轮播图区域 -->
+        <div id="carouselContainer" class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <div class="carousel-content">
+                            <div class="carousel-title">家装仓储管理系统</div>
+                            <div class="carousel-desc">面向业务场景的定制化组件，支持线上预览和调试</div>
+                            <div class="carousel-desc">内容由家装仓储管理系统用户共建</div>
+                        </div>
+                        <img src="/images/1.png" alt="photo 1" style="height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-content">
+                            <div class="carousel-title">专业的商家服务平台</div>
+                            <div class="carousel-desc">高效的设计管理系统，快速定制你的设计方案</div>
+                            <div class="carousel-desc">让业务管理更简单</div>
+                        </div>
+                        <img src="/images/2.png" alt="photo 2" style="height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-content">
+                            <div class="carousel-title">数据驱动的决策支持</div>
+                            <div class="carousel-desc">实时监控库存状态，优化资源配置</div>
+                            <div class="carousel-desc">助力您的业务增长</div>
+                        </div>
+                        <img src="/images/3.png" alt="photo 3" style="height: 100%; object-fit: contain;">
+                    </div>
+                </div>
+                <div class="carousel-arrow carousel-arrow-left" id="prevSlide">&lt;</div>
+                <div class="carousel-arrow carousel-arrow-right" id="nextSlide">&gt;</div>
+                <div class="carousel-indicators" id="carouselIndicators"></div>
+            </div>
+        </div>
+        
+        <!-- 用户搜索区域 -->
+        <div class="user-search" id="userSearchContainer">
+            <h3>用户搜索</h3>
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchUser" placeholder="输入用户名搜索">
+                <button class="search-button" id="searchButton">搜索</button>
+            </div>
+            <div class="search-result" id="searchResult">
+                <div class="result-item" id="searchedUserName">用户名：</div>
+                <div class="result-item" id="searchedUserPhone">联系方式：</div>
+                <div class="action-buttons">
+                    <button class="update-role-btn" id="updateRoleButton">修改权限</button>
+                    <button class="delete-user-btn" id="deleteUserButton">删除用户</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三分区：跳转商场按钮 -->
+        <a href="#" class="shop-btn">去商场</a>
+        
+        <!-- 第四分区：跳转订单页面按钮 -->
+        <a href="#" class="order-btn">查订单</a>
+        
+        <!-- 第五分区：回首页和退出登录按钮 -->
+        <div class="footer">
+            <button class="home-btn" id="homeBtn">回首页</button>
+            <button class="logout-btn" id="logoutBtn">退出登录</button>
         </div>
     </div>
+
+    <!-- 智能客服脚本 -->
     <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.5/libs/oversea/index.js"></script>
     <script>
     new CozeWebSDK.WebChatClient({
@@ -73,5 +113,4 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/user/user.js"></script>
 </body>
-
 </html>

@@ -1,194 +1,395 @@
-.no-select {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', sans-serif;
+    font-weight: bold; /* 所有字体加粗 */
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: url('/picture/1.png') no-repeat center center fixed; /* 背景图片 */
-    background-color: #141414;
-    color: #fff;
-    margin: 0;
-    padding: 20px;
+    background: radial-gradient(125% 125% at 50% 10%, #fff 40%, rgb(81, 233, 165) 100%);            
+    font-family: "Work Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 105vh;
 }
 
 .container {
-    max-width: 800px;
-    height: 700px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #696969;
-    backdrop-filter: blur(5px); /* 毛玻璃效果 */
-    background-color:transparent;
-    opacity:0.9;
-    border-radius: 8px;
-    text-align: center;
+    width: 700px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 40px 0 rgba(97, 99, 229, 0.612);
+    overflow: hidden;
+    padding: 25px;
 }
 
-h1 {
-    color: #e50914;
-    margin-bottom: 20px;
+/* 第一分区：个人主页和头像 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
 }
 
-.profile-info {
-    margin-bottom: 20px;
+.home-link {
+    padding: 10px 0;
+    color: #54d6adcc;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 68px;
+    transition: all 0.3s ease;
 }
 
-.profile-info p {
-    margin: 10px 0;
-}
-
-.image-container {
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #f0f0f000;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
-}
-
-.image-container img {
-    max-width: 150px;
-    height: auto;
-    border-radius: 50%;
-    border: 3px solid #e50914;
-}
-
-/* 轮播图的容器 */
-.carousel-container {
-    width: 80%;  /* 设置宽度为父容器的80%，可以根据需要调整 */
-    max-width: 800px;  /* 设置最大宽度为800px，避免过大 */
-    display: flex;
-    justify-content: center;  /* 水平居中 */
-    align-items: center;  /* 垂直居中 */
-    margin: 0 auto;  /* 使容器水平居中 */
-    margin-bottom: 20px;
+    align-items: center;
+    color: #d8d8d800;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid #e6e6e600;
     overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 第二分区：个人基本信息 */
+.user-info {
+    display: flex;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.info-title {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    padding: 15px 10px;
+    background: #57dbb1;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+}
+
+.info-content-container {
+    flex: 1;
+    padding: 20px;
+}
+
+.info-item {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    color: #444;
+    font-size: 15px;
+}
+
+/* 商家轮播图区域 */
+.carousel-container {
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    display: none; /* 默认隐藏，只对商家显示 */
+    position: relative;
 }
 
 .carousel {
     width: 100%;
-    height: 300px;
     position: relative;
     overflow: hidden;
+    height: 250px; /* 增加高度 */
+    background-color: #f5f9fc;
 }
 
 .carousel-track {
     display: flex;
-    animation: scroll 15s linear infinite;
+    transition: transform 0.5s ease;
+    height: 100%;
 }
 
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
-.carousel img {
-    width: 100%;  /* 使图片宽度适应容器 */
-    height: 300px;
-    object-fit: cover;  /* 保持图片比例，防止拉伸 */
+.carousel-content {
+    padding: 0 50px;
+    max-width: 60%;
 }
 
-
-
-/* 角色查找部分 */
-.user-search-container {
-    margin-top: 20px;
-    text-align: center;
+.carousel-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-.search-wrapper {
-    display: flex;  /* 使用 flexbox 使输入框和按钮在同一行 */
+.carousel-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;  /* 确保按钮和输入框垂直居中 */
-    margin-top: 10px;
-}
-
-.input-box {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #e50914;
-    background-color: #2c2c2c;
-    color: #fff;
-    border-radius: 5px;
-    width: 160px;  /* 设置较小的宽度 */
-    margin-right: 10px;  /* 输入框和按钮之间的间距 */
-    margin-bottom: 0; /* 去除下边距 */
-}
-
-.btn {
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    color: #57dbb1;
+    font-size: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.btn:hover {
-    background-color: #b00610;
+.carousel-arrow:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #3ca9e2;
 }
 
-.delete-btn {
-    background-color: #e50914;
+.carousel-arrow-left {
+    left: 15px;
 }
 
-.delete-btn:hover {
-    background-color: #b00610;
+.carousel-arrow-right {
+    right: 15px;
 }
 
-
-/* 删除按钮样式 */
-.delete-btn {
-    background-color: #e50914;
-}
-
-.delete-btn:hover {
-    background-color: #b00610;
-}
-
-/* 搜索结果部分 */
-.search-result {
-    margin-top: 20px;
-}
-
-/* 导航链接 */
-.nav-links {
+.carousel-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
+    gap: 8px;
 }
 
-.nav-links a {
-    display: block;
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
+.carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(87, 219, 177, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.nav-links a:hover {
-    background-color: #b00610;
+.carousel-indicator.active {
+    background: #57dbb1;
+    transform: scale(1.2);
 }
 
-.logout-link {
+/* 用户搜索区域 */
+.user-search {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    display: none; /* 默认隐藏，只对管理员显示 */
+}
+
+.user-search h3 {
+    color: #444;
+    margin-bottom: 20px;
     text-align: center;
+    font-size: 20px;
+    position: relative;
+}
+
+.user-search h3:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #57dbb1;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #57dbb1;
+    border-radius: 10px 0 0 10px;
+    font-size: 15px;
+    outline: none;
+    background: #f9f9f9;
+}
+
+.search-button {
+    padding: 12px 20px;
+    background: linear-gradient(to right, #57dbb1, #3ca9e2);
+    color: #fff;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+}
+
+.search-button:hover {
+    background: linear-gradient(to right, #444, #666);
+}
+
+.search-result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    display: none;
+}
+
+.result-item {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.update-role-btn, .delete-user-btn {
+    padding: 10px 0;
+    width: 48%;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+}
+
+.update-role-btn {
+    background: linear-gradient(to right, #57dbb1, #3ca9e2);
+    color: #fff;
+    border: none;
+}
+
+.delete-user-btn {
+    background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+    color: #fff;
+    border: none;
+}
+
+.update-role-btn:hover {
+    background: linear-gradient(to right, #444, #666);
+}
+
+.delete-user-btn:hover {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+}
+
+/* 第三分区：跳转商场按钮 */
+.shop-btn {
+    display: block;
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(to right, #57dbb1, #3ca9e2);
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 1.4em;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.15s ease-out;
+}
+
+.shop-btn:hover {
+    background: linear-gradient(to right, #444, #666);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 第四分区：跳转订单页面按钮 */
+.order-btn {
+    display: block;
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(to right, #57dbb1, #3ca9e2);
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 1.4em;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.15s ease-out;
+}
+
+.order-btn:hover {
+    background: linear-gradient(to right, #444, #666);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 第五分区：回首页和退出登录按钮 */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
     margin-top: 20px;
 }
 
-.logout-link a {
-    color: #e50914;
-    text-decoration: none;
+.home-btn, .logout-btn {
+    padding: 12px 0;
+    background: linear-gradient(to right, #57dbb1, #3ca9e2);
+    color: #fff;
+    border: none;
+    border-radius: 1.4em;
+    font-weight: bold;
+    width: 48%;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+    font-size: 15px;
 }
 
-.logout-link a:hover {
-    text-decoration: underline;
+.home-btn:hover, .logout-btn:hover {
+    background: linear-gradient(to right, #444, #666);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+    background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+}
+
+.logout-btn:hover {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
 }

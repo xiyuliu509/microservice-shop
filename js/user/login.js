@@ -2,6 +2,8 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const userName = document.getElementById('userName').value;
     const userPassword = document.getElementById('userPassword').value;
+    
+    
     axios.post('http://localhost:8082/user/login', { userName, userPassword })
         .then(response => {
             if (response.data.isAdmin) {

@@ -6,25 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/css/user/login.css">
+    <!-- 添加字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <div class="container no-select">
-        <div class="image-container no-select">
-            <img src="/images/User.png" alt="Login">
-        </div>
-
+    <div class="box">
+        <img class="logo" alt="dribble-logo" src="/images/User.png" />
+        <p class="signin">登录页</p>
         <form id="loginForm">
-            <input type="text" id="userName" placeholder="账号" required />
-            <input type="password" id="userPassword" placeholder="密码" required />
-            <div class="button-container">
-                <button type="submit">登录</button>
-                <button type="button" id="registerButton">注册</button>
+            <input name="user" type="text" id="userName" placeholder="用户名">
+            <div class="password-container">
+                <input name="pass" type="password" id="userPassword" placeholder="密码" required>
+                <span class="password-toggle" id="passwordToggle">
+                    <i class="fas fa-eye-slash"></i>
+                </span>
             </div>
+            <button type="submit">登录</button>
         </form>
+        <p class="foot-txt">还没有账号? <span class="bold" id="registerButton">前往注册</span></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/user/login.js"></script>
+    
+    <!-- 添加密码显示/隐藏功能的脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordToggle = document.getElementById('passwordToggle');
+            const passwordInput = document.getElementById('userPassword');
+            
+            passwordToggle.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // 切换图标
+                const icon = passwordToggle.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
 </body>
 
 </html>
