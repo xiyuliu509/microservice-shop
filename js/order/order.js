@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
                             ${(!isAdminOrSeller && order.orderState === '待付款') ? `
                                 <button class="cancel-order-button" data-order-id="${order.orderId}">取消订单</button>
+                                <button class="pay-order-button" data-order-id="${order.orderId}" data-order-price="${order.orderPrice}">付款</button>
+                            ` : ''}
+                            ${(!isAdminOrSeller && order.orderState === '待发货') ? `
+                                <button class="cancel-paid-order-button" data-order-id="${order.orderId}">申请退款</button>
                             ` : ''}
                             ${(!isAdminOrSeller && order.orderState === '待收货') ? `
                                 <button onclick="updateOrderState(${order.orderId}, '订单完成')">确认收货</button>
@@ -67,6 +71,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
+                // 添加事件监听器用于取消已付款订单
+                document.querySelectorAll('.cancel-paid-order-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
+                        cancelPaidOrder(orderId);
+                    });
+                });
+                // 添加事件监听器用于付款
+                document.querySelectorAll('.pay-order-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
+                        const orderPrice = this.getAttribute('data-order-price');
+                        showPaymentQRCode(orderId, orderPrice);
+                    });
+                });
+
                 // 添加事件监听器用于更新订单状态
                 document.querySelectorAll('select[data-order-id]').forEach(select => {
                     select.addEventListener('change', function () {
@@ -86,6 +106,103 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    // 显示支付二维码
+    function showPaymentQRCode(orderId, orderPrice) {
+        // 创建模态框
+        const modal = document.createElement('div');
+        modal.className = 'payment-modal';
+        
+        // 创建支付窗口
+        const paymentWindow = document.createElement('div');
+        paymentWindow.className = 'payment-window';
+        
+        // 添加标题
+        const title = document.createElement('h2');
+        title.textContent = `支付订单 #${orderId}`;
+        
+        // 添加金额
+        const amount = document.createElement('p');
+        amount.textContent = `支付金额: $${orderPrice}`;
+        amount.className = 'payment-amount';
+        
+        // 添加二维码容器
+        const qrCodeContainer = document.createElement('div');
+        qrCodeContainer.className = 'qr-code-container';
+        
+        // 添加二维码
+        const qrCode = document.createElement('img');
+        qrCode.src = '/picture/fkm.png';
+        qrCode.alt = '支付二维码';
+        qrCode.className = 'payment-qrcode';
+        
+        // 添加支付标识
+        const paymentLabel = document.createElement('div');
+        paymentLabel.textContent = '';
+        paymentLabel.className = 'payment-label';
+        
+        // 添加提示
+        const hint = document.createElement('p');
+        hint.textContent = '请使用微信或支付宝扫码支付';
+        hint.className = 'payment-hint';
+        
+        // 添加按钮容器
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'payment-buttons';
+        
+        // 添加刷新支付状态按钮
+        const refreshButton = document.createElement('button');
+        refreshButton.textContent = '刷新支付状态';
+        refreshButton.className = 'refresh-button';
+        
+        // 添加取消支付按钮
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = '取消支付';
+        cancelButton.className = 'cancel-button';
+        
+        // 添加事件监听器
+        refreshButton.addEventListener('click', function() {
+            updateOrderState(orderId, '待发货');
+            document.body.removeChild(modal);
+            alert('支付成功！');
+        });
+        
+        cancelButton.addEventListener('click', function() {
+            document.body.removeChild(modal);
+        });
+        
+        // 组装支付窗口
+        qrCodeContainer.appendChild(qrCode);
+        qrCodeContainer.appendChild(paymentLabel);
+        buttonContainer.appendChild(refreshButton);
+        buttonContainer.appendChild(cancelButton);
+        
+        paymentWindow.appendChild(title);
+        paymentWindow.appendChild(amount);
+        paymentWindow.appendChild(qrCodeContainer);
+        paymentWindow.appendChild(hint);
+        paymentWindow.appendChild(buttonContainer);
+        modal.appendChild(paymentWindow);
+        
+        // 添加到页面
+        document.body.appendChild(modal);
+    }
+
+    // 添加取消已付款订单的功能
+    function cancelPaidOrder(orderId) {
+        const confirmation = confirm('确定要取消已付款的订单吗？退款将在1-3个工作日内退回您的支付账户。');
+        if (confirmation) {
+            axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
+                .then(response => {
+                    alert('订单已取消，退款申请已提交');
+                    loadOrders(); // 重新加载订单列表
+                })
+                .catch(error => {
+                    console.error('取消订单失败:', error);
+                    alert('取消订单失败: ' + (error.response ? error.response.data : error.message));
+                });
+        }
     }
 
     function viewGoods(orderId) {

@@ -2,28 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理</title>
     <link rel="stylesheet" href="/css/order/order.css">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 预加载二维码图片 -->
+    <link rel="preload" href="/picture/fkm.png" as="image">
+    <!-- 使用CDN加载axios，提高加载速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container no-select">
         <h1>订单管理中心</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>订单号</th>
-                    <th>订单状态</th>
-                    <th>订单总额</th>
-                    <th>创建时间</th>
-                    <th>查看商品</th>
-                </tr>
-            </thead>
-            <tbody id="orderTableBody">
-                <!-- Orders will be dynamically loaded here -->
-            </tbody>
-        </table>
+        <!-- 表格容器 -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="10%">订单号</th>
+                        <th width="15%">订单状态</th>
+                        <th width="15%">订单总额</th>
+                        <th width="20%">创建时间</th>
+                        <th width="40%">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTableBody">
+                    <!-- 订单将通过JavaScript动态加载 -->
+                    <tr>
+                        <td colspan="5" style="text-align:center">加载中...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    
+    <!-- 侧边栏 -->
     <div class="sidebar" id="sidebar">
         <div class="drag-handle" id="dragHandle"></div>
         <div class="sidebar-content">
@@ -32,7 +44,9 @@
             <a href="#top" id="toTopButton">回到顶部</a>
         </div>
     </div>
-    <script src="/js/order/order.js"></script>
-    <script src="/js/sidebar.js"></script>
+    
+    <!-- 延迟加载JS文件 -->
+    <script src="/js/order/order.js" defer></script>
+    <script src="/js/sidebar.js" defer></script>
 </body>
 </html>

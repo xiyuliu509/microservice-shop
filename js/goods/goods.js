@@ -567,13 +567,65 @@
 
         // 创建订单按钮
         document.getElementById('orderButton').addEventListener('click', function() {
+            // 从localStorage获取订单项
+            const orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+            
             if (orderItems.length === 0) {
                 alert('请先添加商品到订单');
                 return;
             }
             
-            // 跳转到订单页面
-            window.location.href = '/html/order/order.html';
+            // 计算订单总价
+            const totalPrice = orderItems.reduce((total, item) => {
+                return total + (parseFloat(item.goodsPrice) * parseInt(item.quantity));
+            }, 0).toFixed(2);
+            
+            // 显示订单预览
+            let orderPreview = '订单预览:\n\n';
+            orderItems.forEach(item => {
+                orderPreview += `商品: ${item.goodsName}\n价格: $${item.goodsPrice}\n数量: ${item.quantity}\n小计: $${(parseFloat(item.goodsPrice) * parseInt(item.quantity)).toFixed(2)}\n\n`;
+            });
+            orderPreview += `总计: $${totalPrice}`;
+            
+            const confirmCreate = confirm(orderPreview + '\n\n确认创建订单？');
+            
+            if (confirmCreate) {
+                // 准备订单数据 - 修改为与后端匹配的结构
+                const orderData = {
+                    userId: user.userId,
+                    orderPrice: parseFloat(totalPrice),  // 确保是数字类型，但保留小数位
+                    orderState: '待付款',
+                    orderGoodsList: orderItems.map(item => ({
+                        goodsId: parseInt(item.goodsId),
+                        quantity: parseInt(item.quantity),
+                        goodsPrice: parseFloat(item.goodsPrice)  // 添加商品价格，确保精度
+                    }))
+                };
+                
+                console.log('发送的订单数据:', orderData);  // 添加日志，查看实际发送的数据
+                
+                // 发送创建订单请求
+                axios.post('http://localhost:8083/order/create', orderData)
+                    .then(response => {
+                        console.log('创建订单响应:', response);  // 添加日志，查看响应
+                        if (response.data && response.data.includes('成功')) {
+                            alert('订单创建成功！');
+                            // 清空localStorage中的订单项
+                            localStorage.removeItem('orderItems');
+                            // 清空本地数组
+                            orderItems.length = 0;
+                            // 跳转到订单页面
+                            window.location.href = '/html/order/order.html';
+                        } else {
+                            alert('订单创建失败: ' + response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('创建订单失败:', error);
+                        console.error('错误详情:', error.response ? error.response.data : '无响应数据');
+                        alert('创建订单失败: ' + (error.response ? error.response.data : error.message));
+                    });
+            }
         });
         
         // 取消按钮关闭模态框
