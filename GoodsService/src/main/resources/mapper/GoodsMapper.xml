@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.goodsservice.mapper.GoodsMapper">
     <insert id="createGoods">
-        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp, stock, goodsType, goodsImage)
-        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp}, #{stock}, #{goodsType}, #{goodsImage})
+        INSERT INTO shopgoods (goodsName, goodsPrice, timeStamp, stock, goodsType, goodsBrand, goodsImage)
+        VALUES (#{goodsName}, #{goodsPrice}, #{timeStamp}, #{stock}, #{goodsType},#{goodsBrand},#{goodsImage})
     </insert>
 
     <!--分页-->

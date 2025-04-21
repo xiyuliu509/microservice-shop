@@ -12,21 +12,11 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="end">
+    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="make0.5">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f277a34c-d7d9-4e80-ab7b-dcc086cc20e8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f277a34c-d7d9-4e80-ab7b-dcc086cc20e8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2025_3_28_21_44_取消提交了变更_[变更]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/controller/GoodsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/entity/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/entity/Goods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/mapper/GoodsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/mapper/GoodsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/service/GoodsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/service/GoodsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoodsService/src/main/resources/mapper/GoodsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/resources/mapper/GoodsMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/mapper/UserMapper.java" afterDir="false" />
@@ -90,6 +80,7 @@
     <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31724137" />
+    <property name="service.view.auto.scroll.to.source" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
@@ -191,9 +182,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.OrderServiceApplication" />
         <item itemvalue="Spring Boot.GoodsServiceApplication" />
-        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="应用程序.OpenAIService" />
         <item itemvalue="JUnit.microservice_212106233中的所有" />
       </list>
@@ -331,6 +322,25 @@
       <workItem from="1742880030242" duration="8828000" />
       <workItem from="1742982002360" duration="3905000" />
       <workItem from="1742989184813" duration="1208000" />
+      <workItem from="1743169057630" duration="569000" />
+      <workItem from="1744103452126" duration="219000" />
+      <workItem from="1744166550961" duration="1070000" />
+      <workItem from="1744186769086" duration="688000" />
+      <workItem from="1744207269535" duration="2254000" />
+      <workItem from="1744275902590" duration="732000" />
+      <workItem from="1744281050469" duration="673000" />
+      <workItem from="1744355489711" duration="14000" />
+      <workItem from="1744358211745" duration="1259000" />
+      <workItem from="1744448240603" duration="1490000" />
+      <workItem from="1744465726209" duration="667000" />
+      <workItem from="1744512498905" duration="668000" />
+      <workItem from="1744596503752" duration="1222000" />
+      <workItem from="1744638526897" duration="762000" />
+      <workItem from="1745049113960" duration="3816000" />
+      <workItem from="1745063960200" duration="1605000" />
+      <workItem from="1745132233072" duration="7787000" />
+      <workItem from="1745153962216" duration="6102000" />
+      <workItem from="1745206325507" duration="2990000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目完成">
       <created>1718690850107</created>
@@ -423,7 +433,21 @@
       <option name="project" value="LOCAL" />
       <updated>1719206424721</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="make0.5">
+      <created>1743169340696</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1743169340696</updated>
+    </task>
+    <task id="LOCAL-00015" summary="make0.5">
+      <created>1743169543298</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1743169543298</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,7 +495,8 @@
     <MESSAGE value="6.23：16" />
     <MESSAGE value="6.23：17" />
     <MESSAGE value="end" />
-    <option name="LAST_COMMIT_MESSAGE" value="end" />
+    <MESSAGE value="make0.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="make0.5" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -20,12 +20,10 @@ public interface UserMapper {
 
     List<User> findAllUsers();
 
-    // 新增：通过用户ID查找用户
-    User findByUserId(@Param("userId") Integer userId);
-
-    // 新增：更新用户角色（更新userType）
+    // 更新用户角色（更新userType）
     void updateUserRole(User user);
 
     // 删除用户：根据用户名删除
     void deleteUser(@Param("userName") String userName);
 }
+

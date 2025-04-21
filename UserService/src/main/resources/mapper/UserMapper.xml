@@ -4,9 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.userservice.mapper.UserMapper">
+
     <insert id="createUser">
-        INSERT INTO shopuser (userName, userPhone, userPassword, userWallet, userType, loginTime)
-        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userWallet}, #{userType}, #{loginTime})
+        INSERT INTO shopuser (userName, userPhone, userPassword, userType, loginTime)
+        VALUES (#{userName}, #{userPhone}, #{userPassword}, #{userType}, #{loginTime})
     </insert>
 
     <select id="findByUserPhone" parameterType="String" resultType="com.example.userservice.entity.User">
@@ -18,7 +19,7 @@
     </select>
 
     <select id="findByUserNameAndPassword" parameterType="map" resultType="com.example.userservice.entity.User">
-        SELECT userId, userName, userPhone, userPassword, userWallet, loginTime, userType
+        SELECT userId, userName, userPhone, userPassword, loginTime, userType
         FROM shopuser WHERE userName = #{userName} AND userPassword = #{userPassword}
     </select>
 
@@ -41,3 +42,4 @@
     </delete>
 
 </mapper>
+

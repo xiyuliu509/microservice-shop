@@ -40,11 +40,6 @@ public class UserController {
             roleMap.put("userName", user.getUserName());
             roleMap.put("userPhone", user.getUserPhone());
 
-            // 只在顾客和商家角色中返回钱包
-            if (user.getUserType() == User.CUSTOMER || user.getUserType() == User.MERCHANT) {
-                roleMap.put("userWallet", user.getUserWallet());
-            }
-
             return ResponseEntity.ok(roleMap);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -53,15 +48,20 @@ public class UserController {
     // 创建用户
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+        // 检查用户名是否已存在
         if (userService.findByUserName(user.getUserName()) != null) {
-            return ResponseEntity.badRequest().body("用户已存在");
+            return ResponseEntity.badRequest().body("用户名已存在");
         }
+        // 检查手机号是否已存在
         if (userService.findByUserPhone(user.getUserPhone()) != null) {
             return ResponseEntity.badRequest().body("联系方式已被注册");
         }
+
+        // 创建用户
         userService.createUser(user);
         return ResponseEntity.ok("创建用户成功");
     }
+
 
     // 根据用户名查询用户
     @PostMapping("/query")

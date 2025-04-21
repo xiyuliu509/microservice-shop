@@ -7,22 +7,13 @@ public class User {
     private String userName;
     private String userPhone;
     private String userPassword;
-    private BigDecimal userWallet;
     private String loginTime;
-//2.23修改用户身份判断    private Boolean isAdmin;
     private Integer userType;
 
     public static final int CUSTOMER = 0;
     public static final int ADMIN = 1;
     public static final int MERCHANT = 2;
     // getters and setters
-
-//2.23修改用户身份判断    public Boolean getIsAdmin() {
-//        return isAdmin;
-//    }
-//    public void setIsAdmin(Boolean admin) {
-//        isAdmin = admin;
-//    }
 
     public Integer getUserId() {
         return userId;
@@ -54,14 +45,6 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    public BigDecimal getUserWallet() {
-        return userWallet;
-    }
-
-    public void setUserWallet(BigDecimal userWallet) {
-        this.userWallet = userWallet;
     }
 
     public String getLoginTime() {
