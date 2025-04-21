@@ -157,7 +157,7 @@
                         };
                     
                         // 改进品牌名称获取逻辑，增加日志以便调试
-                        console.log("商品品牌代码:", goods.goodsBrand);
+                        // console.log("商品品牌代码:", goods.goodsBrand);
                         const brandName = brandTypes[goods.goodsBrand] || '未知品牌(' + goods.goodsBrand + ')';
                         const typeName = goodsTypes[goods.goodsType] || '未知类型(' + goods.goodsType + ')';
                         
@@ -573,7 +573,7 @@
             }
             
             // 跳转到订单页面
-            window.location.href = '/html/order/create.html';
+            window.location.href = '/html/order/order.html';
         });
         
         // 取消按钮关闭模态框
