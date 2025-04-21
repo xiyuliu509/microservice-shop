@@ -54,15 +54,15 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
         return;
     }
 
-    // 移除了未定义的userWallet变量
-    axios.post('http://localhost:8082/user/create', { userName, userPassword, userPhone, isAdmin: false }) 
+    // 使用userType: 0替代isAdmin: false
+    axios.post('http://localhost:8082/user/create', { userName, userPassword, userPhone, userType: 0 }) 
         .then(response => {
             alert('注册成功！');
             window.location.href = '/html/user/login.html'; // 注册成功后跳转到登录页面
         })
         .catch(error => {
             if (error.response && error.response.data) {
-                alert(error.response.data); // Display more specific error message from the server
+                alert(error.response.data); // 显示服务器返回的具体错误信息
             } else {
                 console.error(error);
                 alert('注册失败，请重试。');

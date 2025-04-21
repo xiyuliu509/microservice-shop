@@ -8,10 +8,10 @@
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: rgba(240, 245, 240, 0.9);
-    color: #333;
+    font-size: 20px;
+    color: #e5e4e4;
     margin: 0;
-    padding: 20px;
+    padding: 15px;
 }
 
 .header {
@@ -19,8 +19,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: rgba(238, 238, 238, 0.8);
-    border-radius: 8px;
+    background: white;
+    background: radial-gradient(125% 125% at 50% 10%, #fff 40%, rgb(81, 233, 165) 100%);    border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -36,16 +36,16 @@ body {
 }
 
 .search-container input {
-    padding: 10px;
+    padding: 5px;
     border: none;
     border-radius: 5px;
-    margin-right: 10px;
+    margin-right: 5px;
     background-color: #fff;
     color: #737070;
 }
 
 .search-container button {
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     background-color: #4CAF50;
@@ -58,17 +58,16 @@ body {
 }
 
 /* 分页容器样式 */
-/* 分页容器样式 */
 .pagination-container {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 10px;
     display: flex;
-    justify-content: center; /* 居中显示分页按钮 */
-    gap: 10px; /* 设置分页按钮间距 */
-    width: 100%; /* 确保容器占据满宽度 */
-    min-height: 50px; /* 确保容器有足够高度 */
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 50px; 
 }
 
 .pagination-container button {
@@ -84,27 +83,18 @@ body {
 }
 
 .pagination-container button.active {
-    background-color: #4CAF50;
+    background-color: #66e6b3;
     color: white;
     border-color: #4CAF50;
 
 }
 
 .pagination-container button:hover {
-    background-color: #E8F5E9;
+    background-color: #c2c3c2;
 }
-
-
-
 
 /* 筛选按钮样式 */
-#categorySelect {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 .create-container {
     margin-top: 10px;
 }
@@ -114,8 +104,8 @@ body {
     border: none;
     border-radius: 5px;
     margin-top: -10px;
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #66e6b3;
+    color: white;
     cursor: pointer;
     margin-right: 10px;  /* Add space between buttons */
 
@@ -156,6 +146,7 @@ body {
 .goods-item h2 {
     color: #4CAF50;
     margin: 10px 0;
+    
 }
 
 .goods-item p {
@@ -164,21 +155,206 @@ body {
 
 .stock-button, .add-button {
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #66e6b3;
     color: white;
     border: none;
     padding: 10px 20px;
     margin: 5px;
-    border-radius: 5px;
+    border-radius: 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    transition-duration: 0.4s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(102, 230, 179, 0.3);
 }
 
 .stock-button:hover, .add-button:hover {
-    background-color: #388E3C;
+    background-color: #4CAF50;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(102, 230, 179, 0.4);
+}
+
+/* 添加数量输入框样式 */
+.goods-item input[type="number"] {
+    width: 80px;
+    height: 38px;
+    padding: 8px 10px;
+    border: 2px solid #66e6b3;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.goods-item input[type="number"]:focus {
+    border-color: #4CAF50;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 8px rgba(102, 230, 179, 0.5);
+}
+/* 优化下拉菜单样式 */
+
+
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+select option {
+    padding: 10px;
+}
+
+/* 文件输入框样式优化 */
+.file-input-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.file-input-container label {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.file-input-container label:hover {
+    background-color: #45a049;
+}
+
+.file-input-container input[type="file"] {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#file-name {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+    display: inline-block;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* 模态框内容样式优化 */
+.modal-content {
+    max-width: 500px;
+    width: 90%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#confirmButton {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#confirmButton:hover {
+    background-color: #45a049;
+}
+
+#cancelButton {
+    background-color: #f44336;
+    color: white;
+}
+
+#cancelButton:hover {
+    background-color: #d32f2f;
+}
+
+
+/* 添加商品信息的额外样式 */
+.goods-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.goods-info p {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 添加商品信息行样式 */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+
+}
+
+.info-row span {
+    flex: 1;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.info-row span:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 商品名称样式 */
+.goods-item h2 {
+    color: #66e6b3;
+    margin: 15px 0;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+/* 订单控制区域样式 */
+.order-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
 }
 
 .highlight {
@@ -203,31 +379,89 @@ body {
     background-color: rgba(255, 255, 255, 0.95);
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
 }
 
 .modal-content input {
     width: calc(100% - 20px);
-    padding: 10px;
+    padding: 12px 10px;
     margin: 10px 0;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #fff;
     color: #333;
+    font-size: 16px;
+}
+
+.modal-content input:focus {
+    border-color: #66e6b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(102, 230, 179, 0.5);
 }
 
 .modal-content button {
-    padding: 10px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #66e6b3;
     color: #fff;
     cursor: pointer;
-    margin: 10px 5px 0 0;
+    margin: 15px 10px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .modal-content button:hover {
-    background-color: #388E3C;
+    background-color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+#cancelButton {
+    background-color: #f44336;
+}
+
+#cancelButton:hover {
+    background-color: #d32f2f;
+}
+
+.brand-hint {
+    margin: 5px 0 15px 0;
+    font-size: 14px;
+    color: #666;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 3px solid #66e6b3;
+}
+
+.brand-hint p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+#modalError {
+    color: #f44336;
+    margin: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 文件上传按钮样式 */
+input[type="file"] {
+    border: 1px dashed #66e6b3;
+    padding: 15px;
+    background-color: #f9f9f9;
+    cursor: pointer;
 }
 
 .sidebar {
@@ -291,7 +525,7 @@ body {
 
 .filter-section {
     display: flex;
-    gap: 20px;
+    gap: 8px;
     align-items: center;
     flex-grow: 1;
     justify-content: flex-end;
@@ -311,17 +545,21 @@ body {
     border: none;
     border-radius: 5px;
     background-color: #ffffff;
-    color: #fff;
     width: 120px;
+    font-size: 20px;
+    font-weight: 600; /* 加粗字体 */
+
 }
 
 .price-filter-container button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #66e6b3;
+    color: white;
     cursor: pointer;
+    font-size: 20px; /* 增大字体 */
+    font-weight: 600; /* 加粗字体 */
 }
 
 /* 功能按钮区域样式 */
@@ -344,9 +582,11 @@ body {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #66e6b3;
+    color: white;
     cursor: pointer;
+    font-size: 20px; /* 增大字体 */
+    font-weight: 600; /* 加粗字体 */
 }
 
 .create-container button:hover {
@@ -356,100 +596,282 @@ body {
 /* 搜索容器样式 */
 .search-container {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: right;
+    justify-content: right;
+    width: 100%;
+    margin-left: 50px;
 }
 
-.search-container input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #e7ecea;
+.search-form {
+    width: 350px;
+    height: 42px;
+    padding: 10px 15px;
+    background-color: #66e6b3;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px #66e6b3, 0 0 0 5px #ffffffeb;
+    transform: scale(0.9);
+}
+
+.fx {
+    display: flex;
+    align-items: center;
+}
+
+.fx-gap {
+    gap: 60px;
+}
+
+.search-container input[type="text"] {
+    width: 100%;
+    height: 40px;
+    font-size: 30px;
+    font-weight: 600; 
+    line-height: 1;
     color: #fff;
-    width: 200px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+}
+
+.search-container input[type="text"]::placeholder {
+    color: #ffffff;
+}
+
+#search-icon button {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+}
+
+#search-icon-circle {
+    position: relative;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 0;
+    border-width: 8px;
+    border: 8px solid #fff;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: 0.5s ease all;
+}
+
+#search-icon button span {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    display: block;
+    width: 25px;
+    height: 8px;
+    background-color: transparent;
+    border-radius: 10px;
+    transform: rotateZ(52deg);
+    transition: 0.5s ease all;
+}
+
+#search-icon button span:before,
+#search-icon button span:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 10px;
+    transform: rotateZ(0);
+    transition: 0.5s ease all;
+}
+
+#search-icon:hover #search-icon-circle {
+    top: -1px;
+    width: 35px;
+    height: 8px;
+    border-width: 0;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+#search-icon:hover span {
+    top: 50%;
+    left: 25px;
+    width: 15px;
+    margin-top: -4px;
+    transform: rotateZ(0);
+}
+
+#search-icon:hover button span:before {
+    bottom: 6px;
+    transform: rotateZ(52deg);
+}
+
+#search-icon:hover button span:after {
+    bottom: -6px;
+    transform: rotateZ(-52deg);
+}
+
+#search-icon:hover button span:before,
+#search-icon:hover button span:after {
+    right: -3px;
+    width: 20px;
+    background-color: #fff;
 }
 
 /* 分类选择区域样式 */
 .filter-container {
     display: flex;
     gap: 10px;
+    position: relative;
 }
 
 .filter-container select {
-    padding: 10px;
-    background-color: #4CAF50;
+    padding: 12px 15px;
+    background-color: #66e6b3;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 22px; /* 增大字体 */
+    font-weight: 600; /* 加粗字体 */
+    box-shadow: 0 3px 8px rgba(102, 230, 179, 0.4);
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 35px;
+    outline: none;
+    min-width: 150px;
 }
 
-/* 价格筛选区域样式 */
-.price-filter-section {
+.filter-container select:hover {
+    background-color: #4fd0a0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 230, 179, 0.6);
+}
+
+.filter-container select:focus {
+    box-shadow: 0 0 0 3px rgba(102, 230, 179, 0.5), 0 5px 15px rgba(102, 230, 179, 0.6);
+}
+
+.filter-container select option {
+    background-color: #ffffff;
+    color: #333;
+    padding: 12px;
+    font-size: 20px;
+    font-weight: 600; 
+}
+
+.filter-container select option:first-child {
+    background-color: #2196F3;
+    color: white;
+    font-weight: bold;
+}
+
+.filter-container select option:hover,
+.filter-container select option:focus {
+    color: #6ef6b2;
+}
+
+.filter-container select option:checked {
+    background-color: #ffffff00;
+    color: white;
+}
+
+/* 下拉菜单宽度设置 */
+#categorySelect {
+    min-width: 160px;
+}
+
+#brandSelect {
+    min-width: 170px;
+}
+
+/* 功能按钮区域样式 */
+.function-section {
     display: flex;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 20px;
     padding: 15px;
-    background-color: #1c1c1c;
+    background-color: #cbddd3a1;
     border-radius: 8px;
     margin-bottom: 20px;
 }
 
-.price-filter-section input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-    width: 150px;
-}
-
-.price-filter-section button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: #fff;
-    cursor: pointer;
-}
-
-.price-filter-section button:hover {
-    background-color: #4CAF50;
-}
-
-/* 其他基础样式 */
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: rgba(223, 236, 233, 0.9);
-    color: #fff;
-    margin: 0;
-    padding: 20px;
-}
-
-.header h1 {
-    color: #4CAF50;
-    margin: 0;
-}
-
+/* 创建容器样式 */
 .create-container {
+    display: flex;
+    gap: 10px;
     margin-top: 10px;
 }
 
 .create-container button {
-    padding: 10px 10px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    margin-top: -10px;
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #66e6b3;
+    color: white;
     cursor: pointer;
-    margin-right: 10px;  /* Add space between buttons */
-
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 10px;
+    transition: all 0.3s ease;
 }
 
 .create-container button:hover {
     background-color: #4CAF50;
+    transform: translateY(-2px);
 }
 
+/* 价格筛选容器样式 */
+.price-filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.price-filter-container input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: 120px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.price-filter-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #66e6b3;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.price-filter-container button:hover {
+    background-color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+/* 商品容器样式 */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -458,102 +880,301 @@ body {
     gap: 40px;
 }
 
+/* 商品项样式 */
 .goods-item {
-    background: #535555;
-    border-radius: 8px;
+    background: linear-gradient(145deg, #3a3a3a, #4a4a4a);
+    border-radius: 15px;
     margin-top: 10px;
-    padding: 20px;
+    padding: 25px;
     text-align: center;
     position: relative; 
-    transition: transform 0.3s ease; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    overflow: hidden;
 }
 
 .goods-item:hover {
-    transform: scale(1.05);  /* 鼠标悬停时商品项放大 */
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .goods-item img {
     max-width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.goods-item:hover img {
+    transform: scale(1.03);
 }
 
 .goods-item h2 {
-    color: #4CAF50;
-    margin: 10px 0;
+    color: #66e6b3;
+    margin: 15px 0 5px 0;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .goods-item p {
     margin: 10px 0;
+    color: #e0e0e0;
+    font-size: 16px;
 }
 
+/* 商品信息样式 */
+.goods-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.info-row span {
+    flex: 1;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.info-row span:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 订单控制区域样式 */
+.order-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+/* 按钮样式 */
 .stock-button, .add-button {
     cursor: pointer;
-    background-color: #66a468;
+    background-color: #66e6b3;
     color: white;
     border: none;
     padding: 10px 20px;
     margin: 5px;
-    border-radius: 5px;
+    border-radius: 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    transition-duration: 0.4s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(102, 230, 179, 0.3);
 }
 
 .stock-button:hover, .add-button:hover {
     background-color: #4CAF50;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(102, 230, 179, 0.4);
 }
 
+/* 数量输入框样式 */
+.goods-item input[type="number"] {
+    width: 120px;
+    height: 32px;
+    padding: 5px 10px;
+    border: 2px solid #66e6b3;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.goods-item input[type="number"]:focus {
+    border-color: #4CAF50;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 8px rgba(102, 230, 179, 0.5);
+}
+
+/* 高亮样式 */
 .highlight {
-    border: 2px solid #4CAF50;
+    border: 3px solid #4CAF50 !important;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.5) !important;
+    animation: pulse 1.5s infinite;
 }
 
+@keyframes pulse {
+    0% { box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(76, 175, 80, 0.8); }
+    100% { box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+}
+
+/* 分页容器样式 */
+.pagination-container {
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 50px; 
+}
+
+.pagination-container button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.pagination-container button.active {
+    background-color: #66e6b3;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.pagination-container button:hover {
+    background-color: #c2c3c2;
+}
+
+/* 模态框样式 */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(45, 44, 44, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background-color: #1c1c1c;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
+    background-color: #f8f8f8;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+.modal-content h2 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.modal-content p {
+    color: #333;
+    margin: 10px 0 5px 0;
+    font-weight: 500;
 }
 
 .modal-content input {
     width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
+    padding: 12px 10px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #333;
-    color: #fff;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+}
+
+.modal-content input:focus {
+    border-color: #66e6b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(102, 230, 179, 0.5);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .modal-content button {
-    padding: 10px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #66e6b3;
     color: #fff;
     cursor: pointer;
-    margin: 10px 5px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .modal-content button:hover {
     background-color: #4CAF50;
+    transform: translateY(-2px);
 }
 
+#cancelButton, #cancelDeleteButton {
+    background-color: #f44336;
+}
+
+#cancelButton:hover, #cancelDeleteButton:hover {
+    background-color: #d32f2f;
+}
+
+/* 错误消息样式 */
+#modalError, #deleteModalError {
+    color: #f44336;
+    margin: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* 品牌提示样式 */
+.brand-hint {
+    margin: 5px 0 15px 0;
+    font-size: 14px;
+    color: #666;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 3px solid #66e6b3;
+}
+
+.brand-hint p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 文件上传按钮样式 */
+input[type="file"] {
+    border: 1px dashed #66e6b3;
+    padding: 15px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* 侧边栏样式 */
 .sidebar {
     position: fixed;
     right: -200px;
@@ -564,24 +1185,25 @@ body {
 }
 
 .sidebar-content {
-    background-color: #1c1c1c;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 8px;
 }
 
 .sidebar-content a {
-    color: #fff;
+    color: #333;
     text-decoration: none;
     display: block;
     margin: 10px 0;
     padding: 10px;
-    background-color: #333;
+    background-color: #f5f5f5;
     border-radius: 5px;
     text-align: center;
 }
 
 .sidebar-content a:hover {
     background-color: #4CAF50;
+    color: #fff;
 }
 
 .sidebar:hover {
@@ -598,4 +1220,24 @@ body {
     height: 20px;
     cursor: pointer;
     border-radius: 50%;
+}
+
+/* 无结果提示和错误消息样式 */
+.no-results, .error-message {
+    text-align: center;
+    padding: 30px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+    font-size: 18px;
+}
+
+.no-results {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.error-message {
+    color: #d32f2f;
+    font-size: 16px;
 }

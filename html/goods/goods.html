@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goods</title>
+    <title>商城页面</title>
     <link rel="stylesheet" href="/css/goods/goods.css">
     <link rel="icon" href="data:,">
 
@@ -12,7 +12,7 @@
 
 <body>
     <div class="header no-select">
-        <h1>Goods</h1>
+        <h1>商城页面</h1>
         
         <!-- 搜索栏和筛选区域的容器 -->
         <div class="filter-section">
@@ -21,8 +21,19 @@
             
             <!-- 搜索栏移至中间 -->
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search by name">
-                <button type="button" id="searchButton">搜索</button>
+                <form class="search-form">
+                    <div class="fx fx-gap">
+                        <div>
+                            <input type="text" id="searchInput" placeholder="Search" required />
+                        </div>
+                        <div id="search-icon">
+                            <button type="submit" id="searchButton">
+                                <div id="search-icon-circle"></div>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
             
             <!-- 分类选择区域移至最右侧 -->
@@ -75,26 +86,90 @@
         </div>
     </div>
 
+    <!-- 在 goods.html 中，商品信息是动态生成的，所以我们需要修改生成商品的 JavaScript 代码或提供一个模板 -->
+
+    
     <div class="container no-select">
-        <!-- 商品信息会动态加载 -->
+        <div class="goods-item">
+            <img src="商品图片URL" alt="商品名称">
+            <h2>北白</h2>
+            
+            <div class="goods-info">
+                <!-- 价格和库存在同一行 -->
+                <div class="info-row">
+                    <span>价格: $0.05</span>
+                    <span>库存: 100</span>
+                </div>
+                
+                <!-- 品牌和类型在同一行 -->
+                <div class="info-row">
+                    <span>品牌: 马可波罗瓷砖</span>
+                    <span>类型: 仿木砖</span>
+                </div>
+                
+                <!-- 上架日期单独一行 -->
+                <div class="info-row">
+                    <span>上架日期: 2025-03-03 23:10:07</span>
+                </div>
+            </div>
+            
+            <div class="order-controls">
+                <input type="number" placeholder="数量" min="1" max="100" value="1">
+                <button class="add-button">添加到订单</button>
+            </div>
+        </div>
+        <!-- 更多商品项将在这里动态生成 -->
     </div>
 
 
     <div id="myModal" class="modal no-select">
+        <!-- 模态框内容 -->
         <div class="modal-content">
             <h2>上架商品</h2>
-            <input type="text" id="goodsName" placeholder="商品名称">
-            <input type="number" id="goodsPrice" placeholder="商品价格">
-            <input type="number" id="goodsStock" placeholder="商品库存">
-            <input type="number" id="goodsType" placeholder="商品类型">  <!-- 修改为手动输入 -->
-            <input type="text" id="goodsBrand" placeholder="商品品牌(a-f)">  <!-- 新增品牌输入 -->
-            <div class="brand-hint">
-                <p>品牌对应: a-马可波罗瓷砖, b-雪狼陶瓷, c-多乐士, d-立邦, e-奥斯曼, f-西卡</p>
+            <input type="text" id="goodsName" placeholder="商品名称" required>
+            <input type="number" id="goodsPrice" placeholder="商品价格" step="0.01" min="0.01" required>
+            <input type="number" id="goodsStock" placeholder="商品库存" min="0" required>
+            
+            <!-- 优化商品类型下拉菜单 -->
+            <select id="goodsType" required>
+                <option value="" disabled selected>请选择商品类型</option>
+                <option value="1">石材砖</option>
+                <option value="2">仿木砖</option>
+                <option value="3">泳池砖</option>
+                <option value="4">马赛克砖</option>
+                <option value="5">底漆</option>
+                <option value="6">防水涂料</option>
+                <option value="7">内墙乳胶漆</option>
+                <option value="8">木漆及金属漆</option>
+                <option value="9">腻子</option>
+                <option value="10">美缝</option>
+                <option value="11">密封抗裂胶</option>
+            </select>
+            
+            <!-- 优化商品品牌下拉菜单 -->
+            <select id="goodsBrand" required>
+                <option value="" disabled selected>请选择商品品牌</option>
+                <option value="a">马可波罗瓷砖</option>
+                <option value="b">雪狼陶瓷</option>
+                <option value="c">多乐士</option>
+                <option value="d">立邦</option>
+                <option value="e">奥斯曼</option>
+                <option value="f">西卡</option>
+            </select>
+            
+            <!-- 移除品牌映射提示信息 -->
+            <div class="file-input-container">
+                <label for="goodsImage">选择商品图片</label>
+                <input type="file" id="goodsImage" accept="image/jpeg,image/png,image/jpg" required>
+                <span id="file-name">未选择文件</span>
             </div>
-            <input type="file" id="goodsImage" accept="image/*">
-            <div class="error" id="modalError" style="color: red;"></div>
-            <button type="button" id="confirmButton">确定</button>
-            <button type="button" id="cancelButton">取消</button>
+            
+            <div id="modalError" class="error-message"></div>
+            
+            <div class="modal-buttons">
+                <button id="confirmButton">确认</button>
+                <button id="cancelButton">取消</button>
+            </div>
         </div>
     </div>
     
