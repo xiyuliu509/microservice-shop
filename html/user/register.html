@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="/css/user/register.css">
-    <!-- 添加字体图标库，与login.html保持一致 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
@@ -16,11 +15,10 @@
         <p class="signin">注册页</p>
         <form id="registerForm">
             <input name="user" type="text" id="userName" placeholder="用户名">
-            <!-- 移除密码显示/隐藏功能，直接使用普通密码输入框 -->
             <input name="pass" type="password" id="userPassword" placeholder="密码" required>
             <input type="text" id="userPhone" placeholder="联系方式" required />
             
-            <!-- 添加验证码部分 -->
+            <!-- 验证码区域 -->
             <div class="captcha-container">
                 <input type="text" id="captcha-input" placeholder="验证码">
                 <div class="captcha-box" id="captcha-box"></div>
@@ -34,7 +32,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/user/register.js"></script>
     
-    <!-- 移除密码显示/隐藏功能的脚本 -->
 </body>
 
 </html>

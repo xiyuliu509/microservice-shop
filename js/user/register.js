@@ -14,7 +14,7 @@ function createCaptcha(elementId) {
     captchaBox.innerHTML = captcha;
     captchaBox.setAttribute('data-captcha', captcha);
     
-    // 添加随机颜色
+    // 添加随机颜色和旋转效果增加验证码复杂度
     const letters = captchaBox.textContent.split('');
     captchaBox.textContent = '';
     
@@ -37,6 +37,7 @@ window.addEventListener("load", function() {
     createCaptcha('captcha-box');
 });
 
+// 注册表单提交处理
 document.getElementById('registerForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const userName = document.getElementById('userName').value;
@@ -46,23 +47,23 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
     const captchaBox = document.getElementById('captcha-box');
     const captchaValue = captchaBox.getAttribute('data-captcha');
 
-    // 验证验证码
+    // 验证码校验
     if (captchaInput !== captchaValue) {
         alert('验证码错误，请重新输入！');
         document.getElementById('captcha-input').value = '';
         createCaptcha('captcha-box');
         return;
     }
-
-    // 使用userType: 0替代isAdmin: false
+    
     axios.post('http://localhost:8082/user/create', { userName, userPassword, userPhone, userType: 0 }) 
         .then(response => {
             alert('注册成功！');
-            window.location.href = '/html/user/login.html'; // 注册成功后跳转到登录页面
+            window.location.href = '/html/user/login.html';
         })
         .catch(error => {
+            // 注册失败处理
             if (error.response && error.response.data) {
-                alert(error.response.data); // 显示服务器返回的具体错误信息
+                alert(error.response.data);
             } else {
                 console.error(error);
                 alert('注册失败，请重试。');
@@ -70,6 +71,7 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
         });
 });
 
+// 返回登录页面按钮处理
 document.getElementById('loginButton').addEventListener('click', function () {
-    window.location.href = '/html/user/login.html'; // 跳转到登录页面
+    window.location.href = '/html/user/login.html'; 
 });

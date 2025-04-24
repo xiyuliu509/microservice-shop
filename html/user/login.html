@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/css/user/login.css">
-    <!-- 添加字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+    <!-- 登录框容器 -->
     <div class="box">
         <img class="logo" alt="dribble-logo" src="/images/User.png" />
         <p class="signin">登录页</p>
@@ -24,12 +24,13 @@
             </div>
             <button type="submit">登录</button>
         </form>
+        <!-- 注册引导文本 -->
         <p class="foot-txt">还没有账号? <span class="bold" id="registerButton">前往注册</span></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/user/login.js"></script>
     
-    <!-- 添加密码显示/隐藏功能的脚本 -->
+    <!-- 密码显示/隐藏功能脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordToggle = document.getElementById('passwordToggle');
@@ -39,7 +40,6 @@
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 
-                // 切换图标
                 const icon = passwordToggle.querySelector('i');
                 icon.classList.toggle('fa-eye');
                 icon.classList.toggle('fa-eye-slash');

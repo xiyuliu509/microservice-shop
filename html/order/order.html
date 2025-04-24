@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>订单管理</title>
     <link rel="stylesheet" href="/css/order/order.css">
-    <!-- 预加载二维码图片 -->
     <link rel="preload" href="/picture/fkm.png" as="image">
-    <!-- 使用CDN加载axios，提高加载速度 -->
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container no-select">
         <h1>订单管理中心</h1>
-        <!-- 表格容器 -->
         <div class="table-responsive">
             <table>
                 <thead>
@@ -26,7 +23,6 @@
                     </tr>
                 </thead>
                 <tbody id="orderTableBody">
-                    <!-- 订单将通过JavaScript动态加载 -->
                     <tr>
                         <td colspan="5" style="text-align:center">加载中...</td>
                     </tr>
@@ -35,7 +31,6 @@
         </div>
     </div>
     
-    <!-- 侧边栏 -->
     <div class="sidebar" id="sidebar">
         <div class="drag-handle" id="dragHandle"></div>
         <div class="sidebar-content">
@@ -45,7 +40,6 @@
         </div>
     </div>
     
-    <!-- 延迟加载JS文件 -->
     <script src="/js/order/order.js" defer></script>
     <script src="/js/sidebar.js" defer></script>
 </body>

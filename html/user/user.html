@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- 第一分区：个人主页和头像 -->
         <div class="header">
             <a href="#" class="home-link">用户个人中心</a>
             <div class="avatar">
@@ -16,7 +15,7 @@
             </div>
         </div>
         
-        <!-- 第二分区：个人基本信息 -->
+        <!-- 用户基本信息区域 -->
         <div class="user-info">
             <div class="info-title">基本信息</div>
             <div class="info-content-container">
@@ -26,7 +25,7 @@
             </div>
         </div>
         
-        <!-- 商家轮播图区域 -->
+        <!-- 商家专属轮播图区域 -->
         <div id="carouselContainer" class="carousel-container">
             <div class="carousel">
                 <div class="carousel-track" id="carouselTrack">
@@ -46,6 +45,7 @@
                         </div>
                         <img src="/images/2.png" alt="photo 2" style="height: 100%; object-fit: contain;">
                     </div>
+                    <!-- 轮播图幻灯片3 -->
                     <div class="carousel-slide">
                         <div class="carousel-content">
                             <div class="carousel-title">周到的购物服务</div>
@@ -61,7 +61,7 @@
             </div>
         </div>
         
-        <!-- 用户搜索区域 -->
+        <!-- 管理员用户搜索区域 -->
         <div class="user-search" id="userSearchContainer">
             <h3>用户搜索</h3>
             <div class="search-container">
@@ -78,21 +78,19 @@
             </div>
         </div>
         
-        <!-- 第三分区：跳转商场按钮 -->
         <a href="#" class="shop-btn">去商场</a>
         
-        <!-- 第四分区：跳转订单页面按钮 -->
         <a href="#" class="order-btn">查订单</a>
         
-        <!-- 第五分区：回首页和退出登录按钮 -->
         <div class="footer">
             <button class="home-btn" id="homeBtn">回首页</button>
             <button class="logout-btn" id="logoutBtn">退出登录</button>
         </div>
     </div>
 
-    <!-- 智能客服脚本 -->
+    <!-- 智能客服SDK引入 -->
     <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.5/libs/oversea/index.js"></script>
+    <!-- 智能客服初始化配置 -->
     <script>
     new CozeWebSDK.WebChatClient({
         config: {

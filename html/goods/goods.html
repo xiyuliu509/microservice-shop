@@ -14,12 +14,9 @@
     <div class="header no-select">
         <h1>商城页面</h1>
         
-        <!-- 搜索栏和筛选区域的容器 -->
         <div class="filter-section">
-            <!-- 空白占位 -->
             <div class="spacer"></div>
             
-            <!-- 搜索栏移至中间 -->
             <div class="search-container">
                 <form class="search-form">
                     <div class="fx fx-gap">
@@ -36,7 +33,6 @@
                 </form>
             </div>
             
-            <!-- 分类选择区域移至最右侧 -->
             <div class="filter-container">
                 <select id="categorySelect">
                     <option value="">选择商品分类</option>
@@ -66,7 +62,6 @@
         </div>
     </div>
 
-    <!-- 功能按钮和价格筛选区域 -->
     <div class="function-section no-select">
         <div class="left-buttons">
             <div id="adminContainer" class="create-container admin-only">
@@ -78,7 +73,6 @@
             </div>
         </div>
         
-        <!-- 价格筛选移至此处 -->
         <div class="price-filter-container">
             <input type="number" id="minPrice" placeholder="最低价格" step="0.01">
             <input type="number" id="maxPrice" placeholder="最高价格" step="0.01">
@@ -86,28 +80,21 @@
         </div>
     </div>
 
-    <!-- 在 goods.html 中，商品信息是动态生成的，所以我们需要修改生成商品的 JavaScript 代码或提供一个模板 -->
-
-    
     <div class="container no-select">
         <div class="goods-item">
-            <!-- <img src="商品图片URL" alt="商品名称"> -->
             <h2>北白</h2>
             
             <div class="goods-info">
-                <!-- 价格和库存在同一行 -->
                 <div class="info-row">
                     <span>价格: $0.05</span>
                     <span>库存: 100</span>
                 </div>
                 
-                <!-- 品牌和类型在同一行 -->
                 <div class="info-row">
                     <span>品牌: 马可波罗瓷砖</span>
                     <span>类型: 仿木砖</span>
                 </div>
                 
-                <!-- 上架日期单独一行 -->
                 <div class="info-row">
                     <span>上架日期: 2025-03-03 23:10:07</span>
                 </div>
@@ -118,19 +105,16 @@
                 <button class="add-button">添加到订单</button>
             </div>
         </div>
-        <!-- 更多商品项将在这里动态生成 -->
     </div>
 
 
     <div id="myModal" class="modal no-select">
-        <!-- 模态框内容 -->
         <div class="modal-content">
             <h2>上架商品</h2>
             <input type="text" id="goodsName" placeholder="商品名称" required>
             <input type="number" id="goodsPrice" placeholder="商品价格" step="0.01" min="0.01" required>
             <input type="number" id="goodsStock" placeholder="商品库存" min="0" required>
             
-            <!-- 优化商品类型下拉菜单 -->
             <select id="goodsType" required>
                 <option value="" disabled selected>请选择商品类型</option>
                 <option value="1">石材砖</option>
@@ -146,7 +130,6 @@
                 <option value="11">密封抗裂胶</option>
             </select>
             
-            <!-- 优化商品品牌下拉菜单 -->
             <select id="goodsBrand" required>
                 <option value="" disabled selected>请选择商品品牌</option>
                 <option value="a">马可波罗瓷砖</option>
@@ -182,9 +165,7 @@
         </div>
     </div>
 
-    <!-- 分页按钮容器 -->
     <div id="paginationContainer" class="pagination-container">
-        <!-- 分页按钮会在这里生成 -->
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
