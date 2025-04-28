@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         return; // 普通用户只能看到自己的订单，管理员商家可以看到所有订单
                     }
 
+                    // 创建订单行元素
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${order.orderId}</td>
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     orderTableBody.appendChild(row);
                 });
 
-                // 添加事件监听器用于查看商品
+                // 添加事件监听器用于查看商品 - 绑定点击事件到动态生成的按钮
                 document.querySelectorAll('.view-goods-button').forEach(button => {
                     button.addEventListener('click', function () {
                         const orderId = parseInt(this.getAttribute('data-order-id'));
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 添加事件监听器用于取消订单
+                // 添加事件监听器用于取消订单 - 需要确认操作
                 document.querySelectorAll('.cancel-order-button').forEach(button => {
                     button.addEventListener('click', function () {
                         const orderId = parseInt(this.getAttribute('data-order-id'));
@@ -71,14 +72,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 添加事件监听器用于取消已付款订单
+                // 添加事件监听器用于取消已付款订单 - 申请退款功能
                 document.querySelectorAll('.cancel-paid-order-button').forEach(button => {
                     button.addEventListener('click', function () {
                         const orderId = parseInt(this.getAttribute('data-order-id'));
                         cancelPaidOrder(orderId);
                     });
                 });
-                // 添加事件监听器用于付款
+                
+                // 添加事件监听器用于付款 - 显示支付二维码
                 document.querySelectorAll('.pay-order-button').forEach(button => {
                     button.addEventListener('click', function () {
                         const orderId = parseInt(this.getAttribute('data-order-id'));
@@ -87,11 +89,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 添加事件监听器用于更新订单状态
+                // 添加事件监听器用于更新订单状态 - 管理员/商家功能
                 document.querySelectorAll('select[data-order-id]').forEach(select => {
                     select.addEventListener('change', function () {
                         const orderId = parseInt(this.getAttribute('data-order-id'));
                         const newState = this.value;
+                        // 发送更新订单状态请求
                         axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
                             .then(response => {
                                 alert('订单状态更新成功！');
@@ -108,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // 显示支付二维码
+    // 显示支付二维码 - 创建模态支付窗口
     function showPaymentQRCode(orderId, orderPrice) {
         // 创建模态框
         const modal = document.createElement('div');
@@ -147,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
         hint.textContent = '请使用微信或支付宝扫码支付';
         hint.className = 'payment-hint';
         
-        // 添加按钮容器
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'payment-buttons';
         
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.removeChild(modal);
         });
         
-        // 组装支付窗口
+        // 组装支付窗口 - 将各元素添加到窗口中
         qrCodeContainer.appendChild(qrCode);
         qrCodeContainer.appendChild(paymentLabel);
         buttonContainer.appendChild(refreshButton);
@@ -205,6 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // 查看订单商品详情功能
     function viewGoods(orderId) {
         axios.get(`http://localhost:8083/order/findgoods/${orderId}`)
             .then(response => {
@@ -225,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // 更新订单状态功能 - 用于确认收货和支付成功
     function updateOrderState(orderId, newState) {
         axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
             .then(response => {
@@ -237,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // 取消未付款订单功能
     function cancelOrder(orderId) {
         axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
             .then(response => {
@@ -249,6 +254,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // 加载订单列表
+    // 页面加载时初始化订单列表
     loadOrders();
 });
