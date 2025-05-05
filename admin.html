@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        /* 内联样式确保页面在100%大小下正常显示 */
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* 确保图表容器正确显示 */
+        .chart-body {
+            position: relative;
+            width: 100%;
+        }
+        
+        /* 修复饼图显示问题 */
+        .distribution-charts .chart-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 确保图表响应式 */
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 - 修改为flex布局结构 -->
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <div class="logo">管理后台</div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="user-info-text">
+                    <div class="user-name">管理员</div>
+                    <div class="user-role">系统管理员</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-item active" data-tab="dashboard">
+                    <i class="bi bi-grid-1x2"></i>
+                    <span>仪表盘</span>
+                </div>
+                <div class="menu-item" data-tab="users">
+                    <i class="bi bi-people"></i>
+                    <span>用户管理</span>
+                </div>
+                <div class="menu-item" data-tab="products">
+                    <i class="bi bi-box"></i>
+                    <span>商品管理</span>
+                </div>
+                <div class="menu-item" data-tab="orders">
+                    <i class="bi bi-cart"></i>
+                    <span>订单管理</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="logout-container">
+            <div class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                <div class="logout-content">
+                    <div class="logout-text">退出登录</div>
+                    <div class="logout-subtext">安全退出系统</div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.querySelector(".logout-btn").addEventListener("click", function() {
+                window.location.href = "/html/user/login.html";
+            });
+        </script>
+        
+    </div>
+    
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 通知组件 -->
+        <div id="notification" class="notification">
+            <div class="notification-icon">
+                <i class="bi bi-info-circle-fill"></i>
+            </div>
+            <div class="notification-content">
+                <div class="notification-message">操作成功</div>
+            </div>
+            <div class="notification-close">
+                <i class="bi bi-x"></i>
+            </div>
+        </div>
+        
+        <!-- 仪表盘 -->
+        <div class="tab-content active" id="dashboard">
+            <!-- 内容保持不变 -->
+            <div class="content-header">
+                <div class="content-title">仪表盘</div>
+            </div>
+            
+            <!-- 统计卡片 -->
+            <div class="stats-container">
+                <div class="stat-card neumorphic">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">总用户数</div>
+                        <div class="stat-card-icon bg-red">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">12</div>
+                </div>
+                
+                <div class="stat-card neumorphic">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">商品数量</div>
+                        <div class="stat-card-icon bg-green">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">66</div>
+                </div>
+                
+                <div class="stat-card neumorphic">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">订单数量</div>
+                        <div class="stat-card-icon bg-purple">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">4</div>
+                </div>
+            </div>
+            
+            <!-- 上方三个饼图 -->
+            <div class="distribution-charts">
+                <div class="chart-container neumorphic">
+                    <div class="chart-header">
+                        <div class="chart-title">用户分布</div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="userDistributionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container neumorphic">
+                    <div class="chart-header">
+                        <div class="chart-title">品牌分布</div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="brandDistributionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container neumorphic">
+                    <div class="chart-header">
+                        <div class="chart-title">类型分布</div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="typeDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 下方系统概览和通知 -->
+            <div class="dashboard-grid">
+                <!-- 系统概览图表 -->
+                <div class="chart-container neumorphic">
+                    <div class="chart-header">
+                        <div class="chart-title">系统概览</div>
+                        <div class="chart-actions">
+                            <select class="form-control form-control-sm neumorphic-select" id="timeRangeSelector">
+                                <option>最近7天</option>
+                                <option>最近30天</option>
+                                <option>最近90天</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="overviewChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- 其他标签页内容 -->
+        <!-- 用户管理标签页 -->
+        <div class="tab-content" id="users">
+            <div class="content-header">
+                <div class="content-title">用户管理</div>
+            </div>
+            
+            <!-- 用户搜索区域 -->
+            <div class="user-management">
+                <div class="user-search">
+                    <input type="text" id="userSearchInput" class="search-input" placeholder="输入用户名搜索...">
+                    <button id="userSearchBtn" class="search-button">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+                
+                <!-- 搜索结果区域 -->
+                <div id="searchResult" style="display: none;"></div>
+            </div>
+            
+            <!-- 用户列表区域 -->
+            <div class="user-table-container">
+                <div class="user-table-header">
+                    <div class="table-title">用户列表</div>
+                    <div class="table-actions">
+                        <select class="filter-select">
+                            <option value="所有用户">所有用户</option>
+                            <option value="顾客">顾客</option>
+                            <option value="商家">商家</option>
+                        </select>
+                        <button id="refreshUserList" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>头像</th>
+                            <th>用户名</th>
+                            <th>联系方式</th>
+                            <th>用户身份</th>
+                            <th>最近登录时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 用户列表将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 订单管理标签页 -->
+        <div class="tab-content" id="orders">
+            <div class="content-header">
+                <div class="content-title">订单管理</div>
+            </div>
+            
+            <!-- 订单搜索区域 -->
+            <div class="user-management">
+                <div class="user-search">
+                    <input type="text" id="orderSearchInput" class="search-input" placeholder="输入订单号搜索...">
+                    <button id="orderSearchBtn" class="search-button">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+                
+                <!-- 搜索结果区域 -->
+                <div id="orderSearchResult" style="display: none;"></div>
+            </div>
+            
+            <!-- 订单列表区域 -->
+            <div class="user-table-container">
+                <div class="user-table-header">
+                    <div class="table-title">订单列表</div>
+                    <div class="table-actions">
+                        <select class="filter-select" id="orderStatusFilter">
+                            <option value="all">所有状态</option>
+                            <option value="待付款">待付款</option>
+                            <option value="已取消">已取消</option>
+                            <option value="待发货">待发货</option>
+                            <option value="待收货">待收货</option>
+                            <option value="订单完成">订单完成</option>
+                        </select>
+                        <button id="refreshOrderList" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="user-table" id="orderTable">
+                        <thead>
+                            <tr>
+                                <th width="10%">订单号</th>
+                                <th width="15%">订单状态</th>
+                                <th width="15%">订单总额</th>
+                                <th width="20%">创建时间</th>
+                                <th width="40%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 商品管理标签页 -->
+        <!-- 在商品管理标签页内添加商品表格 -->
+        <div class="tab-content" id="products">
+            <div class="content-header">
+                <div class="content-title">商品管理</div>
+            </div>
+            
+            <!-- 商品搜索区域 -->
+            <div class="user-management">
+                <div class="user-search">
+                    <input type="text" id="productSearchInput" class="form-control" placeholder="输入商品名称搜索">
+                    <button id="productSearchBtn" class="btn btn-primary">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+                
+                <!-- 搜索结果区域 -->
+                <div id="productSearchResult" style="display: none;"></div>
+            </div>
+            
+            <!-- 商品列表区域 -->
+            <div class="user-table-container">
+                <div class="user-table-header">
+                    <div class="table-title">商品列表</div>
+                    <div class="table-actions">
+                        <button id="addProductBtn" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> 上架新商品
+                        </button>
+                        <button id="refreshProductList" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="user-table" id="productTable">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>图片</th>
+                                <th>商品名称</th>
+                                <th>类型</th>
+                                <th>品牌</th>
+                                <th>价格</th>
+                                <th>库存</th>
+                                <th>上架时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 动态生成的内容 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- 添加商品模态框 -->
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProductModalLabel">上架新商品</h5>
+                        <button type="button" class="btn-close" onclick="App.closeModal('addProductModal')"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addProductForm" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productName" class="form-label">商品名称</label>
+                                    <input type="text" class="form-control" id="productName" name="productName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productPrice" class="form-label">商品价格</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">¥</span>
+                                        <input type="number" class="form-control" id="productPrice" name="productPrice" step="0.01" min="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productType" class="form-label">商品类型</label>
+                                    <select class="form-select" id="productType" name="productType" required>
+                                        <option value="" selected disabled>选择商品类型</option>
+                                        <option value="1">石材砖</option>
+                                        <option value="2">仿木砖</option>
+                                        <option value="3">泳池砖</option>
+                                        <option value="4">马赛克砖</option>
+                                        <option value="5">底漆</option>
+                                        <option value="6">防水涂料</option>
+                                        <option value="7">内墙乳胶漆</option>
+                                        <option value="8">木漆及金属漆</option>
+                                        <option value="9">腻子</option>
+                                        <option value="10">美缝</option>
+                                        <option value="11">密封抗裂胶</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productBrand" class="form-label">品牌</label>
+                                    <select class="form-select" id="productBrand" name="productBrand" required>
+                                        <option value="" selected disabled>选择品牌</option>
+                                        <option value="a">马可波罗瓷砖</option>
+                                        <option value="b">雪狼陶瓷</option>
+                                        <option value="c">多乐士</option>
+                                        <option value="d">立邦</option>
+                                        <option value="e">奥斯曼</option>
+                                        <option value="f">西卡</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productStock" class="form-label">初始库存</label>
+                                    <input type="number" class="form-control" id="productStock" name="productStock" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productImage" class="form-label">商品图片</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+                                    </div>
+                                    <div class="form-text" id="file-name">未选择文件</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="App.closeModal('addProductModal')">取消</button>
+                        <button type="button" class="btn btn-primary" id="saveProductBtn">保存商品</button>
+                    </div>
+                </div>
+            </div>
+        
+        <!-- 库存调整模态框 -->
+        <div class="modal fade" id="stockModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">调整库存</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="stockForm">
+                            <input type="hidden" id="goodsId" name="goodsId">
+                            <div class="mb-3">
+                                <label>当前库存：<span id="currentStock">0</span></label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adjustment">调整数量（正数增加，负数减少）</label>
+                                <input type="number" class="form-control" id="adjustment" name="adjustment" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="App.confirmStockAdjustment()">确认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+        <!-- 订单管理标签页 -->
+        <div class="tab-content" id="orders">
+            <div class="content-header">
+                <div class="content-title">订单管理</div>
+            </div>
+            
+            <!-- 订单搜索区域 -->
+            <div class="order-management">
+                <div class="order-search">
+                    <input type="text" id="orderSearchInput" class="search-input" placeholder="输入订单号搜索...">
+                    <button id="orderSearchBtn" class="search-button">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+                
+                <!-- 搜索结果区域 -->
+                <div id="orderSearchResult" style="display: none;"></div>
+            </div>
+            
+            <!-- 订单列表区域 -->
+            <div class="order-table-container">
+                <div class="order-table-header">
+                    <div class="table-title">订单列表</div>
+                    <div class="table-actions">
+                        <select class="filter-select" id="orderStatusFilter">
+                            <option value="all">所有状态</option>
+                            <option value="pending">待付款</option>
+                            <option value="processing">待发货</option>
+                            <option value="completed">已完成</option>
+                            <option value="cancelled">已取消</option>
+                        </select>
+                        <button id="refreshOrderList" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>商品信息</th>
+                            <th>订单金额</th>
+                            <th>订单状态</th>
+                            <th>下单时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 订单列表将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <!-- 引入Chart.js和自定义JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 添加Bootstrap的JavaScript库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 引入脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 在body标签结束前添加以下代码 -->
+    
+    <!-- 自定义确认对话框 -->
+    <div id="customDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h5 class="custom-dialog-title">提示</h5>
+                <button type="button" class="custom-dialog-close" aria-label="关闭">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="customDialogMessage"></p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button type="button" class="btn btn-secondary" id="customDialogCancel">取消</button>
+                <button type="button" class="btn btn-primary" id="customDialogConfirm">确定</button>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>

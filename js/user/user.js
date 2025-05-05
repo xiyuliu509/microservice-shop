@@ -20,8 +20,133 @@ document.addEventListener('DOMContentLoaded', function() {
     // 管理员权限控制 - 只有管理员才可以看到用户查找部分
     if (userInfo.userType === 1) {
         document.getElementById('userSearchContainer').style.display = 'block';
+        // 加载用户列表
+        loadUserList();
     } else {
         document.getElementById('userSearchContainer').style.display = 'none';
+    }
+    
+    // 加载用户列表函数 - 管理员功能
+    function loadUserList() {
+        fetch('http://localhost:8082/user/list')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('获取用户列表失败');
+                }
+            })
+            .then(users => {
+                renderUserList(users);
+            })
+            .catch(error => {
+                console.error('加载用户列表出错:', error);
+                alert('加载用户列表出错。请稍后再试。');
+            });
+    }
+    
+    // 渲染用户列表函数
+    function renderUserList(users) {
+        const userListBody = document.getElementById('userListBody');
+        userListBody.innerHTML = '';
+        
+        if (!users || users.length === 0) {
+            userListBody.innerHTML = '<div class="user-list-row"><div class="user-list-cell" style="text-align:center;width:100%">暂无用户数据</div></div>';
+            return;
+        }
+        
+        // 过滤出非管理员用户
+        const nonAdminUsers = users.filter(user => user.userType !== 1);
+        // 获取前三名非管理员用户
+        const topThreeUsers = nonAdminUsers.slice(0, 3);
+        // 获取剩余的非管理员用户
+        const remainingUsers = nonAdminUsers.slice(3);
+        // 获取所有管理员用户
+        const adminUsers = users.filter(user => user.userType === 1);
+        
+        // 先渲染前三名非管理员用户
+        topThreeUsers.forEach(user => {
+            renderUserRow(user, userListBody);
+        });
+        
+        // 如果有更多用户，添加一个提示信息
+        if (remainingUsers.length > 0 || adminUsers.length > 0) {
+            const hintRow = document.createElement('div');
+            hintRow.classList.add('user-list-hint');
+            hintRow.textContent = '上下滑动查看更多用户';
+            userListBody.appendChild(hintRow);
+        }
+        
+        // 渲染剩余的非管理员用户
+        remainingUsers.forEach(user => {
+            renderUserRow(user, userListBody);
+        });
+        
+        // 最后渲染管理员用户
+        adminUsers.forEach(user => {
+            renderUserRow(user, userListBody);
+        });
+        
+        // 为列表中的按钮添加事件监听
+        addUserListButtonListeners();
+    }
+    
+    // 渲染单个用户行的辅助函数
+    function renderUserRow(user, container) {
+        const userRow = document.createElement('div');
+        userRow.classList.add('user-list-row');
+        
+        // 用户类型文本映射
+        const userTypeText = {
+            0: '普通用户',
+            1: '管理员',
+            2: '商家'
+        };
+        
+        userRow.innerHTML = `
+            <div class="user-list-cell">${user.userName}</div>
+            <div class="user-list-cell">${user.userPhone || '未设置'}</div>
+            <div class="user-list-cell">${userTypeText[user.userType] || '未知'}</div>
+            <div class="user-list-cell">
+                <button class="user-action-btn edit" data-username="${user.userName}">修改权限</button>
+                <button class="user-action-btn delete" data-username="${user.userName}">删除</button>
+            </div>
+        `;
+        
+        container.appendChild(userRow);
+    }
+    
+    // 为用户列表中的按钮添加事件监听
+    function addUserListButtonListeners() {
+        // 修改权限按钮
+        document.querySelectorAll('.user-action-btn.edit').forEach(button => {
+            button.addEventListener('click', function() {
+                const userName = this.getAttribute('data-username');
+                const newRole = prompt('输入新角色 (0 为普通用户, 2 为商家):');
+                if (newRole === '0' || newRole === '2') {
+                    updateUserRole(userName, newRole);
+                    // 更新成功后刷新列表
+                    setTimeout(loadUserList, 1000);
+                } else {
+                    alert('无效角色。请输入 0 表示普通用户或 2 表示商家。');
+                }
+            });
+        });
+        
+        // 删除按钮
+        document.querySelectorAll('.user-action-btn.delete').forEach(button => {
+            button.addEventListener('click', function() {
+                const userName = this.getAttribute('data-username');
+                const confirmation = prompt(`输入 "delete" 确认删除用户 ${userName}:`);
+                if (confirmation === 'delete') {
+                    deleteUser(userName);
+                    // 删除成功后刷新列表
+                    setTimeout(loadUserList, 1000);
+                } else {
+                    alert('删除已取消。输入 "delete" 确认。');
+                }
+            });
+        });
     }
     
     // 轮播图功能实现
@@ -225,5 +350,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.order-btn').addEventListener('click', function(e) {
         e.preventDefault();
         window.location.href = '/html/order/order.html';
+    });
+    
+    // 刷新用户列表按钮事件
+    document.getElementById('refreshUserList').addEventListener('click', function() {
+        loadUserList();
     });
 });
