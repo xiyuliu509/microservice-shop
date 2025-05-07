@@ -77,9 +77,9 @@ const CONFIG = {
         userDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['顾客', '商家', '管理员'],
+                labels: ['普通用户', 'VIP用户', '管理员'],
                 datasets: [{
-                    data: [9, 2, 1],
+                    data: [70, 25, 5],
                     backgroundColor: ['#54a0ff', '#ff6b6b', '#1dd1a1'],
                     borderWidth: 0
                 }]
@@ -88,9 +88,9 @@ const CONFIG = {
         brandDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['马可波罗陶瓷', '雪狼陶瓷', '多乐士', '立邦', '奥斯曼', '西卡'],
+                labels: ['品牌A', '品牌B', '品牌C', '其他'],
                 datasets: [{
-                    data: [29, 20, 6, 8, 4, 9],
+                    data: [40, 30, 20, 10],
                     backgroundColor: ['#ff9f43', '#ee5253', '#0abde3', '#c8d6e5'],
                     borderWidth: 0
                 }]
@@ -99,9 +99,9 @@ const CONFIG = {
         typeDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['石材砖', '仿木砖', '泳池砖', '马赛克砖', '底漆', '防水涂料', '内墙乳胶漆', '木漆及金属漆', '腻子', '美缝', '密封抗裂胶'],
+                labels: ['类型A', '类型B', '类型C', '类型D'],
                 datasets: [{
-                    data: [13, 13, 6, 7, 3, 6, 9, 6, 1, 1, 1],
+                    data: [35, 25, 25, 15],
                     backgroundColor: ['#10ac84', '#5f27cd', '#ff9ff3', '#48dbfb'],
                     borderWidth: 0
                 }]
@@ -236,82 +236,102 @@ const App = {
             });
     },
     
+// 渲染订单列表
+renderOrderList: function(orders, selectedStatus) {
+    const tableBody = document.getElementById('orderTableBody');
+    if (!tableBody) return;
+    
+    // 清空现有内容
+    tableBody.innerHTML = '';
+    
+    // 筛选订单
+    let filteredOrders = orders;
+    if (selectedStatus !== 'all') {
+        filteredOrders = orders.filter(order => order.orderState === selectedStatus);
+    }
+    
     // 渲染订单列表
-    renderOrderList: function(orders, selectedStatus) {
-        const tableBody = document.getElementById('orderTableBody');
-        if (!tableBody) return;
+    filteredOrders.forEach(order => {
+        const row = document.createElement('tr');
+        // 格式化时间戳
+        const formattedTime = order.createStamp ? this.formatDateTime(order.createStamp) : 'N/A';
+        row.innerHTML = `
+            <td>${order.orderId}</td>
+            <td>
+                <select data-order-id="${order.orderId}" class="order-status-select form-select form-select-sm">
+                    <option value="待付款" ${order.orderState === '待付款' ? 'selected' : ''}>待付款</option>
+                    <option value="已取消" ${order.orderState === '已取消' ? 'selected' : ''}>已取消</option>
+                    <option value="待发货" ${order.orderState === '待发货' ? 'selected' : ''}>待发货</option>
+                    <option value="待收货" ${order.orderState === '待收货' ? 'selected' : ''}>待收货</option>
+                    <option value="订单完成" ${order.orderState === '订单完成' ? 'selected' : ''}>订单完成</option>
+                </select>
+            </td>
+            <td>¥${order.orderPrice.toFixed(2)}</td>
+            <td>${formattedTime}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-info btn-sm view-goods-button" data-order-id="${order.orderId}">
+                        <i class="bi bi-eye"></i> 查看商品
+                    </button>
+                    <button class="btn btn-danger btn-sm delete-order-button" data-order-id="${order.orderId}">
+                        <i class="bi bi-trash"></i> 删除订单
+                    </button>
+                </div>
+            </td>
+        `;
         
-        // 清空现有内容
-        tableBody.innerHTML = '';
-        
-        // 筛选订单
-        let filteredOrders = orders;
-        if (selectedStatus !== 'all') {
-            filteredOrders = orders.filter(order => order.orderState === selectedStatus);
-        }
-        
-        // 渲染订单列表
-        filteredOrders.forEach(order => {
-            const row = document.createElement('tr');
-            // 格式化时间戳
-            const formattedTime = order.createStamp ? this.formatDateTime(order.createStamp) : 'N/A';
-            row.innerHTML = `
-                <td>${order.orderId}</td>
-                <td>
-                    <select data-order-id="${order.orderId}" class="order-status-select form-select form-select-sm">
-                        <option value="待付款" ${order.orderState === '待付款' ? 'selected' : ''}>待付款</option>
-                        <option value="已取消" ${order.orderState === '已取消' ? 'selected' : ''}>已取消</option>
-                        <option value="待发货" ${order.orderState === '待发货' ? 'selected' : ''}>待发货</option>
-                        <option value="待收货" ${order.orderState === '待收货' ? 'selected' : ''}>待收货</option>
-                        <option value="订单完成" ${order.orderState === '订单完成' ? 'selected' : ''}>订单完成</option>
-                    </select>
-                </td>
-                <td>¥${order.orderPrice.toFixed(2)}</td>
-                <td>${formattedTime}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="btn btn-info btn-sm view-goods-button" data-order-id="${order.orderId}">
-                            <i class="bi bi-eye"></i> 查看商品
-                        </button>
-                    </div>
-                </td>
-            `;
-            
-            // 添加状态选择事件监听器// ... 省略前面代码 ...
-            const statusSelect = row.querySelector('.order-status-select');
-            if (statusSelect) {
-                statusSelect.addEventListener('change', (e) => {
-                    const orderId = e.target.getAttribute('data-order-id');
-                    const newState = e.target.value;
-                    this.showCustomConfirm(
-                        `确定要将订单 ${orderId} 的状态修改为 "${newState}" 吗？`,
-                        '确认修改状态',
-                        (confirmed) => {
-                            if (confirmed) {
-                                this.updateOrderState(orderId, newState);
-                            } else {
-                                // 用户取消，恢复下拉框选项并刷新列表
-                                e.target.value = order.orderState;
-                                this.loadOrderList(); // 强制刷新，确保UI和数据一致
-                            }
+        // 添加状态选择事件监听器
+        const statusSelect = row.querySelector('.order-status-select');
+        if (statusSelect) {
+            statusSelect.addEventListener('change', (e) => {
+                const orderId = e.target.getAttribute('data-order-id');
+                const newState = e.target.value;
+                this.showCustomConfirm(
+                    `确定要将订单 ${orderId} 的状态修改为 "${newState}" 吗？`,
+                    '确认修改状态',
+                    (confirmed) => {
+                        if (confirmed) {
+                            this.updateOrderState(orderId, newState);
+                        } else {
+                            // 用户取消，恢复下拉框选项并刷新列表
+                            e.target.value = order.orderState;
+                            this.loadOrderList(); // 强制刷新，确保UI和数据一致
                         }
-                    );
-                });
-            }
+                    }
+                );
+            });
+        }
 
+        // 添加查看商品按钮事件监听器
+        const viewButton = row.querySelector('.view-goods-button');
+        if (viewButton) {
+            viewButton.addEventListener('click', (e) => {
+                const orderId = e.target.closest('.view-goods-button').getAttribute('data-order-id');
+                this.viewOrderGoods(orderId);
+            });
+        }
 
-            // 添加查看商品按钮事件监听器
-            const viewButton = row.querySelector('.view-goods-button');
-            if (viewButton) {
-                viewButton.addEventListener('click', (e) => {
-                    const orderId = e.target.getAttribute('data-order-id');
-                    this.viewOrderGoods(orderId); // 调用修改后的查看商品函数
-                });
-            }
+        // 添加删除订单按钮事件监听器
+        const deleteButton = row.querySelector('.delete-order-button');
+        if (deleteButton) {
+            deleteButton.addEventListener('click', (e) => {
+                const orderId = e.target.closest('.delete-order-button').getAttribute('data-order-id');
+                this.showCustomConfirm(
+                    `确定要删除订单 #${orderId} 吗？此操作不可恢复！`,
+                    '确认删除订单',
+                    (confirmed) => {
+                        if (confirmed) {
+                            this.deleteOrder(orderId);
+                        }
+                    }
+                );
+            });
+        }
 
-            tableBody.appendChild(row);
-        });
-    },
+        tableBody.appendChild(row);
+    });
+},
+
 
     // 更新订单状态
     updateOrderState: function(orderId, newState) {
@@ -417,6 +437,28 @@ const App = {
             this.showNotification('未找到匹配的订单', 'info');
         }
     },
+
+    // 添加删除订单功能
+deleteOrder: function(orderId) {
+    fetch(`http://localhost:8083/order/delete/${orderId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            this.showNotification('订单删除成功', 'success');
+            this.loadOrderList(); // 重新加载列表
+        } else {
+            return response.text().then(text => { 
+                throw new Error(`删除订单失败: ${text || response.statusText}`);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('删除订单出错:', error);
+        this.showNotification(error.message || '删除订单失败，请稍后再试', 'error');
+    });
+},
+
     
      // 绑定菜单事件
     bindMenuEvents: function() {

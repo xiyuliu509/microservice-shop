@@ -7,12 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadOrders() {
-        const isAdminOrSeller = user.userType ===1 || user.userType === 2; // 判断是否为管理员或商家
+        const isAdminOrSeller = user.userType === 1 || user.userType === 2; // 判断是否为管理员或商家
         axios.get('http://localhost:8083/order/list')
             .then(response => {
                 const orders = response.data;
                 const orderTableBody = document.getElementById('orderTableBody');
                 orderTableBody.innerHTML = '';
+                
+                // 使用文档片段提高性能
+                const fragment = document.createDocumentFragment();
+                
                 orders.forEach(order => {
                     // 只显示用户自己订单或者管理员/商家所有订单
                     if (user.userId !== order.userId && !isAdminOrSeller) {
@@ -46,10 +50,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${(!isAdminOrSeller && order.orderState === '待收货') ? `
                                 <button onclick="updateOrderState(${order.orderId}, '订单完成')">确认收货</button>
                             ` : ''}
+                            ${(user.userType === 2) ? `
+                                <button class="delete-order-button" data-order-id="${order.orderId}">删除订单</button>
+                            ` : ''}
                         </td>
                     `;
-                    orderTableBody.appendChild(row);
+                    fragment.appendChild(row);
                 });
+                
+                // 一次性添加所有行到DOM，减少重排
+                orderTableBody.appendChild(fragment);
 
                 // 添加事件监听器用于查看商品 - 绑定点击事件到动态生成的按钮
                 document.querySelectorAll('.view-goods-button').forEach(button => {
@@ -98,11 +108,30 @@ document.addEventListener('DOMContentLoaded', function () {
                         axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
                             .then(response => {
                                 alert('订单状态更新成功！');
+                                loadOrders(); // 刷新订单列表
                             })
                             .catch(error => {
                                 console.error(error);
                                 alert('更新订单状态失败');
                             });
+                    });
+                });
+                
+                // 添加事件监听器用于删除订单 - 商家功能
+                document.querySelectorAll('.delete-order-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const orderId = parseInt(this.getAttribute('data-order-id'));
+                        if (confirm('确定要删除该订单吗？此操作不可恢复！')) {
+                            axios.delete(`http://localhost:8083/order/delete/${orderId}`)
+                                .then(response => {
+                                    alert('订单已删除');
+                                    loadOrders(); // 刷新订单列表
+                                })
+                                .catch(error => {
+                                    console.error('删除订单失败:', error);
+                                    alert('删除订单失败: ' + (error.response ? error.response.data : error.message));
+                                });
+                        }
                     });
                 });
             })

@@ -250,3 +250,6 @@ select {
 .cancel-paid-order-button:hover {
     background-color: #F57C00;
 }
+.delete-order-button{
+    background-color: #d32f2f;
+}
