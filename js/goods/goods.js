@@ -8,7 +8,7 @@
         }
 
         const container = document.querySelector('.container');
-        const orderItems = [];
+        const orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
         const isAdmin = user.isAdmin;
         const userType = user.userType;  // 获取用户类型
         const pageSize = 10;  // 每页显示10个商品
@@ -168,7 +168,7 @@
                             <div class="goods-info">
                                 <!-- 价格和库存在同一行 -->
                                 <div class="info-row">
-                                    <span>价格: $${goods.goodsPrice}</span>
+                                    <span>价格: ¥${goods.goodsPrice}</span>
                                     <span>库存: <span id="stock-${goods.goodsId}">${goods.stock}</span></span>
                                 </div>
                                 
@@ -279,33 +279,93 @@
         
         // 下架商品功能
         function deleteGoods(goodsName) {
-            if (confirm('确定要下架商品 "' + goodsName + '" 吗？')) {
-                axios.delete(`http://localhost:8084/goods/delete/${goodsName}`)
-                    .then(response => {
-                        console.log('删除商品响应:', response);
-                        if (response.data === '商品删除成功') {
-                            alert('商品下架成功');
-                            // 重新加载商品列表
-                            loadGoods(currentPage, currentCategory, currentBrand, currentMinPrice, currentMaxPrice, currentSearchTerm);
-                        } else {
-                            alert('商品下架失败: ' + response.data);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error deleting goods:', error);
-                        alert('商品下架失败: ' + error.message);
-                    });
-            }
+            // 使用自定义确认弹窗替代原生confirm
+            showCustomConfirm('确定要下架商品 "' + goodsName + '" 吗？', '下架商品确认', function(confirmed) {
+                if (confirmed) {
+                    axios.delete(`http://localhost:8084/goods/delete/${goodsName}`)
+                        .then(response => {
+                            console.log('删除商品响应:', response);
+                            if (response.data === '商品删除成功') {
+                                showCustomAlert('商品下架成功');
+                                // 重新加载商品列表
+                                loadGoods(currentPage, currentCategory, currentBrand, currentMinPrice, currentMaxPrice, currentSearchTerm);
+                            } else {
+                                showCustomAlert('商品下架失败: ' + response.data);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting goods:', error);
+                            showCustomAlert('商品下架失败: ' + error.message);
+                        });
+                }
+            });
         }
 
         // 添加顶栏下架按钮的事件监听器
         document.getElementById('deleteButton').addEventListener('click', function() {
-            const goodsName = prompt('请输入要下架的商品名称:');
-            if (goodsName && goodsName.trim() !== '') {
-                deleteGoods(goodsName.trim());
-            } else if (goodsName !== null) {
-                alert('商品名称不能为空');
+            // 检查弹窗元素是否存在
+            const dialog = document.getElementById('deleteGoodsDialog');
+            if (!dialog) {
+                console.error('找不到下架商品弹窗元素');
+                // 使用原生prompt作为备选方案
+                const goodsId = prompt('请输入要下架的商品ID:');
+                if (goodsId) {
+                    deleteGoods(goodsId);
+                }
+                return;
             }
+            
+            const closeButton = dialog.querySelector('.custom-dialog-close');
+            const confirmButton = document.getElementById('confirmDeleteButton');
+            const cancelButton = document.getElementById('cancelDeleteButton');
+            const errorMessage = document.getElementById('deleteModalError');
+            const goodsIdInput = document.getElementById('deleteGoodsId');
+            
+            // 清空表单
+            goodsIdInput.value = '';
+            errorMessage.textContent = '';
+            errorMessage.style.display = 'none';
+            
+            // 显示弹窗
+            dialog.classList.add('show');
+            
+            // 确认按钮事件
+            const confirmHandler = () => {
+                const goodsId = goodsIdInput.value.trim();
+                
+                if (!goodsId) {
+                    errorMessage.textContent = '请输入商品ID';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                dialog.classList.remove('show');
+                deleteGoods(goodsId);
+                cleanup();
+            };
+            
+            // 取消按钮事件
+            const cancelHandler = () => {
+                dialog.classList.remove('show');
+                cleanup();
+            };
+            
+            // 关闭按钮事件
+            const closeHandler = () => {
+                dialog.classList.remove('show');
+                cleanup();
+            };
+            
+            // 清理事件监听器
+            const cleanup = () => {
+                confirmButton.removeEventListener('click', confirmHandler);
+                cancelButton.removeEventListener('click', cancelHandler);
+                closeButton.removeEventListener('click', closeHandler);
+            };
+            
+            confirmButton.addEventListener('click', confirmHandler);
+            cancelButton.addEventListener('click', cancelHandler);
+            closeButton.addEventListener('click', closeHandler);
         });
         
         // 添加到订单
@@ -567,65 +627,65 @@
 
         // 创建订单按钮
         document.getElementById('orderButton').addEventListener('click', function() {
-            // 从localStorage获取订单项
-            const orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
-            
             if (orderItems.length === 0) {
-                alert('请先添加商品到订单');
+                showCustomAlert('请先添加商品到订单');
                 return;
             }
             
-            // 计算订单总价
-            const totalPrice = orderItems.reduce((total, item) => {
-                return total + (parseFloat(item.goodsPrice) * parseInt(item.quantity));
-            }, 0).toFixed(2);
+            // 计算总价
+            const totalPrice = orderItems.reduce((total, item) => total + (parseFloat(item.goodsPrice) * parseInt(item.quantity)), 0);
             
-            // 显示订单预览
-            let orderPreview = '订单预览:\n\n';
-            orderItems.forEach(item => {
-                orderPreview += `商品: ${item.goodsName}\n价格: $${item.goodsPrice}\n数量: ${item.quantity}\n小计: $${(parseFloat(item.goodsPrice) * parseInt(item.quantity)).toFixed(2)}\n\n`;
-            });
-            orderPreview += `总计: $${totalPrice}`;
+            // 准备订单数据
+            const orderInfo = {
+                userId: user.userId,
+                orderPrice: totalPrice,
+                orderState: '待付款',
+                orderGoodsList: orderItems.map(item => ({
+                    goodsId: parseInt(item.goodsId),
+                    quantity: parseInt(item.quantity),
+                    goodsPrice: parseFloat(item.goodsPrice)
+                }))
+            };
             
-            const confirmCreate = confirm(orderPreview + '\n\n确认创建订单？');
-            
-            if (confirmCreate) {
-                // 准备订单数据 - 修改为与后端匹配的结构
-                const orderData = {
-                    userId: user.userId,
-                    orderPrice: parseFloat(totalPrice),  // 确保是数字类型，但保留小数位
-                    orderState: '待付款',
-                    orderGoodsList: orderItems.map(item => ({
-                        goodsId: parseInt(item.goodsId),
-                        quantity: parseInt(item.quantity),
-                        goodsPrice: parseFloat(item.goodsPrice)  // 添加商品价格，确保精度
-                    }))
-                };
-                
-                console.log('发送的订单数据:', orderData);  // 添加日志，查看实际发送的数据
-                
-                // 发送创建订单请求
-                axios.post('http://localhost:8083/order/create', orderData)
-                    .then(response => {
-                        console.log('创建订单响应:', response);  // 添加日志，查看响应
-                        if (response.data && response.data.includes('成功')) {
-                            alert('订单创建成功！');
-                            // 清空localStorage中的订单项
-                            localStorage.removeItem('orderItems');
-                            // 清空本地数组
-                            orderItems.length = 0;
-                            // 跳转到订单页面
-                            window.location.href = '/html/order/order.html';
-                        } else {
-                            alert('订单创建失败: ' + response.data);
+            // 发送创建订单请求
+            axios.post('http://localhost:8083/order/create', orderInfo)
+                .then(response => {
+                    console.log('创建订单响应:', response);
+                    
+                    // 根据后端返回的数据结构正确获取订单ID
+                    // 检查response.data是否为对象且包含orderId字段
+                    let orderId;
+                    if (response.data && typeof response.data === 'object') {
+                        orderId = response.data.orderId;
+                    } else if (response.data && typeof response.data === 'string' && response.data.includes('orderId')) {
+                        // 尝试从字符串中解析JSON
+                        try {
+                            const match = response.data.match(/orderId[:\s]+(\d+)/);
+                            if (match && match[1]) {
+                                orderId = match[1];
+                            }
+                        } catch (e) {
+                            console.error('解析订单ID失败:', e);
                         }
-                    })
-                    .catch(error => {
-                        console.error('创建订单失败:', error);
-                        console.error('错误详情:', error.response ? error.response.data : '无响应数据');
-                        alert('创建订单失败: ' + (error.response ? error.response.data : error.message));
-                    });
-            }
+                    }
+                    
+                    // 如果无法获取订单ID，使用默认值
+                    if (!orderId) {
+                        console.warn('订单创建');
+                        orderId = '创建成功';
+                    }
+                    
+                    // 显示订单确认弹窗，而不是直接提示成功
+                    showOrderConfirmDialog(orderId, orderItems, totalPrice);
+                    
+                    // 清空订单项
+                    localStorage.removeItem('orderItems');
+                    orderItems.length = 0;
+                })
+                .catch(error => {
+                    console.error('创建订单失败:', error);
+                    showCustomAlert('创建订单失败: ' + (error.response ? error.response.data : error.message));
+                });
         });
         
         // 取消按钮关闭模态框
@@ -646,5 +706,167 @@
         window.updateStock = updateStock;
         window.addToOrder = addToOrder;
         window.deleteGoods = deleteGoods;
+        
+        // 统一的弹窗功能
+        // 自定义提示弹窗
+        window.showCustomAlert = function(message, title = '提示') {
+            const dialog = document.getElementById('customAlert');
+            const messageElement = document.getElementById('customAlertMessage');
+            const titleElement = dialog.querySelector('.custom-dialog-title');
+            const confirmButton = document.getElementById('customAlertConfirm');
+            const closeButton = dialog.querySelector('.custom-dialog-close');
+            
+            titleElement.textContent = title;
+            messageElement.innerHTML = message;
+            dialog.classList.add('show');
+            
+            // 确认按钮事件
+            const confirmHandler = () => {
+                dialog.classList.remove('show');
+                confirmButton.removeEventListener('click', confirmHandler);
+                closeButton.removeEventListener('click', closeHandler);
+            };
+            
+            // 关闭按钮事件
+            const closeHandler = () => {
+                dialog.classList.remove('show');
+                confirmButton.removeEventListener('click', confirmHandler);
+                closeButton.removeEventListener('click', closeHandler);
+            };
+            
+            confirmButton.addEventListener('click', confirmHandler);
+            closeButton.addEventListener('click', closeHandler);
+        };
+
+        // 自定义确认弹窗
+        window.showCustomConfirm = function(message, title = '确认', callback) {
+            const dialog = document.getElementById('customDialog');
+            const messageElement = document.getElementById('customDialogMessage');
+            const titleElement = dialog.querySelector('.custom-dialog-title');
+            const confirmButton = document.getElementById('customDialogConfirm');
+            const cancelButton = document.getElementById('customDialogCancel');
+            const closeButton = dialog.querySelector('.custom-dialog-close');
+            
+            titleElement.textContent = title;
+            messageElement.innerHTML = message;
+            dialog.classList.add('show');
+            
+            // 确认按钮事件
+            const confirmHandler = () => {
+                dialog.classList.remove('show');
+                if (typeof callback === 'function') {
+                    callback(true);
+                }
+                cleanup();
+            };
+            
+            // 取消按钮事件
+            const cancelHandler = () => {
+                dialog.classList.remove('show');
+                if (typeof callback === 'function') {
+                    callback(false);
+                }
+                cleanup();
+            };
+            
+            // 关闭按钮事件
+            const closeHandler = () => {
+                dialog.classList.remove('show');
+                if (typeof callback === 'function') {
+                    callback(false);
+                }
+                cleanup();
+            };
+            
+            // 清理事件监听器
+            const cleanup = () => {
+                confirmButton.removeEventListener('click', confirmHandler);
+                cancelButton.removeEventListener('click', cancelHandler);
+                closeButton.removeEventListener('click', closeHandler);
+            };
+            
+            confirmButton.addEventListener('click', confirmHandler);
+            cancelButton.addEventListener('click', cancelHandler);
+            closeButton.addEventListener('click', closeHandler);
+        };
+        
+        // 订单确认弹窗
+        window.showOrderConfirmDialog = function(orderId, orderItems, totalPrice) {
+            const dialog = document.getElementById('orderConfirmDialog');
+            const orderIdDisplay = document.getElementById('orderIdDisplay');
+            const orderTotalDisplay = document.getElementById('orderTotalDisplay');
+            const orderItemsContainer = document.getElementById('orderItemsContainer');
+            const viewOrderButton = document.getElementById('viewOrderButton');
+            const continueShoppingButton = document.getElementById('continueShoppingButton');
+            const closeButton = dialog.querySelector('.custom-dialog-close');
+            
+            // 设置订单ID和总价
+            orderIdDisplay.textContent = `响应: ${orderId}`;
+            orderTotalDisplay.textContent = `订单总价: ¥${totalPrice.toFixed(2)}`;
+            
+            // 清空并填充订单商品列表
+            orderItemsContainer.innerHTML = '';
+            orderItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                
+                const itemTotal = parseFloat(item.goodsPrice) * parseInt(item.quantity);
+                
+                itemElement.innerHTML = `
+                    <div class="order-item-name">${item.goodsName}</div>
+                    <div class="order-item-price">¥${parseFloat(item.goodsPrice).toFixed(2)}</div>
+                    <div class="order-item-quantity">x${item.quantity}</div>
+                    <div class="order-item-total">¥${itemTotal.toFixed(2)}</div>
+                `;
+                
+                orderItemsContainer.appendChild(itemElement);
+            });
+            
+            // 显示弹窗
+            dialog.classList.add('show');
+            
+            // 查看订单按钮事件
+            const viewOrderHandler = () => {
+                dialog.classList.remove('show');
+                window.location.href = '/html/user/order.html'; // 跳转到订单页面
+                cleanup();
+            };
+            
+            // 继续购物按钮事件
+            const continueHandler = () => {
+                dialog.classList.remove('show');
+                cleanup();
+            };
+            
+            // 关闭按钮事件
+            const closeHandler = () => {
+                dialog.classList.remove('show');
+                cleanup();
+            };
+            
+            // 清理事件监听器
+            const cleanup = () => {
+                viewOrderButton.removeEventListener('click', viewOrderHandler);
+                continueShoppingButton.removeEventListener('click', continueHandler);
+                closeButton.removeEventListener('click', closeHandler);
+            };
+            
+            viewOrderButton.addEventListener('click', viewOrderHandler);
+            continueShoppingButton.addEventListener('click', continueHandler);
+            closeButton.addEventListener('click', closeHandler);
+        };
+        
+        // 替换原生alert和confirm
+        window.alert = function(message) {
+            showCustomAlert(message);
+        };
+
+        window.confirm = function(message) {
+            return new Promise(resolve => {
+                showCustomConfirm(message, '确认', result => {
+                    resolve(result);
+                });
+            });
+        };
     });
 })();

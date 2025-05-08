@@ -168,9 +168,85 @@
     <div id="paginationContainer" class="pagination-container">
     </div>
     
+    <!-- 在body结束标签前添加以下代码 -->
+    <div id="orderConfirmDialog" class="custom-dialog">
+        <div class="custom-dialog-content order-confirm-dialog">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">订单创建成功</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <div class="order-summary">
+                    <h4>订单信息</h4>
+                    <p id="orderIdDisplay"></p>
+                    <p id="orderTotalDisplay"></p>
+                </div>
+                <div class="order-items-list">
+                    <h4>订单商品</h4>
+                    <div id="orderItemsContainer"></div>
+                </div>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="viewOrderButton" class="btn-primary">查看订单</button>
+                <button id="continueShoppingButton" class="btn-secondary">继续购物</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">提示</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="customDialogMessage"></p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="customDialogConfirm" class="btn-primary">确认</button>
+                <button id="customDialogCancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customAlert" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">提示</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="customAlertMessage"></p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="customAlertConfirm" class="btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+    <!-- 添加下架商品的自定义弹窗 -->
+    <div id="deleteGoodsDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">下架商品</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <div class="form-group">
+                    <label for="deleteGoodsId">商品名称</label>
+                    <input type="text" id="deleteGoodsId" style="border-radius: 4px; height: 36px; line-height: 36px; padding: 0 10px; vertical-align: middle; width: 100%; box-sizing: border-box;" placeholder="请输入要下架的商品名称" required>
+                </div>
+                <div id="deleteModalError" class="error-message"></div>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="confirmDeleteButton" class="btn-primary">确认下架</button>
+                <button id="cancelDeleteButton" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+</body>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/goods/goods.js"></script>
     <script src="/js/sidebar.js"></script>
-</body>
-
+    </body>
 </html>

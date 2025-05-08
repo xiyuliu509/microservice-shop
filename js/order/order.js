@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <option value="订单完成" ${order.orderState === '订单完成' ? 'selected' : ''}>订单完成</option>
                             </select>
                         </td>
-                        <td>$${order.orderPrice}</td>
+                        <td>¥${order.orderPrice}</td>
                         <td>${order.createStamp}</td>
                         <td>
                             <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
