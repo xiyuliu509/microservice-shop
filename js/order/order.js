@@ -1,287 +1,535 @@
 document.addEventListener('DOMContentLoaded', function () {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
-        alert('请先登录');
-        window.location.href = '/html/user/login.html';
+        showCustomAlert('请先登录', '提示', function() {
+            window.location.href = '/html/user/login.html';
+        });
         return;
     }
 
+    // 添加加载状态变量，防止重复加载
+    let isLoading = false;
+    
+    // 分页相关变量
+    let currentPage = 1;
+    const ordersPerPage = 5; // 每页显示5条订单
+    let totalOrders = 0;
+    let totalPages = 0;
+    let allOrders = []; // 存储所有订单数据
+    
+    // 自定义提示弹窗
+    window.showCustomAlert = function(message, title = '提示', callback) {
+        const dialog = document.getElementById('customAlert');
+        const messageElement = document.getElementById('customAlertMessage');
+        const titleElement = dialog.querySelector('.custom-dialog-title');
+        const confirmButton = document.getElementById('customAlertConfirm');
+        const closeButton = dialog.querySelector('.custom-dialog-close');
+        
+        titleElement.textContent = title;
+        messageElement.innerHTML = message;
+        dialog.classList.add('show');
+        
+        // 确认按钮事件
+        const confirmHandler = () => {
+            dialog.classList.remove('show');
+            confirmButton.removeEventListener('click', confirmHandler);
+            closeButton.removeEventListener('click', closeHandler);
+            if (callback) callback();
+        };
+        
+        // 关闭按钮事件
+        const closeHandler = () => {
+            dialog.classList.remove('show');
+            confirmButton.removeEventListener('click', confirmHandler);
+            closeButton.removeEventListener('click', closeHandler);
+            if (callback) callback();
+        };
+        
+        confirmButton.addEventListener('click', confirmHandler);
+        closeButton.addEventListener('click', closeHandler);
+    };
+
+    // 自定义确认弹窗
+    window.showCustomConfirm = function(message, title = '确认', callback) {
+        const dialog = document.getElementById('customDialog');
+        const messageElement = document.getElementById('customDialogMessage');
+        const titleElement = dialog.querySelector('.custom-dialog-title');
+        const confirmButton = document.getElementById('customDialogConfirm');
+        const cancelButton = document.getElementById('customDialogCancel');
+        const closeButton = dialog.querySelector('.custom-dialog-close');
+        
+        titleElement.textContent = title;
+        messageElement.innerHTML = message;
+        dialog.classList.add('show');
+        
+        // 确认按钮事件
+        const confirmHandler = () => {
+            dialog.classList.remove('show');
+            cleanup();
+            if (callback) callback(true);
+        };
+        
+        // 取消按钮事件
+        const cancelHandler = () => {
+            dialog.classList.remove('show');
+            cleanup();
+            if (callback) callback(false);
+        };
+        
+        // 关闭按钮事件
+        const closeHandler = () => {
+            dialog.classList.remove('show');
+            cleanup();
+            if (callback) callback(false);
+        };
+        
+        // 清理事件监听器
+        const cleanup = () => {
+            confirmButton.removeEventListener('click', confirmHandler);
+            cancelButton.removeEventListener('click', cancelHandler);
+            closeButton.removeEventListener('click', closeHandler);
+        };
+        
+        confirmButton.addEventListener('click', confirmHandler);
+        cancelButton.addEventListener('click', cancelHandler);
+        closeButton.addEventListener('click', closeHandler);
+    };
+    
+    // 加载所有订单数据
     function loadOrders() {
+        if (isLoading) return;
+        
+        isLoading = true;
+        const orderTableBody = document.getElementById('orderTableBody');
+        orderTableBody.innerHTML = '<div class="order-loading"><div class="loading-spinner"></div><span>加载中...</span></div>';
+        
         const isAdminOrSeller = user.userType === 1 || user.userType === 2; // 判断是否为管理员或商家
+        
         axios.get('http://localhost:8083/order/list')
             .then(response => {
                 const orders = response.data;
-                const orderTableBody = document.getElementById('orderTableBody');
-                orderTableBody.innerHTML = '';
                 
-                // 使用文档片段提高性能
-                const fragment = document.createDocumentFragment();
+                // 过滤订单 - 普通用户只显示自己的订单
+                allOrders = isAdminOrSeller ? 
+                    orders : 
+                    orders.filter(order => user.userId === order.userId);
                 
-                orders.forEach(order => {
-                    // 只显示用户自己订单或者管理员/商家所有订单
-                    if (user.userId !== order.userId && !isAdminOrSeller) {
-                        return; // 普通用户只能看到自己的订单，管理员商家可以看到所有订单
-                    }
-
-                    // 创建订单行元素
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${order.orderId}</td>
-                        <td>
-                            <select data-order-id="${order.orderId}" ${isAdminOrSeller ? '' : 'disabled'}>
-                                <option value="待付款" ${order.orderState === '待付款' ? 'selected' : ''}>待付款</option>
-                                <option value="已取消" ${order.orderState === '已取消' ? 'selected' : ''}>已取消</option>
-                                <option value="待发货" ${order.orderState === '待发货' ? 'selected' : ''}>待发货</option>
-                                <option value="待收货" ${order.orderState === '待收货' ? 'selected' : ''}>待收货</option>
-                                <option value="订单完成" ${order.orderState === '订单完成' ? 'selected' : ''}>订单完成</option>
-                            </select>
-                        </td>
-                        <td>¥${order.orderPrice}</td>
-                        <td>${order.createStamp}</td>
-                        <td>
-                            <button class="view-goods-button" data-order-id="${order.orderId}">查看商品</button>
-                            ${(!isAdminOrSeller && order.orderState === '待付款') ? `
-                                <button class="cancel-order-button" data-order-id="${order.orderId}">取消订单</button>
-                                <button class="pay-order-button" data-order-id="${order.orderId}" data-order-price="${order.orderPrice}">付款</button>
-                            ` : ''}
-                            ${(!isAdminOrSeller && order.orderState === '待发货') ? `
-                                <button class="cancel-paid-order-button" data-order-id="${order.orderId}">申请退款</button>
-                            ` : ''}
-                            ${(!isAdminOrSeller && order.orderState === '待收货') ? `
-                                <button onclick="updateOrderState(${order.orderId}, '订单完成')">确认收货</button>
-                            ` : ''}
-                            ${(user.userType === 2) ? `
-                                <button class="delete-order-button" data-order-id="${order.orderId}">删除订单</button>
-                            ` : ''}
-                        </td>
-                    `;
-                    fragment.appendChild(row);
-                });
+                totalOrders = allOrders.length;
+                totalPages = Math.ceil(totalOrders / ordersPerPage);
                 
-                // 一次性添加所有行到DOM，减少重排
-                orderTableBody.appendChild(fragment);
-
-                // 添加事件监听器用于查看商品 - 绑定点击事件到动态生成的按钮
-                document.querySelectorAll('.view-goods-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        viewGoods(orderId);
-                    });
-                });
-
-                // 添加事件监听器用于取消订单 - 需要确认操作
-                document.querySelectorAll('.cancel-order-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        const confirmation = prompt('请输入 "delete" 确认取消订单：');
-                        if (confirmation === 'delete') {
-                            cancelOrder(orderId);
-                        } else {
-                            alert('取消订单失败：输入不正确');
-                        }
-                    });
-                });
-
-                // 添加事件监听器用于取消已付款订单 - 申请退款功能
-                document.querySelectorAll('.cancel-paid-order-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        cancelPaidOrder(orderId);
-                    });
-                });
+                // 更新页面计数器
+                document.getElementById('totalPagesNum').textContent = totalPages;
                 
-                // 添加事件监听器用于付款 - 显示支付二维码
-                document.querySelectorAll('.pay-order-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        const orderPrice = this.getAttribute('data-order-price');
-                        showPaymentQRCode(orderId, orderPrice);
-                    });
-                });
-
-                // 添加事件监听器用于更新订单状态 - 管理员/商家功能
-                document.querySelectorAll('select[data-order-id]').forEach(select => {
-                    select.addEventListener('change', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        const newState = this.value;
-                        // 发送更新订单状态请求
-                        axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
-                            .then(response => {
-                                alert('订单状态更新成功！');
-                                loadOrders(); // 刷新订单列表
-                            })
-                            .catch(error => {
-                                console.error(error);
-                                alert('更新订单状态失败');
-                            });
-                    });
-                });
+                // 渲染当前页的订单
+                renderOrdersPage(currentPage);
                 
-                // 添加事件监听器用于删除订单 - 商家功能
-                document.querySelectorAll('.delete-order-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = parseInt(this.getAttribute('data-order-id'));
-                        if (confirm('确定要删除该订单吗？此操作不可恢复！')) {
-                            axios.delete(`http://localhost:8083/order/delete/${orderId}`)
-                                .then(response => {
-                                    alert('订单已删除');
-                                    loadOrders(); // 刷新订单列表
-                                })
-                                .catch(error => {
-                                    console.error('删除订单失败:', error);
-                                    alert('删除订单失败: ' + (error.response ? error.response.data : error.message));
-                                });
-                        }
-                    });
-                });
+                // 生成分页控件
+                renderPagination();
+                
+                isLoading = false;
             })
             .catch(error => {
-                console.error(error);
+                console.error('加载订单失败:', error);
+                orderTableBody.innerHTML = '<tr><td colspan="5" class="error-cell">加载失败: ' + (error.response ? error.response.data : error.message) + ' <button onclick="window.location.reload()">重试</button></td></tr>';
+                isLoading = false;
             });
     }
-
-    // 显示支付二维码 - 创建模态支付窗口
-    function showPaymentQRCode(orderId, orderPrice) {
-        // 创建模态框
-        const modal = document.createElement('div');
-        modal.className = 'payment-modal';
+    
+    // 渲染指定页的订单
+    // 渲染指定页的订单
+    function renderOrdersPage(page) {
+        currentPage = page;
+        document.getElementById('currentPageNum').textContent = currentPage;
         
-        // 创建支付窗口
-        const paymentWindow = document.createElement('div');
-        paymentWindow.className = 'payment-window';
+        const orderTableBody = document.getElementById('orderTableBody');
+        orderTableBody.innerHTML = '';
         
-        // 添加标题
-        const title = document.createElement('h2');
-        title.textContent = `支付订单 #${orderId}`;
+        // 计算当前页的订单范围
+        const startIndex = (page - 1) * ordersPerPage;
+        const endIndex = Math.min(startIndex + ordersPerPage, totalOrders);
         
-        // 添加金额
-        const amount = document.createElement('p');
-        amount.textContent = `支付金额: $${orderPrice}`;
-        amount.className = 'payment-amount';
+        // 获取当前页的订单
+        const pageOrders = allOrders.slice(startIndex, endIndex);
         
-        // 添加二维码容器
-        const qrCodeContainer = document.createElement('div');
-        qrCodeContainer.className = 'qr-code-container';
-        
-        // 添加二维码
-        const qrCode = document.createElement('img');
-        qrCode.src = '/picture/fkm.png';
-        qrCode.alt = '支付二维码';
-        qrCode.className = 'payment-qrcode';
-        
-        // 添加支付标识
-        const paymentLabel = document.createElement('div');
-        paymentLabel.textContent = '';
-        paymentLabel.className = 'payment-label';
-        
-        // 添加提示
-        const hint = document.createElement('p');
-        hint.textContent = '请使用微信或支付宝扫码支付';
-        hint.className = 'payment-hint';
-        
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'payment-buttons';
-        
-        // 添加刷新支付状态按钮
-        const refreshButton = document.createElement('button');
-        refreshButton.textContent = '刷新支付状态';
-        refreshButton.className = 'refresh-button';
-        
-        // 添加取消支付按钮
-        const cancelButton = document.createElement('button');
-        cancelButton.textContent = '取消支付';
-        cancelButton.className = 'cancel-button';
-        
-        // 添加事件监听器
-        refreshButton.addEventListener('click', function() {
-            updateOrderState(orderId, '待发货');
-            document.body.removeChild(modal);
-            alert('支付成功！');
-        });
-        
-        cancelButton.addEventListener('click', function() {
-            document.body.removeChild(modal);
-        });
-        
-        // 组装支付窗口 - 将各元素添加到窗口中
-        qrCodeContainer.appendChild(qrCode);
-        qrCodeContainer.appendChild(paymentLabel);
-        buttonContainer.appendChild(refreshButton);
-        buttonContainer.appendChild(cancelButton);
-        
-        paymentWindow.appendChild(title);
-        paymentWindow.appendChild(amount);
-        paymentWindow.appendChild(qrCodeContainer);
-        paymentWindow.appendChild(hint);
-        paymentWindow.appendChild(buttonContainer);
-        modal.appendChild(paymentWindow);
-        
-        // 添加到页面
-        document.body.appendChild(modal);
-    }
-
-    // 添加取消已付款订单的功能
-    function cancelPaidOrder(orderId) {
-        const confirmation = confirm('确定要取消已付款的订单吗？退款将在1-3个工作日内退回您的支付账户。');
-        if (confirmation) {
-            axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
-                .then(response => {
-                    alert('订单已取消，退款申请已提交');
-                    loadOrders(); // 重新加载订单列表
-                })
-                .catch(error => {
-                    console.error('取消订单失败:', error);
-                    alert('取消订单失败: ' + (error.response ? error.response.data : error.message));
-                });
+        // 修改空数据显示
+        if (pageOrders.length === 0) {
+            const emptyRow = document.createElement('div');
+            emptyRow.className = 'order-row empty-row';
+            emptyRow.innerHTML = '<div class="order-cell" style="width:100%; justify-content:center">暂无订单数据</div>';
+            orderTableBody.appendChild(emptyRow);
+            return;
         }
+        
+        // 创建文档片段，减少DOM操作次数
+        const fragment = document.createDocumentFragment();
+        
+        // 修改订单行渲染
+        pageOrders.forEach(order => {
+            // 创建订单行元素
+            const row = document.createElement('div');
+            row.className = 'order-row';
+            
+            // 根据订单状态设置样式类
+            let statusClass = '';
+            switch(order.orderState) {
+                case '待付款':
+                    statusClass = 'status-pending';
+                    break;
+                case '待发货':
+                    statusClass = 'status-paid';
+                    break;
+                case '待收货':
+                    statusClass = 'status-shipped';
+                    break;
+                case '订单完成':
+                    statusClass = 'status-completed';
+                    break;
+                case '已取消':
+                    statusClass = 'status-cancelled';
+                    break;
+                default:
+                    statusClass = '';
+            }
+            
+            // 判断用户类型
+            const isAdminOrSeller = user.userType === 1 || user.userType === 2;
+            
+            row.innerHTML = `
+                <div class="order-cell order-id-cell">${order.orderId}</div>
+                <div class="order-cell order-status-cell">
+                    ${isAdminOrSeller ? 
+                        `<select data-order-id="${order.orderId}" class="order-status-select">
+                            <option value="待付款" ${order.orderState === '待付款' ? 'selected' : ''}>待付款</option>
+                            <option value="已取消" ${order.orderState === '已取消' ? 'selected' : ''}>已取消</option>
+                            <option value="待发货" ${order.orderState === '待发货' ? 'selected' : ''}>待发货</option>
+                            <option value="待收货" ${order.orderState === '待收货' ? 'selected' : ''}>待收货</option>
+                            <option value="订单完成" ${order.orderState === '订单完成' ? 'selected' : ''}>订单完成</option>
+                        </select>` : 
+                        `<span class="order-status ${statusClass}">${order.orderState}</span>`
+                    }
+                </div>
+                <div class="order-cell order-price-cell">￥${order.orderPrice}</div>
+                <div class="order-cell order-time-cell">${order.createStamp}</div>
+                <div class="order-cell order-action-cell">
+                    <div class="action-buttons">
+                        <button class="view-goods-button action-button view-button" data-order-id="${order.orderId}">查看商品</button>
+                        ${(!isAdminOrSeller && order.orderState === '待付款') ? `
+                            <button class="cancel-order-button action-button cancel-button" data-order-id="${order.orderId}">取消订单</button>
+                            <button class="pay-order-button action-button pay-button" data-order-id="${order.orderId}" data-order-price="${order.orderPrice}">付款</button>
+                        ` : ''}
+                        ${(!isAdminOrSeller && order.orderState === '待发货') ? `
+                            <button class="cancel-paid-order-button action-button refund-button" data-order-id="${order.orderId}">申请退款</button>
+                        ` : ''}
+                        ${(!isAdminOrSeller && order.orderState === '待收货') ? `
+                            <button class="confirm-receipt-button action-button view-button" data-order-id="${order.orderId}">确认收货</button>
+                        ` : ''}
+                        ${(user.userType === 2) ? `
+                            <button class="delete-order-button action-button cancel-button" data-order-id="${order.orderId}">删除订单</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            fragment.appendChild(row);
+        });
+        
+        // 一次性添加所有行到DOM，减少重排
+        orderTableBody.appendChild(fragment);
+    }
+    
+    // 渲染分页控件
+    function renderPagination() {
+        const paginationContainer = document.getElementById('paginationContainer');
+        paginationContainer.innerHTML = '';
+        
+        if (totalPages <= 1) {
+            return;
+        }
+        
+        const fragment = document.createDocumentFragment();
+        
+        // 添加"首页"按钮
+        const firstPageButton = document.createElement('button');
+        firstPageButton.textContent = '首页';
+        firstPageButton.className = 'pagination-button';
+        firstPageButton.disabled = currentPage === 1;
+        firstPageButton.addEventListener('click', () => goToPage(1));
+        fragment.appendChild(firstPageButton);
+        
+        // 添加"上一页"按钮
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '上一页';
+        prevButton.className = 'pagination-button';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => goToPage(currentPage - 1));
+        fragment.appendChild(prevButton);
+        
+        // 添加页码按钮
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.className = 'pagination-button';
+            if (i === currentPage) {
+                button.classList.add('active');
+            }
+            button.addEventListener('click', () => goToPage(i));
+            fragment.appendChild(button);
+        }
+        
+        // 添加"下一页"按钮
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '下一页';
+        nextButton.className = 'pagination-button';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => goToPage(currentPage + 1));
+        fragment.appendChild(nextButton);
+        
+        // 添加"末页"按钮
+        const lastPageButton = document.createElement('button');
+        lastPageButton.textContent = '末页';
+        lastPageButton.className = 'pagination-button';
+        lastPageButton.disabled = currentPage === totalPages;
+        lastPageButton.addEventListener('click', () => goToPage(totalPages));
+        fragment.appendChild(lastPageButton);
+        
+        paginationContainer.appendChild(fragment);
+    }
+    
+    // 跳转到指定页
+    function goToPage(page) {
+        if (page < 1 || page > totalPages || page === currentPage) {
+            return;
+        }
+        
+        currentPage = page;
+        renderOrdersPage(currentPage);
+        renderPagination();
     }
 
-    // 查看订单商品详情功能
+    // 显示支付二维码
+    function showPaymentQRCode(orderId, orderPrice) {
+        const dialog = document.getElementById('paymentDialog');
+        const orderInfoElement = document.getElementById('paymentOrderInfo');
+        const confirmButton = document.getElementById('paymentConfirm');
+        const cancelButton = document.getElementById('paymentCancel');
+        const closeButton = dialog.querySelector('.custom-dialog-close');
+        
+        orderInfoElement.textContent = `订单号: ${orderId} - 支付金额: ￥${orderPrice}`;
+        dialog.classList.add('show');
+        
+        // 确认支付按钮事件
+        const confirmHandler = () => {
+            updateOrderState(orderId, '待发货');
+            dialog.classList.remove('show');
+            showCustomAlert('支付成功！');
+            cleanup();
+        };
+        
+        // 取消按钮事件
+        const cancelHandler = () => {
+            dialog.classList.remove('show');
+            cleanup();
+        };
+        
+        // 关闭按钮事件
+        const closeHandler = () => {
+            dialog.classList.remove('show');
+            cleanup();
+        };
+        
+        // 清理事件监听器
+        const cleanup = () => {
+            confirmButton.removeEventListener('click', confirmHandler);
+            cancelButton.removeEventListener('click', cancelHandler);
+            closeButton.removeEventListener('click', closeHandler);
+        };
+        
+        confirmButton.addEventListener('click', confirmHandler);
+        cancelButton.addEventListener('click', cancelHandler);
+        closeButton.addEventListener('click', closeHandler);
+    }
+
+    // 查看订单商品详情
     function viewGoods(orderId) {
+        const dialog = document.getElementById('viewGoodsDialog');
+        const goodsListContainer = document.getElementById('goodsListContainer');
+        const closeButton = document.getElementById('viewGoodsClose');
+        const dialogCloseButton = dialog.querySelector('.custom-dialog-close');
+        
+        // 显示加载中
+        goodsListContainer.innerHTML = '<div class="loading-spinner"></div><span>加载商品信息中...</span>';
+        dialog.classList.add('show');
+        
         axios.get(`http://localhost:8083/order/findgoods/${orderId}`)
             .then(response => {
                 const goodsList = response.data;
+                goodsListContainer.innerHTML = '';
+                
                 if (goodsList && goodsList.length > 0) {
-                    let goodsInfo = '订单商品信息:\n';
                     goodsList.forEach(orderGoods => {
-                        goodsInfo += `商品名称: ${orderGoods.goods.goodsName}\n价格: $${orderGoods.goods.goodsPrice}\n数量: ${orderGoods.quantity}\n\n`;
+                        const goodsItem = document.createElement('div');
+                        goodsItem.className = 'goods-item';
+                        goodsItem.innerHTML = `
+                            <div class="goods-info">
+                                <div class="goods-name">${orderGoods.goods.goodsName}</div>
+                                <div class="goods-price">单价: ￥${orderGoods.goods.goodsPrice}</div>
+                                <div class="goods-quantity">数量: ${orderGoods.quantity}</div>
+                            </div>
+                            <div class="goods-total">
+                                小计: ￥${(orderGoods.goods.goodsPrice * orderGoods.quantity).toFixed(2)}
+                            </div>
+                        `;
+                        goodsListContainer.appendChild(goodsItem);
                     });
-                    alert(goodsInfo);
                 } else {
-                    alert('订单中没有商品');
+                    goodsListContainer.innerHTML = '<p>订单中没有商品</p>';
                 }
             })
             .catch(error => {
-                console.error(error);
-                alert('获取商品信息失败');
+                console.error('获取商品信息失败:', error);
+                goodsListContainer.innerHTML = '<p class="error-cell">获取商品信息失败: ' + (error.response ? error.response.data : error.message) + '</p>';
             });
+        
+        // 关闭按钮事件
+        const closeHandler = () => {
+            dialog.classList.remove('show');
+            closeButton.removeEventListener('click', closeHandler);
+            dialogCloseButton.removeEventListener('click', closeHandler);
+        };
+        
+        closeButton.addEventListener('click', closeHandler);
+        dialogCloseButton.addEventListener('click', closeHandler);
     }
 
-    // 更新订单状态功能 - 用于确认收货和支付成功
+    // 取消订单
+    function cancelOrder(orderId) {
+        showCustomConfirm('确定要取消该订单吗？', '取消订单', function(confirmed) {
+            if (confirmed) {
+                axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
+                    .then(response => {
+                        showCustomAlert(response.data || '订单已取消');
+                        loadOrders(); // 重新加载订单列表
+                    })
+                    .catch(error => {
+                        console.error('取消订单失败:', error);
+                        showCustomAlert('取消订单失败: ' + (error.response ? error.response.data : error.message));
+                    });
+            }
+        });
+    }
+
+    // 取消已付款订单
+    function cancelPaidOrder(orderId) {
+        showCustomConfirm('确定要申请退款吗？退款将在1-3个工作日内退回您的支付账户。', '申请退款', function(confirmed) {
+            if (confirmed) {
+                axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
+                    .then(response => {
+                        showCustomAlert('订单已取消，退款申请已提交');
+                        loadOrders(); // 重新加载订单列表
+                    })
+                    .catch(error => {
+                        console.error('申请退款失败:', error);
+                        showCustomAlert('申请退款失败: ' + (error.response ? error.response.data : error.message));
+                    });
+            }
+        });
+    }
+
+    // 确认收货
+    function confirmReceipt(orderId) {
+        showCustomConfirm('确认已收到商品吗？', '确认收货', function(confirmed) {
+            if (confirmed) {
+                updateOrderState(orderId, '订单完成');
+            }
+        });
+    }
+
+    // 删除订单
+    function deleteOrder(orderId) {
+        showCustomConfirm('确定要删除该订单吗？此操作不可恢复！', '删除订单', function(confirmed) {
+            if (confirmed) {
+                axios.delete(`http://localhost:8083/order/delete/${orderId}`)
+                    .then(response => {
+                        showCustomAlert('订单已删除');
+                        loadOrders(); // 刷新订单列表
+                    })
+                    .catch(error => {
+                        console.error('删除订单失败:', error);
+                        showCustomAlert('删除订单失败: ' + (error.response ? error.response.data : error.message));
+                    });
+            }
+        });
+    }
+
+    // 更新订单状态
     function updateOrderState(orderId, newState) {
         axios.post('http://localhost:8083/order/update', { orderId: orderId, orderState: newState })
             .then(response => {
-                alert('订单状态更新成功！');
+                showCustomAlert('订单状态更新成功！');
                 loadOrders(); // 重新加载订单列表
             })
             .catch(error => {
                 console.error('订单状态更新失败:', error);
-                alert('订单状态更新失败.');
+                showCustomAlert('订单状态更新失败: ' + (error.response ? error.response.data : error.message));
             });
     }
 
-    // 取消未付款订单功能
-    function cancelOrder(orderId) {
-        axios.post('http://localhost:8083/order/cancel', { orderId: orderId })
-            .then(response => {
-                alert(response.data);
-                loadOrders(); // 重新加载订单列表
-            })
-            .catch(error => {
-                console.error('取消订单失败:', error);
-                alert('取消订单失败.');
+    // 使用事件委托处理按钮点击
+    document.getElementById('orderTableBody').addEventListener('click', function(event) {
+        const target = event.target;
+        
+        if (target.classList.contains('view-goods-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            viewGoods(orderId);
+        }
+        else if (target.classList.contains('cancel-order-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            cancelOrder(orderId);
+        }
+        else if (target.classList.contains('pay-order-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            const orderPrice = target.getAttribute('data-order-price');
+            showPaymentQRCode(orderId, orderPrice);
+        }
+        else if (target.classList.contains('cancel-paid-order-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            cancelPaidOrder(orderId);
+        }
+        else if (target.classList.contains('confirm-receipt-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            confirmReceipt(orderId);
+        }
+        else if (target.classList.contains('delete-order-button')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            deleteOrder(orderId);
+        }
+    });
+
+    // 处理订单状态变更
+    document.getElementById('orderTableBody').addEventListener('change', function(event) {
+        const target = event.target;
+        
+        if (target.tagName === 'SELECT' && target.hasAttribute('data-order-id')) {
+            const orderId = parseInt(target.getAttribute('data-order-id'));
+            const newState = target.value;
+            
+            showCustomConfirm(`确定要将订单状态更改为"${newState}"吗？`, '更改订单状态', function(confirmed) {
+                if (confirmed) {
+                    updateOrderState(orderId, newState);
+                } else {
+                    // 如果用户取消，恢复原来的选择
+                    loadOrders();
+                }
             });
-    }
+        }
+    });
 
     // 页面加载时初始化订单列表
     loadOrders();

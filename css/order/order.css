@@ -12,18 +12,17 @@ body {
     color: #333;
     margin: 0;
     padding: 20px;
-    text-align: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 h1 {
@@ -31,61 +30,424 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* 添加以下样式优化性能 */
+.table-responsive {
+    overflow-x: auto;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* 优化表格渲染性能 */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    table-layout: fixed; /* 固定表格布局，提高渲染性能 */
 }
 
-table, th, td {
-    border: 1px solid #ddd;
+/* 添加表格行悬停效果 */
+tbody tr:hover {
+    background-color: rgba(76, 175, 80, 0.1);
 }
 
-th, td {
+/* 修复重复定义的payment-modal样式 */
+.payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* 修改为100%，200%会导致滚动问题 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    /* 添加性能优化属性 */
+    will-change: opacity;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+/* 优化payment-window样式 */
+.payment-window {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* 添加性能优化 */
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* 添加动画效果 */
+    animation: modalFadeIn 0.3s ease;
+}
+
+/* 添加模态框动画 */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+/* 优化图片加载 */
+.payment-qrcode {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #eee;
     padding: 10px;
-    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    /* 添加图片优化 */
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
-th {
-    background-color: #f5f5f5;
-    color: #333;
-}
-
+/* 优化按钮样式，减少重绘 */
 button {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    will-change: transform, opacity;
 }
 
-button:hover {
-    background-color: #388E3C;
+/* 基础样式重置 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-select {
-    padding: 5px;
-    background-color: #fff;
+body {
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* 页面标题样式 */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #4CAF50;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.page-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #4CAF50;
+}
+
+/* 表格容器样式 */
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+/* 订单表格自定义布局 - 完全重构 */
+.order-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-header {
+    display: flex;
+    background-color: #f8f8f8;
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+}
+
+.order-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    align-items: center; /* 确保所有内容垂直居中 */
+}
+
+.order-row:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+}
+
+.order-cell {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* 设置各列宽度比例 - 使用更合理的比例 */
+.order-id-cell {
+    padding-left: 40px;
+    width: 13%;
+    min-width: 80px;
+}
+
+.order-status-cell {
+    width: 18%;
+    min-width: 80px;
+}
+
+.order-price-cell {
+    width: 15%;
+    min-width: 80px;
+}
+
+.order-time-cell {
+    width: 27%;
+    min-width: 120px;
+}
+
+.order-action-cell {
+    width: 25%;
+    min-width: 150px;
+    justify-content:center;
+}
+
+/* 操作按钮容器样式 */
+.action-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px; /* 减小按钮间距 */
+    width: 100%;
+    justify-content: center; /* 确保按钮右对齐 */
+}
+
+/* 美化按钮样式 - 移除悬浮动画 */
+.action-button {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease; /* 只保留背景色过渡效果 */
+    flex: 0 0 auto;
+    min-width: 55px; /* 稍微减小最小宽度 */
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 减小阴影 */
+}
+
+/* 移除悬浮动画效果 */
+.action-button:hover {
+    transform: none; /* 移除悬浮时的上移效果 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15); /* 保持轻微阴影变化 */
+    opacity: 0.9; /* 添加轻微透明度变化代替动画效果 */
+}
+
+/* 响应式设计调整 */
+@media (max-width: 768px) {
+    
+    .order-action-cell {
+        width: 100%;
+        justify-content: flex-end; /* 在移动设备上保持右对齐 */
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: flex-end; /* 在移动设备上保持右对齐 */
+    }
+}
+
+/* 自定义弹窗样式 */
+.custom-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-dialog.show {
+    display: flex;
+}
+
+.custom-dialog-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    animation: modalFadeIn 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.custom-dialog-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.custom-dialog-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.custom-dialog-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.custom-dialog-footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    background-color: #f5f5f5;
     color: #333;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
-.nav-links a {
-    display: block;
-    margin: 10px 0;
+/* 支付弹窗特定样式 */
+.payment-window {
+    max-width: 400px;
+}
+
+.payment-amount {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #e53935;
+}
+
+.qr-code-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.payment-qrcode {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #eee;
     padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.nav-links a:hover {
-    background-color: #388E3C;
+.payment-hint {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
 }
 
+/* 商品列表样式 */
+.goods-list-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.goods-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.goods-item:last-child {
+    border-bottom: none;
+}
+
+.goods-info {
+    flex: 1;
+}
+
+.goods-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.goods-price, .goods-quantity {
+    color: #666;
+    font-size: 14px;
+}
+
+.goods-total {
+    font-weight: bold;
+    color: #e53935;
+    display: flex;
+    align-items: center;
+}
+
+/* 侧边栏样式 */
 .sidebar {
     position: fixed;
     right: -200px;
@@ -99,7 +461,6 @@ select {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-content a {
@@ -134,122 +495,12 @@ select {
     border-radius: 50%;
 }
 
-
-/* 在文件末尾添加以下样式 */
-/* 支付模态框样式 */
-.payment-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.payment-window {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.payment-window h2 {
-    color: #333;
-    margin-bottom: 15px;
-    font-size: 22px;
-}
-
-.payment-amount {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.qr-code-container {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-.payment-qrcode {
-    width: 200px;
-    height: 200px;
-    border: 1px solid #eee;
-    padding: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.payment-label {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 4px 8px;
-    font-size: 12px;
+/* 订单状态选择器样式 */
+.order-status-select {
+    padding: 6px 10px;
     border-radius: 4px;
-    z-index: 2;
-}
-
-.payment-hint {
-    margin-bottom: 20px;
-    color: #666;
-}
-
-.payment-buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
-.refresh-button {
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: white;
     cursor: pointer;
-    font-weight: bold;
-    flex: 1;
-    margin-right: 10px;
-    transition: background-color 0.3s;
-}
-
-.refresh-button:hover {
-    background-color: #388E3C;
-}
-
-.cancel-button {
-    padding: 10px 15px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    flex: 1;
-    transition: background-color 0.3s;
-}
-
-.cancel-button:hover {
-    background-color: #d32f2f;
-}
-
-/* 取消已付款订单按钮样式 */
-.cancel-paid-order-button {
-    background-color: #FF9800;
-}
-
-.cancel-paid-order-button:hover {
-    background-color: #F57C00;
-}
-.delete-order-button{
-    background-color: #d32f2f;
+    font-size: 14px;
 }

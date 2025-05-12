@@ -828,7 +828,7 @@
             // 查看订单按钮事件
             const viewOrderHandler = () => {
                 dialog.classList.remove('show');
-                window.location.href = '/html/user/order.html'; // 跳转到订单页面
+                window.location.href = '/html/order/order.html'; // 跳转到订单页面
                 cleanup();
             };
             

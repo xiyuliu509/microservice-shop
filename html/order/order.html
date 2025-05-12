@@ -1,46 +1,324 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>订单管理</title>
+    <!-- 添加性能优化 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="订单管理系统">
+    <!-- 预连接到API服务器 -->
+    <link rel="preconnect" href="http://localhost:8083">
+    <!-- 添加CSS -->
     <link rel="stylesheet" href="/css/order/order.css">
-    <link rel="preload" href="/picture/fkm.png" as="image">
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <!-- 添加自定义加载样式 -->
+    <style>
+        .loading-cell {
+            text-align: center;
+            padding: 20px !important;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(76, 175, 80, 0.3);
+            border-radius: 50%;
+            border-top-color: #66e6b3;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .error-cell {
+            color: #f44336;
+            text-align: center;
+            padding: 20px !important;
+        }
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        /* 优化分页控件样式 */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            gap: 8px;
+        }
+        .pagination-button {
+            padding: 8px 15px;
+            background-color: #66e6b3;
+            border: 1px solid #262626;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .pagination-button:hover {
+            background-color: #e0e0e0;
+        }
+        .pagination-button.active {
+            background-color: #66e6b3;
+            color: white;
+            border-color: #3e3e3e;
+        }
+        
+        /* 添加页面标题样式 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4CAF50;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .page-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #4CAF50;
+        }
+        
+        /* 美化表格样式 */
+        .table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: #f8f8f8;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #eee;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+        
+        /* 美化按钮样式 */
+        .action-button {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .view-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .cancel-button {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .pay-button {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .refund-button {
+            background-color: #FF9800;
+            color: white;
+        }
+        
+        /* 订单状态样式 */
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background-color: #FFF3E0;
+            color: #FF9800;
+        }
+        
+        .status-paid {
+            background-color: #E8F5E9;
+            color: #4CAF50;
+        }
+        
+        .status-shipped {
+            background-color: #E3F2FD;
+            color: #2196F3;
+        }
+        
+        .status-completed {
+            background-color: #E0F2F1;
+            color: #009688;
+        }
+        
+        .status-cancelled {
+            background-color: #FFEBEE;
+            color: #F44336;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        /* 页面计数器样式 */
+        .page-counter {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+    <!-- 延迟加载JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js" defer></script>
 </head>
 <body>
-    <div class="container no-select">
-        <h1>订单管理中心</h1>
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th width="10%">订单号</th>
-                        <th width="15%">订单状态</th>
-                        <th width="15%">订单总额</th>
-                        <th width="20%">创建时间</th>
-                        <th width="40%">操作</th>
-                    </tr>
-                </thead>
-                <tbody id="orderTableBody">
-                    <tr>
-                        <td colspan="5" style="text-align:center">加载中...</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <h1 class="page-header">订单管理中心</h1>
+        
+        <!-- 移除原来的表格结构，只保留自定义布局结构 -->
+        <div class="table-container">
+            <div class="order-table">
+                <div class="order-header">
+                    <div class="order-cell order-id-cell">订单号</div>
+                    <div class="order-cell order-status-cell">订单状态</div>
+                    <div class="order-cell order-price-cell">订单总额</div>
+                    <div class="order-cell order-time-cell">创建时间</div>
+                    <div class="order-cell order-action-cell">操作</div>
+                </div>
+                <div id="orderTableBody" class="order-body">
+                    <!-- 订单数据将通过JavaScript动态加载 -->
+                    <div class="order-loading">
+                        <div class="loading-spinner"></div>
+                        <span>加载中...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分页控件 -->
+        <div id="paginationContainer" class="pagination-container"></div>
+        <div id="pageCounter" class="page-counter">第 <span id="currentPageNum">1</span> 页，共 <span id="totalPagesNum">1</span> 页</div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="drag-handle" id="dragHandle"></div>
+            <div class="sidebar-content">
+                <a href="/html/user/index.html">退出</a>
+                <a href="/html/user/user.html">主页</a>
+                <a href="#top" id="toTopButton">回到顶部</a>
+            </div>
+        </div>
+       
+    </div>
+    
+    <!-- 添加自定义弹窗组件 -->
+    <!-- 自定义提示弹窗 -->
+    <div id="customAlert" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">提示</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="customAlertMessage"></p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="customAlertConfirm" class="btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义确认弹窗 -->
+    <div id="customDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">确认</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="customDialogMessage"></p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="customDialogConfirm" class="btn-primary">确认</button>
+                <button id="customDialogCancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支付弹窗 -->
+    <div id="paymentDialog" class="custom-dialog">
+        <div class="custom-dialog-content payment-window">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">订单支付</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <p id="paymentOrderInfo" class="payment-amount"></p>
+                <div class="qr-code-container">
+                    <img id="paymentQrCode" class="payment-qrcode" src="/picture/fkm.png" alt="支付二维码">
+                </div>
+                <p class="payment-hint">请使用微信或支付宝扫码支付</p>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="paymentConfirm" class="btn-primary">支付完成</button>
+                <button id="paymentCancel" class="btn-secondary">取消支付</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查看商品弹窗 -->
+    <div id="viewGoodsDialog" class="custom-dialog">
+        <div class="custom-dialog-content">
+            <div class="custom-dialog-header">
+                <h3 class="custom-dialog-title">订单商品详情</h3>
+                <button class="custom-dialog-close">&times;</button>
+            </div>
+            <div class="custom-dialog-body">
+                <div id="goodsListContainer" class="goods-list-container">
+                    <!-- 商品列表将在这里动态加载 -->
+                </div>
+            </div>
+            <div class="custom-dialog-footer">
+                <button id="viewGoodsClose" class="btn-primary">关闭</button>
+            </div>
         </div>
     </div>
     
-    <div class="sidebar" id="sidebar">
-        <div class="drag-handle" id="dragHandle"></div>
-        <div class="sidebar-content">
-            <a href="/html/user/index.html">退出</a>
-            <a href="/html/user/user.html">主页</a>
-            <a href="#top" id="toTopButton">回到顶部</a>
-        </div>
-    </div>
-    
+    <!-- 使用defer属性延迟加载JavaScript -->
     <script src="/js/order/order.js" defer></script>
-    <script src="/js/sidebar.js" defer></script>
 </body>
 </html>
