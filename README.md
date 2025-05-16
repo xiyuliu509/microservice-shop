@@ -1,6 +1,4 @@
 ## 项目简介
-![microservice-shop](https://github.com/xiyuliu509/microservice-shop/assets/118703788/2966006b-5efb-4401-a866-6c90f7e0a822)
-
 microservice_212106233 是一个基于 Spring Boot 和 Spring Cloud 构建的微服务项目，包含三个主要模块：UserService、OrderService 和 GoodsService。该项目旨在实现用户管理、订单管理和商品管理功能。
 
 ## 主要功能
@@ -68,7 +66,6 @@ markdown
 
 1. 克隆项目代码：
     ```sh
-    git clone https://github.com/yourusername/microservice_212106233.git
     ```
 2. 进入项目目录：
     ```sh
@@ -97,24 +94,47 @@ markdown
 ## 接口文档
 
 - 用户接口
-  - 创建用户：`POST /user/create`
-  - 查询用户：`POST user/query`
-  - 登录用户：`POST /user/login`
-  - 获取用户信息：`GET /user/list`
+    - 获取用户信息：`GET /user/list`    
+    - 获取登录用户信息：`GET /user/info/role`
+    - 获取指定用户信息：`GET /user/info/{userName}`    
+    - 按用户名搜索用户：`GET /user/admin/search/{userName}`
+  
+    - 创建用户：`POST /user/create`
+    - 查询用户：`POST user/query`
+    - 登录用户：`POST /user/info`
 
-- 订单接口
-  - 创建订单：`POST /order/create`
-  - 查询订单：`GET /order/{id}`
-  - 更新订单状态：`POST /order/update`
-  - 查看订单对应商品：`GET /order/findgoods/{id}`
-  - 获取订单列表: `GET /order/list`
+    - 更改用户权限：`PUT /user/admin/updateRole/{userName}`    
 
+    - 删除用户：`DELETE /user/admin/delete/{userName}`
+    
 - 商品接口
   - 获取商品列表：`GET /goods/list`
-  - 获取商品库存：`GET /oods/findById?goodsId={id}`
+  - 商品列表分页: `GET /goods/page`  
+  - ID查询商品：`GET /goods//findById`
+  - 上传图片 `GET /goods//images/{imageName}`
+  - 获取商品库存：`GET /goods/findById?goodsId={id}`
+  - 商品类型筛选：`GET /goods/filterByType`
+  - 商品品牌筛选：`GET /goods/filterByBrand`
+  - 商品价格筛选：`GET /goods/filterGoodsByPrice`
+  - 商品聚合筛选：`GET /goods/filterGoodsByTypeBrandPrice`
+  
+  - 查询商品：`POST /goods/query`  
   - 创建商品：`POST /goods/create`
-  - 查询商品：`POST /goods/query`
-  - 修改商品库存: `POST /goods/updateStock`
+  - 增加库存: `POST /goods/updateStock`
+  - 减少库存: `POST /goods/decreaseStock`
+
+  - 删除商品: `DELETE /goods/delete/{goodsName}`
+
+- 订单接口
+    - 查看订单对应商品：`GET /order/findgoods/{id}`
+    - 获取订单列表: `GET /order/list`
+
+    - 创建订单：`POST /order/create`
+    - 查询订单：`POST /order/query`
+    - 取消订单：`POST /order/cancel`
+    - 更新订单状态：`POST /order/update`
+
+    - 删除订单: `DELETE /order/delete/{id}`
 
 ## 配置文件
 
