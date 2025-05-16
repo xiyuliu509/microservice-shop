@@ -21,6 +21,6 @@ public interface OrderMapper {
 
     List<OrderGoods> findOrderGoodsByOrderId(@Param("orderId") Integer orderId);
 
-    void deleteOrder(@Param("orderId") Integer orderId);
-
+    void deleteOrderGoods(@Param("orderId") Integer orderId);
+    void deleteShopOrder(@Param("orderId") Integer orderId);
 }

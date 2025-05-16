@@ -64,4 +64,15 @@ public class OrderController {
         }
     }
 
+    @DeleteMapping("/delete/{orderId}")
+    public String deleteOrder(@PathVariable Integer orderId) {
+        try {
+            orderService.deleteOrder(orderId);
+            return "删除订单成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "删除订单失败";
+        }
+    }
+
 }

@@ -96,4 +96,9 @@ public class OrderService {
             throw new RuntimeException("订单不存在");
         }
     }
+
+    public void deleteOrder(Integer orderId) {
+        orderMapper.deleteOrderGoods(orderId);
+        orderMapper.deleteShopOrder(orderId);
+    }
 }

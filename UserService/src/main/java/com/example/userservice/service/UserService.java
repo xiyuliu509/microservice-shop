@@ -37,7 +37,6 @@ public class UserService {
     }
 
     public User findByUserName(String userName) {
-        // 不再抛出 UsernameNotFoundException，而是简单返回 null，如果用户不存在
         return userMapper.findByUserName(userName);
     }
 

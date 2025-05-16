@@ -71,7 +71,7 @@ public class GoodsController {
         goods.setGoodsType(goodsType);  // 设置商品类型
         goods.setGoodsBrand(goodsBrand);  // 设置商品品牌
         goods.setGoodsImage(imageUrl);  // 设置图片路径
-        goods.setTimeStamp(GetTime.NowTime()); // 使用你现有的时间获取方法
+        goods.setTimeStamp(GetTime.NowTime());
 
         // 保存商品数据
         goodsService.createGoods(goods);

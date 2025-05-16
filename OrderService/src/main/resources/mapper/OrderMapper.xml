@@ -32,9 +32,12 @@
         WHERE og.orderId = #{orderId}
     </select>
 
-    <delete id="deleteOrder" parameterType="Integer">
-        DELETE FROM shoporder WHERE orderId = #{orderId};
-        DELETE FROM order_goods WHERE orderId = #{orderId};
+    <delete id="deleteOrderGoods" parameterType="Integer">
+        DELETE FROM order_goods WHERE orderId = #{orderId}
+    </delete>
+
+    <delete id="deleteShopOrder" parameterType="Integer">
+        DELETE FROM shoporder WHERE orderId = #{orderId}
     </delete>
 
 </mapper>

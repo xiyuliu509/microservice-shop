@@ -12,16 +12,15 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="make0.5">
+    <list default="true" id="446709db-9a80-4382-b281-0862abccb501" name="变更" comment="fix bug">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f277a34c-d7d9-4e80-ab7b-dcc086cc20e8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f277a34c-d7d9-4e80-ab7b-dcc086cc20e8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2025_3_28_21_44_取消提交了变更_[变更]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/resources/mapper/GoodsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/resources/mapper/GoodsMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/GoodsService/src/main/java/com/example/goodsservice/controller/GoodsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/mapper/OrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/example/orderservice/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/resources/mapper/OrderMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/example/userservice/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +100,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.GoodsServiceApplication">
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
     <configuration name="OpenAIService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.orderservice.service.OpenAIService" />
       <module name="OrderService" />
@@ -116,7 +115,7 @@
       </method>
     </configuration>
     <configuration name="microservice_212106233中的所有" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="microservice_212106233" />
+      <module name="GoodsService" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
@@ -182,11 +181,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.OrderServiceApplication" />
         <item itemvalue="Spring Boot.GoodsServiceApplication" />
-        <item itemvalue="应用程序.OpenAIService" />
+        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="JUnit.microservice_212106233中的所有" />
+        <item itemvalue="应用程序.OpenAIService" />
       </list>
     </recent_temporary>
   </component>
@@ -340,7 +339,51 @@
       <workItem from="1745063960200" duration="1605000" />
       <workItem from="1745132233072" duration="7787000" />
       <workItem from="1745153962216" duration="6102000" />
-      <workItem from="1745206325507" duration="2990000" />
+      <workItem from="1745206325507" duration="3022000" />
+      <workItem from="1745221132566" duration="4667000" />
+      <workItem from="1745489595128" duration="854000" />
+      <workItem from="1745834783622" duration="623000" />
+      <workItem from="1745842705266" duration="386000" />
+      <workItem from="1745843132948" duration="66000" />
+      <workItem from="1745843316423" duration="260000" />
+      <workItem from="1745843605984" duration="63000" />
+      <workItem from="1745843673826" duration="5088000" />
+      <workItem from="1746175948641" duration="3732000" />
+      <workItem from="1746238294074" duration="610000" />
+      <workItem from="1746241543113" duration="726000" />
+      <workItem from="1746247104546" duration="2207000" />
+      <workItem from="1746265137747" duration="4430000" />
+      <workItem from="1746325315099" duration="1338000" />
+      <workItem from="1746345556540" duration="6924000" />
+      <workItem from="1746408124156" duration="4047000" />
+      <workItem from="1746542779881" duration="643000" />
+      <workItem from="1746585613300" duration="4249000" />
+      <workItem from="1746596883998" duration="390000" />
+      <workItem from="1746600135513" duration="644000" />
+      <workItem from="1746602270275" duration="705000" />
+      <workItem from="1746669055336" duration="881000" />
+      <workItem from="1746696909259" duration="667000" />
+      <workItem from="1746778444859" duration="1096000" />
+      <workItem from="1746839675651" duration="1946000" />
+      <workItem from="1746863125292" duration="2152000" />
+      <workItem from="1747019918688" duration="817000" />
+      <workItem from="1747026952473" duration="266000" />
+      <workItem from="1747033241056" duration="796000" />
+      <workItem from="1747054642627" duration="1176000" />
+      <workItem from="1747100070625" duration="1097000" />
+      <workItem from="1747114777020" duration="501000" />
+      <workItem from="1747117635007" duration="1268000" />
+      <workItem from="1747148199618" duration="1349000" />
+      <workItem from="1747181457285" duration="1260000" />
+      <workItem from="1747192333066" duration="892000" />
+      <workItem from="1747201835472" duration="355000" />
+      <workItem from="1747207749032" duration="967000" />
+      <workItem from="1747212199617" duration="835000" />
+      <workItem from="1747273540735" duration="3422000" />
+      <workItem from="1747292496750" duration="1021000" />
+      <workItem from="1747312837452" duration="3072000" />
+      <workItem from="1747359616991" duration="1983000" />
+      <workItem from="1747389325106" duration="814000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目完成">
       <created>1718690850107</created>
@@ -447,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1743169543298</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix bug">
+      <created>1745209380940</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745209380940</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,7 +546,8 @@
     <MESSAGE value="6.23：17" />
     <MESSAGE value="end" />
     <MESSAGE value="make0.5" />
-    <option name="LAST_COMMIT_MESSAGE" value="make0.5" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
