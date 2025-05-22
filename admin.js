@@ -77,9 +77,9 @@ const CONFIG = {
         userDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['普通用户', 'VIP用户', '管理员'],
+                labels: ['顾客', '商家', '管理员'],
                 datasets: [{
-                    data: [70, 25, 5],
+                    data: [9, 2, 1],
                     backgroundColor: ['#54a0ff', '#ff6b6b', '#1dd1a1'],
                     borderWidth: 0
                 }]
@@ -88,9 +88,9 @@ const CONFIG = {
         brandDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['品牌A', '品牌B', '品牌C', '其他'],
+                labels: ['马可波罗瓷砖', '雪狼陶瓷', '多乐士', '立邦','奥斯曼', '西卡'],
                 datasets: [{
-                    data: [40, 30, 20, 10],
+                    data: [23, 16, 6, 8, 4 ,9],
                     backgroundColor: ['#ff9f43', '#ee5253', '#0abde3', '#c8d6e5'],
                     borderWidth: 0
                 }]
@@ -99,9 +99,9 @@ const CONFIG = {
         typeDistribution: {
             type: 'doughnut',
             data: {
-                labels: ['类型A', '类型B', '类型C', '类型D'],
+                labels: ['石材砖', '仿木砖', '泳池砖', '马赛克砖','底漆', '防水涂料', '内墙乳胶漆', '木漆及金属漆','腻子', '美缝', '密封抗裂胶'],
                 datasets: [{
-                    data: [35, 25, 25, 15],
+                    data: [13, 13, 6, 7, 3, 6, 9, 6, 1, 1, 1],
                     backgroundColor: ['#10ac84', '#5f27cd', '#ff9ff3', '#48dbfb'],
                     borderWidth: 0
                 }]
@@ -132,6 +132,9 @@ const App = {
         this.initCustomDialogs();
         
         this.bindEvents();
+        
+        // 初始化统计卡片数据
+        this.loadStatisticsData();
         
         // 初始化用户管理功能
         this.initUserManagement();
@@ -476,6 +479,120 @@ deleteOrder: function(orderId) {
                 // 给当前点击的菜单项添加active类
                 this.classList.add('active');
             });
+        });
+    },
+    
+    // 加载统计卡片数据
+    loadStatisticsData: function() {
+        // 显示加载状态
+        this.showNotification('正在加载统计数据...', 'info');
+        
+        // 获取用户总数
+        this.getUserCount()
+            .then(userCount => {
+                // 更新用户总数统计卡片
+                const userCountElement = document.querySelector('.stat-card:nth-child(1) .stat-card-value');
+                if (userCountElement) {
+                    userCountElement.textContent = userCount;
+                }
+            })
+            .catch(error => {
+                console.error('获取用户总数失败:', error);
+            });
+        
+        // 获取商品总数
+        this.getProductCount()
+            .then(productCount => {
+                // 更新商品总数统计卡片
+                const productCountElement = document.querySelector('.stat-card:nth-child(2) .stat-card-value');
+                if (productCountElement) {
+                    productCountElement.textContent = productCount;
+                }
+            })
+            .catch(error => {
+                console.error('获取商品总数失败:', error);
+            });
+        
+        // 获取订单总数
+        this.getOrderCount()
+            .then(orderCount => {
+                // 更新订单总数统计卡片
+                const orderCountElement = document.querySelector('.stat-card:nth-child(3) .stat-card-value');
+                if (orderCountElement) {
+                    orderCountElement.textContent = orderCount;
+                }
+                
+                // 所有数据加载完成后隐藏通知
+                this.hideNotification();
+            })
+            .catch(error => {
+                console.error('获取订单总数失败:', error);
+                this.hideNotification();
+            });
+    },
+    
+    // 获取用户总数 - 从用户列表中计算
+    getUserCount: function() {
+        return new Promise((resolve) => {
+            // 直接获取用户列表数据
+            fetch('http://localhost:8082/user/list')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('获取用户列表失败');
+                    }
+                })
+                .then(users => {
+                    // 返回用户列表的长度作为总数
+                    resolve(users.length);
+                })
+                .catch(error => {
+                    console.error('获取用户总数出错:', error);
+                    // 出错时返回默认值
+                    resolve(0);
+                });
+        });
+    },
+    
+    // 获取商品总数 - 从商品列表中计算
+    getProductCount: function() {
+        return new Promise((resolve) => {
+            // 直接获取商品列表数据
+            this.apiRequest('http://localhost:8084/goods/list')
+                .then(goodsList => {
+                    // 返回商品列表的长度作为总数
+                    resolve(goodsList.length);
+                })
+                .catch(error => {
+                    console.error('获取商品总数出错:', error);
+                    // 出错时返回默认值
+                    resolve(0);
+                });
+        });
+    },
+    
+    // 获取订单总数 - 从订单列表中计算
+    getOrderCount: function() {
+        return new Promise((resolve) => {
+            // 直接获取订单列表数据
+            fetch('http://localhost:8083/order/list')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('获取订单列表失败');
+                    }
+                })
+                .then(orders => {
+                    // 返回订单列表的长度作为总数
+                    resolve(orders.length);
+                })
+                .catch(error => {
+                    console.error('获取订单总数出错:', error);
+                    // 出错时返回默认值
+                    resolve(0);
+                });
         });
     },
     // 初始化图表
